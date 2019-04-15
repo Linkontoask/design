@@ -4,7 +4,7 @@
 + 主色调深：![#239999](https://placehold.it/15/239999/000000?text=+) `#239999`
 + 特别标注：![#FE5656](https://placehold.it/15/FE5656/000000?text=+) `#FE5656`
 
-+ 价格颜色：![#DB3F1F](https://placehold.it/15/DB3F1F/000000?text=+) `#DB3F1F`
++ 价格颜色：![#EB0C0C](https://placehold.it/15/EB0C0C/000000?text=+) `#EB0C0C`
 
 + 所有以px为基本单位的都是基于 414 x 896(视口高度)，@2比例。比例放大 `1.5` 倍得到iphoneXS Max屏幕
 
