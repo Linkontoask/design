@@ -56,3 +56,15 @@
 
 
 [material design 中文](https://www.mdui.org/design/)
+
+[问卷调查数据](https://wj.qq.com/stat/overview.html?sid=3556743)
+
+## 说明
+
+预定房间之后展示如下信息
++ 周边美食推荐
++ 房源周边景点攻略
++ 出行前的准备
+	+ 生活用品
+	+ 医药用品
+	+ 天气查询
