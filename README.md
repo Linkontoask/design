@@ -59,6 +59,8 @@
 
 [问卷调查数据](https://wj.qq.com/stat/overview.html?sid=3556743)
 
+[7+2交互设计法则](http://uih2.com/4315/)
+
 ## 说明
 
 预定房间之后展示如下信息
