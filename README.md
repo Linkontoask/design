@@ -3,9 +3,9 @@
 + Primary：![#25A3A8](https://placehold.it/15/25A3A8/000000?text=+) `#25A3A8`
 + P — Light：![#64d5d9](https://placehold.it/15/64d5d9/000000?text=+) `#64d5d9`
 + P — Dark：![#007479](https://placehold.it/15/007479/000000?text=+) `#007479`
-+ Secondary:![#fe5656](https://placehold.it/15/fe5656/000000?text=+) `#fe5656`
-+ S — Light:![#ff8a83](https://placehold.it/15/ff8a83/000000?text=+) `#ff8a83`
-+ S — Dark:![#c4192d](https://placehold.it/15/c4192d/000000?text=+) `#c4192d`
++ Secondary：![#fe5656](https://placehold.it/15/fe5656/000000?text=+) `#fe5656`
++ S — Light：![#ff8a83](https://placehold.it/15/ff8a83/000000?text=+) `#ff8a83`
++ S — Dark：![#c4192d](https://placehold.it/15/c4192d/000000?text=+) `#c4192d`
 
 ### Text
 + Text on P:![#ffffff](https://placehold.it/15/ffffff/000000?text=+) `#ffffff`
