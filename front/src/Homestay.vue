@@ -1,16 +1,42 @@
 <template>
   <div id="homeStay">
     <router-view/>
-    <Action></Action>
+    <Action v-if="showActionBar"></Action>
   </div>
 </template>
 
 <script>
   import Action from './components/BactionBar'
+  import {mapState, mapMutations} from 'vuex'
+  const path = ['/login', '/signup'];
   export default {
+    data() {
+      return {
+
+      }
+    },
     components: {
       Action,
-    }
+    },
+    methods: {
+      ...mapMutations([
+        'IS_SHOW_NATION',
+      ]),
+    },
+    watch: {
+      $route(to, form) {
+        console.log(!path.some(i => to.path.includes(i)))
+        this.IS_SHOW_NATION(!path.some(i => to.path.includes(i)))
+      }
+    },
+    mounted() {
+    },
+    computed: {
+      ...mapState({
+        showActionBar: state => state.showActionBar
+      }),
+    },
+
   }
 </script>
 

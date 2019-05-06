@@ -11,12 +11,17 @@
 
 <script>
   import action from '../static/BactionBar'
+  import {mapState, mapMutations} from 'vuex'
+
   export default {
     name: 'action',
     data() {
       return {
         action: action
       }
+    },
+    watch: {
+
     },
     methods: {
       handleJump(item) {
@@ -25,7 +30,14 @@
         })
       }
     },
+    beforeMount() {
+
+    },
     mounted() {
+
+    },
+    beforeCreate() {
+
     }
   }
 </script>
