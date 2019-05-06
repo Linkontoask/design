@@ -4,9 +4,12 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import VEasy from 'v-easy-message'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 import './style/cover.less'
+Vue.use(VueAwesomeSwiper);
 Vue.use(VEasy);
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,

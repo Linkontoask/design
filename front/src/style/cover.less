@@ -43,3 +43,90 @@
     }
   }
 }
+
+.primary {
+  button[type="button"] {
+    background: #25A3A8;
+    color: white;
+    border: none;
+  }
+}
+.primary:hover {
+  button[type="button"] {
+    background: #007479;
+    color: white;
+  }
+}
+
+.line-primary {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 32px;
+  padding: 10px 20px;
+  border: 1px solid #25A3A8;
+  color: #25A3A8;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 24px;
+}
+.line-primary:active {
+  border-color: #007479;
+  color: #007479;
+}
+
+.homeStay-search {
+  .primary {
+    button {
+      width: 260px;
+    }
+  }
+}
+
+@keyframes pagination {
+  0% {
+    background-size: -2px;
+  }
+  100% {
+    background-size: 64px;
+  }
+}
+
+.swiper-pagination {
+  .swiper-pagination-bullet {
+    width: 64px;
+    height: 4px;
+    border-radius: 0;
+    background: #fff;
+    opacity: 1;
+  }
+  .swiper-pagination-bullet-active {
+    background: #fff url("../static/img/25A3A8.png") repeat-y 0 0;
+    background-size: 0;
+    animation: pagination 5s linear;
+  }
+
+}
+
+.homeStay-banner .swiper-slide {
+  z-index: 1;
+  overflow: hidden;
+  img {
+    margin-left: -50%;
+  }
+}
+.swiper-slide-active {
+  z-index: 2;
+}
+.homeStay-food {
+  .swiper-slide {
+    width: 80%;
+  }
+  .swiper-slide:first-child {
+    margin-left: 24px;
+  }
+  .swiper-slide:nth-child(2) {
+    width: 90%;
+  }
+}
+
