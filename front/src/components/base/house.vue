@@ -38,7 +38,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     li {
-      width: 178px;
+      width: 48%;
       margin-top: 24px;
       > img {
         width: 100%;

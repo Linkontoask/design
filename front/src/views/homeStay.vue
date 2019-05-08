@@ -53,7 +53,6 @@
       <Story :data="storyViews" style="margin-top: 12px"></Story>
       <div class="line-primary">更多故事</div>
     </div>
-    <div style="height: 152px"></div>
   </div>
 </template>
 
@@ -180,11 +179,12 @@
         color: white;
         font-size: 0.875rem;
         letter-spacing: 2px;
+        z-index: 1;
       }
     }
     .homeStay-search {
       position: relative;
-      margin: -90px auto 0;
+      margin: -10px auto 0;
       width: 262px;
       height: 134px;
       max-height: 134px;

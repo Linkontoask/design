@@ -9,7 +9,7 @@
     "icon": "heart-333.png",
     "focusIcon": "heart-fill.png",
     "title": "收藏",
-    "index": "/heart"
+    "index": "/collection"
   },
   {
     "icon": "release-333.png",

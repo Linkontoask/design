@@ -1,6 +1,11 @@
 <template>
   <div id="homeStay">
-    <router-view/>
+    <transition name="router-fade" mode="out-in">
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
+    </transition>
+    <div style="height: 152px" v-if="showActionBar"></div>
     <Action v-if="showActionBar"></Action>
   </div>
 </template>
@@ -25,7 +30,6 @@
     },
     watch: {
       $route(to, form) {
-        console.log(!path.some(i => to.path.includes(i)))
         this.IS_SHOW_NATION(!path.some(i => to.path.includes(i)))
       }
     },
@@ -65,4 +69,10 @@ li {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+.router-fade-enter-active, .router-fade-leave-active {
+  transition: opacity .3s;
+}
+.router-fade-enter, .router-fade-leave-active {
+  opacity: 0;
+}
 </style>

@@ -27,7 +27,6 @@
     }
   }
   .primary {
-    padding-top: 30px;
     float: right;
     button {
       background: #25A3A8;
@@ -43,12 +42,15 @@
     }
   }
 }
-
+.message {
+  top: 44px !important;
+}
 .primary {
   button[type="button"] {
     background: #25A3A8;
     color: white;
     border: none;
+    width: 100%;
   }
 }
 .primary:hover {
@@ -105,7 +107,19 @@
     background-size: 0;
     animation: pagination 5s linear;
   }
-
+}
+.swiper-base {
+  .swiper-pagination {
+    .swiper-pagination-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .swiper-pagination-bullet-active {
+      background: #25A3A8;
+      animation: none;
+    }
+  }
 }
 
 .homeStay-banner .swiper-slide {
@@ -130,3 +144,18 @@
   }
 }
 
+.ly-tabbar {
+  background: none;
+  box-shadow: none;
+  overflow: unset;
+  border: none;
+}
+.ly-tab-list {
+  padding: 0;
+}
+.ly-tab-active-bar {
+  bottom: -6px;
+}
+.ly-tab-item:not(:first-child) {
+  margin-left: 24px;
+}

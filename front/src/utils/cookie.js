@@ -5,9 +5,6 @@
  */
 
 ;
-var COOKIE = function () {
-  this.name = 'Link';
-};
 /**
  *
  * @param name 必传
@@ -16,7 +13,7 @@ var COOKIE = function () {
  * @param expires 可传，值为ms
  * @param path 待设计
  */
-COOKIE.prototype.set = function (name, value, domain, expires, path) {
+const set = function (name, value, domain, expires, path) {
   if (typeof domain === 'number') {
     expires = domain;
     domain = undefined
@@ -33,7 +30,7 @@ COOKIE.prototype.set = function (name, value, domain, expires, path) {
  * @param name cookie key
  * @returns string or null
  */
-COOKIE.prototype.get = function (name) {
+const get = function (name) {
   var cookie = document.cookie.split('; ');
   for (var i = 0; i < cookie.length; i++) {
     var cookieArr = cookie[i].split('=');
@@ -44,4 +41,9 @@ COOKIE.prototype.get = function (name) {
   return null;
 };
 
-var cookie = new COOKIE();
+const cookie = {
+  get,
+  set
+};
+
+export default cookie
