@@ -10,12 +10,16 @@ const Release = () => import(/* webpackChunkName: "release" */ '../views/release
 const User = () => import(/* webpackChunkName: "user" */ '../views/user');
 const Msg = () => import(/* webpackChunkName: "msg" */ '../views/msg');
 
+const Pop = () => import(/* webpackChunkName: "pop" */ '../components/popup/popBase');
+
+import house from '../components/process/index';
+
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '',
       redirect: '/homeStay'
     },
     {
@@ -41,7 +45,7 @@ export default new Router({
     {
       path: '/release',
       name: 'release',
-      component: Release
+      component: Release,
     },
     {
       path: '/msg',
@@ -52,6 +56,22 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: User
+    },
+    {
+      path: '/pop',
+      component: Pop,
+      children: [
+        {path: '', redirect: 'type'},
+        {path: 'type', meta: {name: 'type'}, component: house.type},
+        {path: 'newHouse', meta: {name: 'newHouse'}, component: house.newHouse},
+        {path: 'confirmHouse', meta: {name: 'confirmHouse'}, component: house.confirmHouse},
+        {path: 'styleHouse', meta: {name: 'styleHouse'}, component: house.styleHouse},
+        {path: 'descHouse', meta: {name: 'descHouse'}, component: house.descHouse},
+        {path: 'ruleHouse', meta: {name: 'ruleHouse'}, component: house.ruleHouse},
+        {path: 'facilityHouse', meta: {name: 'facilityHouse'}, component: house.facilityHouse},
+        {path: 'rimHouse', meta: {name: 'rimHouse'}, component: house.rimHouse},
+        {path: 'priceHouse', meta: {name: 'priceHouse'}, component: house.priceHouse},
+      ]
     },
   ]
 })

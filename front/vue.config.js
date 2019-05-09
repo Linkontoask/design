@@ -1,6 +1,8 @@
 const path = require('path');
 
 module.exports = {
+  publicPath: './',
+  outputDir: 'hotel',
   devServer: {
     proxy: {
       '/hotel': {
@@ -20,6 +22,17 @@ module.exports = {
         'components': '@/components',
         'views': '@/views',
       }
-    }
+    },
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000,
+      }
+    },
+
+    performance: {
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
+    },
   },
-}
+};

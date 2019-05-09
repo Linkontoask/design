@@ -5,7 +5,7 @@
         <router-view/>
       </keep-alive>
     </transition>
-    <div style="height: 152px" v-if="showActionBar"></div>
+    <div style="height: 118px" v-if="showActionBar"></div>
     <Action v-if="showActionBar"></Action>
   </div>
 </template>
@@ -13,7 +13,7 @@
 <script>
   import Action from './components/BactionBar'
   import {mapState, mapMutations} from 'vuex'
-  const path = ['/login', '/signup'];
+  const path = ['/login', '/signup', '/pop'];
   export default {
     data() {
       return {
@@ -26,14 +26,17 @@
     methods: {
       ...mapMutations([
         'IS_SHOW_NATION',
+        'BEFORE_URL'
       ]),
     },
     watch: {
       $route(to, form) {
-        this.IS_SHOW_NATION(!path.some(i => to.path.includes(i)))
+        this.IS_SHOW_NATION(!path.some(i => to.path.includes(i)));
+        this.BEFORE_URL(form.path);
       }
     },
     mounted() {
+      this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)))
     },
     computed: {
       ...mapState({

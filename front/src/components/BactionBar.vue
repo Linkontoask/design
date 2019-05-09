@@ -43,6 +43,7 @@
 </script>
 
 <style lang="less" scoped>
+  @import "../style/global";
 .bottom-action-bar {
   position: fixed;
   bottom: 0;
@@ -53,7 +54,7 @@
   background-color: white;
   .flex {
     display: flex;
-    height: 6.25rem;
+    height: 6.25rem - @topIndicator;
     justify-content: space-between;
     align-items: flex-start;
     padding: 1rem 2.25rem;

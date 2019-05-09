@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="release">
     <h1>可发布的房屋类型</h1>
     <swiperBase :data="slides">
@@ -10,7 +10,7 @@
     <swiperBase :data="residence">
       <div class="mask">特色民居</div>
     </swiperBase>
-    <div class="release-btn">
+    <div class="release-btn" v-hammer:tap="handleTap">
       <div>
         <span></span>
         <span></span>
@@ -24,7 +24,7 @@
   export default {
     name: "release",
     components: {
-      swiperBase
+      swiperBase,
     },
     data() {
       return {
@@ -32,11 +32,35 @@
         villa: ['house-1.jpg', 'house-2.jpg', 'house-3.jpg', 'food-3.png'],
         residence: ['story-1.png', 'story-2.png', 'story-3.png'],
       }
+    },
+    methods: {
+      handleTap() {
+        const currentHotel = window.localStorage.getItem('current_hotel');
+        if (currentHotel && currentHotel !== '/release') {
+          this.$msg({
+            type: 'info',
+            message: '继续完成上一次的发布任务',
+          });
+          return this.$router.push({
+            path: currentHotel,
+            query: {
+              direction: 'bottom',
+            }
+          })
+        }
+        this.$router.push({
+          path: '/pop',
+          query: {
+            direction: 'bottom',
+          }
+        })
+      }
     }
   }
 </script>
 
 <style scoped lang="less">
+  @import "../style/global";
 .release {
   padding: 0 36px;
   h1 {
@@ -44,7 +68,7 @@
     font-weight: 400;
     letter-spacing: 2px;
     margin-bottom: 24px;
-    margin-top: 66px;
+    margin-top: 66px - @topIndicator;
   }
   .release-btn {
     position: fixed;
@@ -56,6 +80,7 @@
     background-color: #25A3A8;
     border-radius: 8px;
     box-shadow: 2px 4px 4px 0 #ababab;
+    z-index: 8;
     div {
       position: absolute;
       left: 50%;

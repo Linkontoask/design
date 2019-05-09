@@ -1,5 +1,5 @@
-<template>
-  <div class="homeStay-content">
+<template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
+  <div class="homeStay-content" @touchmove="handleMove" @touchend="handleEnd" @touchstart="handleStart" ref="homeStay">
     <div class="homeStay-banner">
       <swiper :options="swiperOptionBanner" class="swiper">
         <swiper-slide v-for="(item, index) in slides" :key="index">
@@ -9,7 +9,7 @@
       </swiper>
       <span aria-city="地点" class="city">重庆</span>
     </div>
-    <div class="homeStay-search">
+    <div class="homeStay-search" :style="{opacity: opacity}">
       <ul>
         <li>
           <img src="../assets/city-fill.png" alt="city" class="t">
@@ -61,6 +61,11 @@
   import Food from 'components/base/food'
   import Story from 'components/base/story'
   import house from '../static/house'
+
+  const isOk = !!(document.documentElement && document.documentElement.scrollTop);
+  const dc = document.documentElement;
+  const body = document.body;
+  let top = {};
 
   export default {
     name: 'homeStayContent',
@@ -156,13 +161,53 @@
           extent: 5,
           uuid: 'aa154613146434154axd'
         },],
-        house: house
+        house: house,
+        opacity: 1,
+        scroll: {
+          start: 0,
+          end: 0
+        },
+        direction: 'up'
       }
+    },
+    methods: {
+      handleStart() {
+        isOk ? top.s = dc.scrollTop : top.s = body.scrollTop;
+        this.scroll.start = top.s;
+      },
+      handleEnd() {
+        isOk ? top.e = dc.scrollTop : top.e = body.scrollTop;
+        this.scroll.end = top.e;
+        this.direction = (this.scroll.start > this.scroll.end) ? 'down' : 'up';
+        if (top.e >= 1 && this.direction === 'up') {
+          let id;
+          function step() {
+            let scrollTop = dc.scrollTop || body.scrollTop;
+            if (scrollTop >= 500) {
+              window.cancelAnimationFrame(id)
+            } else {
+              dc.scrollTop = body.scrollTop = scrollTop + Math.floor(scrollTop / (scrollTop - 12));
+              id = window.requestAnimationFrame(step);
+            }
+          }
+          id = window.requestAnimationFrame(step);
+        }
+      },
+      handleMove() {
+
+      }
+    },
+    mounted() {
+
+    },
+    activated() {
+      console.log('homestay', 'keep-alive');
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @import "../style/global";
   .homeStay-content {
     .homeStay-banner {
       position: relative;

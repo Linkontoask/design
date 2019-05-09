@@ -26,9 +26,7 @@
     },
     data() {
       return {
-        data: {
-          username: ''
-        }
+        data: {}
       }
     },
     methods: {
@@ -57,15 +55,21 @@
           duration: 2000,
         });
       }
+    },
+    activated() {
+      this.data = {};
+      this.$refs.password.error = false;
+      this.$refs.user.error = false;
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @import "../style/global";
   .login {
     .logo {
       display: block;
-      margin: 6.625rem auto 0;
+      margin: calc(6.625rem - @topIndicator) auto 0;
       width: 8.75rem;
     }
     .login-box {

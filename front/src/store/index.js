@@ -6,7 +6,8 @@ import actions from './action'
 Vue.use(Vuex);
 
 const state = {
-  showActionBar: true
+  showActionBar: true,
+  beforeUrl: []
 };
 
 export default new Vuex.Store({

@@ -25,11 +25,6 @@
         default: () => {{}}
       }
     },
-    watch: {
-      is_hide(val) {
-        console.log(this.data.unread, val)
-      }
-    },
     data() {
       return {
         is_left: false,
@@ -79,7 +74,7 @@ div.hide {
     align-items: stretch;
     padding-bottom: 16px;
     border-bottom: 1px solid #E4ECE8;
-    transition: transform .3s;
+    transition: transform .3s ease-out;
     > * {
       flex-shrink: 0;
     }

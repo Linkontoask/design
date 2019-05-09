@@ -3,6 +3,7 @@
     <h1>信息</h1>
     <div class="msg-content">
       <msgBase v-for="(item, index) in infos" :key="item.uuid" @tap="tap" @left="onSwipe" @delete="handleDelete" :data="item"></msgBase>
+      <div v-if="!infos.length" class="none-list">您还没有聊天记录，或者已经被删除了。<strong>注：手动删除不能恢复</strong></div>
     </div>
   </div>
 </template>
@@ -49,11 +50,18 @@
           this.infos.splice(this.infos.findIndex(d => d.uuid === uuid), 1);
         }, 300);
       }
+    },
+    activated() {
+      console.log('msg', 'keep-alive');
+    },
+    mounted() {
+
     }
   }
 </script>
 
 <style scoped lang="less">
+  @import "../style/global";
 .msg {
   padding: 0 36px;
   h1 {
@@ -61,10 +69,18 @@
     font-weight: 400;
     letter-spacing: 2px;
     margin-bottom: 32px;
-    margin-top: 66px;
+    margin-top: 66px - @topIndicator;
   }
   .msg-content {
     margin-top: -24px;
+    .none-list {
+      color: #C5D1CD;
+      margin-top: 310px;
+      line-height: 2;
+      strong {
+        display: block;
+      }
+    }
   }
 }
 </style>

@@ -70,16 +70,20 @@
 
     },
     mounted() {
-      this.name = cookie.get('hotel_')
+      this.name = cookie.get('hotel_');
+    },
+    activated() {
+      console.log('user', 'keep-alive');
     }
   }
 </script>
 
 <style scoped lang="less">
+  @import "../style/global";
 .user {
   padding: 0 36px;
   .user-info {
-    margin-top: 98px;
+    margin-top: 98px - @topIndicator;
     display: flex;
     align-items: center;
     justify-content: space-between;

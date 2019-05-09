@@ -24,11 +24,7 @@
     },
     data() {
       return {
-        data: {
-          username: '',
-          password: '',
-          checkPassword: ''
-        }
+        data: {}
       }
     },
     methods: {
@@ -55,15 +51,22 @@
       login() {
         this.$router.push('login')
       }
+    },
+    activated() {
+      this.data = {};
+      this.$refs.checkpass.error = false;
+      this.$refs.user.error = false;
+      this.$refs.password.error = false;
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @import "../style/global";
   .login {
     .logo {
       display: block;
-      margin: 6.625rem auto 0;
+      margin: calc(6.625rem - @topIndicator) auto 0;
       width: 8.75rem;
     }
     .login-box {

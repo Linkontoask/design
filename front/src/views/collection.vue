@@ -67,11 +67,15 @@
     },
     mounted() {
 
+    },
+    activated() {
+      console.log('collection', 'keep-alive');
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @import "../style/global";
   .collection {
     .sub {
       font-size: 16px;
@@ -88,7 +92,7 @@
       padding: 0 36px;
       margin-top: 24px;
       h1 {
-        margin-top: 66px;
+        margin-top: 66px - @topIndicator;
       }
       hr {
         height: 1px;
@@ -98,6 +102,7 @@
       }
       .swiper-city {
         font-size: 14px;
+        overflow: hidden;
         ul {
           display: flex;
           align-items: center;
