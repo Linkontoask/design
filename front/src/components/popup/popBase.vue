@@ -5,12 +5,13 @@
         <p></p>
         <p></p>
       </div>
-      <span v-if="$route.meta.name !== 'type'" v-hammer:tap="handleSave">保存并退出</span>
+      <span>
+        <span style="margin-right: 10px" v-if="$route.meta.name !== 'type'" v-hammer:tap="handleNotSave">不保存并退出</span>
+        <span v-if="$route.meta.name !== 'type'" v-hammer:tap="handleSave">保存并退出</span>
+      </span>
     </div>
     <transition appear :name="direction" mode="out-in">
-      <keep-alive>
-        <router-view/>
-      </keep-alive>
+      <router-view/>
     </transition>
   </div>
 </template>
@@ -48,6 +49,12 @@
       }
     },
     methods: {
+      handleNotSave() {
+        window.localStorage.removeItem('current_hotel');
+        this.$router.push({
+          path: '/release'
+        })
+      },
       handleSave() {
         window.localStorage.setItem('current_hotel', this.$route.path);
         this.$router.push({
@@ -61,9 +68,9 @@
             path: '/release'
           });
         } else this.$router.push({
-          path: path[path.findIndex(i => this.$route.meta.name === i) - 1],
+          path: path[index - 1],
           query: {
-            direction: 'right'
+            direction: 'left'
           }
         });
       }
@@ -85,6 +92,22 @@
 <style scoped lang="less">
   .pop-right-enter-active, .pop-right-leave-active, .pop-left-leave-active, .pop-left-leave-active {
     transition: left .3s, opacity .3s;
+  }
+  .pop-left-enter-active {
+    left: -100%;
+    opacity: 0;
+  }
+  .pop-left-leave-active {
+    left: 0;
+    opacity: 1;
+  }
+  .pop-left-leave-to {
+    left: 100%;
+    opacity: 0;
+  }
+  .pop-left-enter-to {
+    left: 0;
+    opacity: 1;
   }
   .pop-right-enter-active {
     left: 100%;

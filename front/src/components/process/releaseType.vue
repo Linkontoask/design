@@ -38,6 +38,7 @@
     },
     methods: {
       handleCheck(index) {
+        console.log(index)
         this.index = index;
       },
       handleNext() {
@@ -59,6 +60,8 @@
     },
     mounted() {
       // window.localStorage.setItem('current_hotel', this.$route.path);
+    },
+    activated() {
     }
   }
 </script>

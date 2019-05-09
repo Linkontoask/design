@@ -45,11 +45,12 @@
             path: currentHotel,
             query: {
               direction: 'bottom',
+              notJumpFirst: true
             }
           })
-        }
+        } else
         this.$router.push({
-          path: '/pop',
+          path: '/pop/type',
           query: {
             direction: 'bottom',
           }

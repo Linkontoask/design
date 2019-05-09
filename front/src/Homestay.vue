@@ -1,7 +1,7 @@
 <template>
   <div id="homeStay">
     <transition name="router-fade" mode="out-in">
-      <keep-alive>
+      <keep-alive :include="['collection', 'homeStayContent', 'msg', 'release', 'user']">
         <router-view/>
       </keep-alive>
     </transition>
