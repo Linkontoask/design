@@ -38,7 +38,6 @@
     },
     methods: {
       handleCheck(index) {
-        console.log(index)
         this.index = index;
       },
       handleNext() {

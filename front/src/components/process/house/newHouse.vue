@@ -23,15 +23,13 @@
 </template>
 
 <script>
+  import Storage from '../../../utils/localStorage'
   export default {
     name: 'newHouse',
     data() {
       return {
         data: {}
       }
-    },
-    mounted() {
-      // window.localStorage.setItem('current_hotel', this.$route.path);
     },
     methods: {
       handleGetPosition() {
@@ -54,13 +52,30 @@
             message: '请填写完信息之后再下一步'
           })
         }
+        this.save();
         this.$router.push({
           path: '/pop/confirmHouse',
           query: {
             direction: 'right',
           }
         })
+      },
+      save() {
+        //TODO 存储数据到本地
+        const houseData = Storage.get('houseData');
+        Storage.set('houseData', Object.assign(houseData || {}, {
+          position: this.data
+        }));
       }
+    },
+    mounted() {
+      const houseData = Storage.get('houseData') || {};
+      if (houseData.position) {
+        this.data = houseData.position
+      }
+    },
+    beforeDestroy() {
+      this.save();
     }
   }
 </script>

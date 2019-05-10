@@ -27,6 +27,7 @@
   .release-radio {
     padding: 0 36px;
     margin-top: 36px;
+    min-height: 42px;
     + .release-radio {
       margin-top: 24px;
     }
@@ -76,9 +77,23 @@
       p {
         font-weight: 600;
       }
+      .active-input {
+        color: #8ac7b7;
+        font-size: 12px;
+      }
+    }
+    & + .titleInput {
+      margin-top: 36px;
     }
     p {
       color: #2E312F;
+    }
+    strong {
+      display: block;
+      color: #C5D1CD;
+      font-size: 12px;
+      margin-top: 12px;
+      font-weight: normal;
     }
     .input {
       margin-top: 24px;

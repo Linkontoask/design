@@ -5,7 +5,7 @@
         <p></p>
         <p></p>
       </div>
-      <span>
+      <span v-if="!$route.path.includes('/priceHouse')">
         <span style="margin-right: 10px" v-if="$route.meta.name !== 'type'" v-hammer:tap="handleNotSave">不保存并退出</span>
         <span v-if="$route.meta.name !== 'type'" v-hammer:tap="handleSave">保存并退出</span>
       </span>
@@ -51,6 +51,7 @@
     methods: {
       handleNotSave() {
         window.localStorage.removeItem('current_hotel');
+        window.localStorage.removeItem('houseData');
         this.$router.push({
           path: '/release'
         })

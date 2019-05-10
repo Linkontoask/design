@@ -1,15 +1,17 @@
 <template>
   <transition appear name="bottom">
     <div class="list-box">
-      <div class="mask"></div>
+      <div class="mask" @touchend="handleSave"></div>
       <div class="confirm" @touchend="handleSave">确定</div>
       <div class="wrapper" ref="wrapper">
         <ul class="content">
-          <li v-for="(item, index) in data" :key="item.id" :class="{active: index === current}">
-            <p>{{ item.name }}</p>
+          <li v-for="(item, index) in data" :key="index" :class="{active: index === current}">
+            <p v-if="typeof item === 'object'">{{ item.name }}</p>
+            <p v-else>{{ item }}</p>
           </li>
         </ul>
       </div>
+      <div class="abs" v-if="abs">日</div>
     </div>
   </transition>
 </template>
@@ -20,7 +22,7 @@
     name: "list",
     data() {
       return {
-        current: this.ckeck
+        current: 0
       }
     },
     props: {
@@ -28,14 +30,14 @@
         type: Array,
         default: [],
       },
-      ckeck: {
-        type: Number,
-        default: 0
+      abs: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {
       handleSave() {
-        this.$emit('change', this.scroll.getSelectedIndex());
+        this.$emit('change', this.data[this.scroll.getSelectedIndex()]);
       }
     },
     mounted() {
@@ -57,7 +59,7 @@
       })
     },
     activated() {
-      this.scroll.wheelTo(this.ckeck)
+
     }
   }
 </script>
@@ -89,6 +91,12 @@
   width: 100%;
   height: 176px;
   border-top: 1px solid #E3E9E6;
+  .abs {
+    position: absolute;
+    right: 150px;
+    top: 87px;
+    z-index: 3;
+  }
   .mask {
     position: fixed;
     left: 0;

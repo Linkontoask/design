@@ -1,6 +1,6 @@
 <template>
   <label :for="'radio' + i" class="ve-radio" @touchend="handleTouchEnd">
-    <input type="radio" :id="'radio' + i" :value="value" name="ve-radio">
+    <input ref="input" :type="type" :id="'radio' + i" :value="value" name="ve-radio" :checked="checked">
     <div class="ve-label">
       <slot></slot>
     </div>
@@ -12,18 +12,34 @@
     name: "radio",
     data() {
       return {
-        value: ''
       }
     },
     props: {
+      value: {
+        type: [Number, String]
+      },
       i: {
         type: Number,
         default: 0
+      },
+      checked: {
+        type: Boolean,
+        default: false
+      },
+      type: {
+        type: String,
+        default: 'radio'
       }
     },
     methods: {
       handleTouchEnd() {
-        this.$emit('click', this.value)
+        if (this.type === 'checkbox') {
+          this.$nextTick(() => {
+            this.$emit('click', !this.$refs.input.checked)
+          })
+        } else {
+          this.$emit('click', this.value)
+        }
       }
     }
   }
@@ -38,10 +54,12 @@
   .ve-radio {
     display: flex;
     align-items: center;
-    input[type="radio"] {
+    input[type="radio"], input[type="checkbox"] {
       position: relative;
       margin-left: 4px;
       margin-top: 4px;
+      width: 16px;
+      height: 16px;
       &:checked::before {
         content: '';
         display: block;
