@@ -38,7 +38,14 @@
           if (!data.r) {
             this.$msg({type: 'success', message: data.e, duration: 2000,});
             cookie.set('hotel_', this.data.username);
-            this.$router.push('homeStay')
+            const beforeUrl = cookie.get('before_url_');
+            if (beforeUrl) {
+              this.$router.push({
+                path: beforeUrl
+              })
+            } else {
+              this.$router.push('homeStay')
+            }
           } else {
             this.$msg({type: 'error', message: data.e, duration: 4000,});
           }

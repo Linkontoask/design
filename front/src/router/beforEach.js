@@ -6,6 +6,7 @@ router.beforeEach((to, from, next) => {
     return next()
   }
   if (!cookie.get('hotel_')) {
+    cookie.set('before_url_', from.path);
     next({name: 'login'})
   }
   next()

@@ -54,6 +54,20 @@
               direction: 'right',
             }
           })
+        } else if (this.index === 1) {
+          this.$router.push({
+            path: '/pop/releaseFood',
+            query: {
+              direction: 'right',
+            }
+          })
+        } else {
+          this.$router.push({
+            path: '/pop/releaseStory',
+            query: {
+              direction: 'right',
+            }
+          })
         }
       }
     },

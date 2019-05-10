@@ -1,26 +1,16 @@
 <template>
   <div class="priceHouse">
-    <h1>您的房源价格</h1>
+    <h1>您的房源价格和图片</h1>
     <div class="img-box">
-      <el-upload
-          ref="upload"
-          class="avatar-uploader"
-          action="/"
-          :data="houseData"
-          list-type="picture-card"
-          :file-list="fileList"
-          :auto-upload="false"
-          :show-file-list="true"
-          :on-change="handleChangeFile"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-          :on-preview="handlePictureCardPreview"
-          :on-remove="handleRemove">
-        <i class="el-icon-plus"></i>
-      </el-upload>
-      <el-dialog :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt="">
-      </el-dialog>
+      <p>房源图片</p>
+      <upload
+              ref="upload"
+              :data="releaseData"
+              :action="'/hotel/upload/house'"
+              @success="handleSuccess"
+              @error="handleError"
+              @change="handleFileListChange"
+      ></upload>
     </div>
     <div class="titleInput new-box">
       <p>基础价格</p>
@@ -44,14 +34,16 @@
 
 <script>
   import list from '../../base/list'
+  import upload from '../../base/upload'
+  import Storage from '../../../utils/localStorage'
   export default {
     name: 'priceHouse',
     components: {
-      list
+      list,
+      upload
     },
     data() {
       return {
-        houseData: {}, // 所有关于房源的信息
         data: {
           price: ''
         },
@@ -60,42 +52,24 @@
           showList: false,
           lists: [{name: '支付宝', id: 0},{name: '微信', id: 1},{name: '银联', id: 2},]
         },
-        dialogImageUrl: '',
-        dialogVisible: false,
+        releaseData: {},
         fileList: []
       }
     },
     methods: {
-      handleChangeFile(file, fileList) {
-        this.fileList = fileList
+      handleSuccess() {
+        Storage.remove('houseData');
+        Storage.remove('current_hotel');
+        this.$msg({
+          type: 'success',
+          message: '发布成功，等待收益吧'
+        })
       },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+      handleError(err) {
+        console.log(err)
       },
-      handleRemove(file, fileList) {
-        this.fileList = fileList
-      },
-      handleAvatarSuccess() {
-
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
-        const isLt2M = file.size / 1024 / 1024 < 1;
-
-        if (!isJPG) {
-          this.$msg({
-            type: 'error',
-            message: '上传图片只能是 JPG 格式!'
-          });
-        }
-        if (!isLt2M) {
-          this.$msg({
-            type: 'error',
-            message: '上传图片大小不能超过 1MB!'
-          });
-        }
-        return isJPG && isLt2M;
+      handleFileListChange(fileList) {
+        this.fileList = fileList;
       },
       handleRelease() {
         this.$refs.price.mergeMesh('blur');
@@ -116,7 +90,7 @@
           })
         } else if (!this.$refs.price.error) {
           //TODO 发布房源，组装数据给后台
-          this.$refs.upload.submit();
+          this.$refs.upload.$refs.upload.submit() // 子组件upload
         }
       },
       handleCheckType() {
@@ -130,7 +104,19 @@
       }
     },
     beforeMount() {
-      this.houseData = JSON.parse(window.localStorage.getItem('houseData'))
+      const data = JSON.parse(window.localStorage.getItem('houseData'));
+      delete data.rimView;
+      // 图片在file KEY 下，应该有多个
+      const releaseData = {
+        houseName: '', // 房源名字
+        houseDesc: '', // 房源描述，可能为空
+        facitityData: '', // 房源设施，是不是需要前后端把这个设施订死
+        position: '', // 房源位置
+        rim: '', // 房源周边，根据接口返回的周边美食，然后返美食ID，数组
+        rule: '', // 房源入住规则
+        price: '', // 房源价格
+      };
+      this.releaseData = releaseData;
     }
   }
 </script>

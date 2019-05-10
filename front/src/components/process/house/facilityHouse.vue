@@ -81,7 +81,8 @@
         // TODO 存储到本地
         const houseData = Storage.get('houseData');
         Storage.set('houseData', Object.assign(houseData || {}, {
-          facitity: this.checkedList
+          facitity: this.checkedList,
+          facitityData: this.radio.filter((o, i) => this.checkedList[i])
         }));
       }
     },

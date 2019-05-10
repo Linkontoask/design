@@ -13,6 +13,8 @@ const Msg = () => import(/* webpackChunkName: "msg" */ '../views/msg');
 const Pop = () => import(/* webpackChunkName: "pop" */ '../components/popup/popBase');
 
 import house from '../components/process/index';
+import releaseFood from '../components/process/food/'
+import releaseStory from '../components/process/story/'
 
 Vue.use(Router);
 
@@ -71,6 +73,8 @@ export default new Router({
         {path: 'facilityHouse', meta: {name: 'facilityHouse', keepAlive: true}, name: 'popFacilityHouse', component: house.facilityHouse},
         {path: 'rimHouse', meta: {name: 'rimHouse', keepAlive: true}, name: 'popRimHouse', component: house.rimHouse},
         {path: 'priceHouse', meta: {name: 'priceHouse', keepAlive: true}, name: 'popPriceHouse', component: house.priceHouse},
+        {path: 'releaseFood', meta: {name: 'releaseFood', keepAlive: true}, name: 'popReleaseFood', component: releaseFood},
+        {path: 'releaseStory', meta: {name: 'releaseStory', keepAlive: true}, name: 'popReleaseStory', component: releaseStory},
       ]
     },
   ]

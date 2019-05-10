@@ -6,5 +6,9 @@ export default {
   get: (name) => {
     const value = window.localStorage.getItem(name);
     return value ? JSON.parse(value) : null
+  },
+
+  remove: (name) => {
+    window.localStorage.removeItem(name)
   }
 }

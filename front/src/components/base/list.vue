@@ -93,8 +93,10 @@
   border-top: 1px solid #E3E9E6;
   .abs {
     position: absolute;
-    right: 150px;
-    top: 87px;
+    left: 50%;
+    transform: translate(-50%);
+    margin-left: 46px;
+    top: 50%;
     z-index: 3;
   }
   .mask {

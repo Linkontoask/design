@@ -6,8 +6,8 @@
         <p></p>
       </div>
       <span v-if="!$route.path.includes('/priceHouse')">
-        <span style="margin-right: 10px" v-if="$route.meta.name !== 'type'" v-hammer:tap="handleNotSave">不保存并退出</span>
-        <span v-if="$route.meta.name !== 'type'" v-hammer:tap="handleSave">保存并退出</span>
+        <span style="margin-right: 10px" v-if="showTopControl" v-hammer:tap="handleNotSave">不保存并退出</span>
+        <span v-if="showTopControl" v-hammer:tap="handleSave">保存并退出</span>
       </span>
     </div>
     <transition appear :name="direction" mode="out-in">
@@ -34,6 +34,9 @@
       ...mapState({
         beforeUrl: state => state.beforeUrl
       }),
+      showTopControl() {
+        return !['type', 'releaseFood', 'releaseStory'].includes(this.$route.meta.name)
+      }
     },
     data() {
       return {
@@ -50,8 +53,10 @@
     },
     methods: {
       handleNotSave() {
-        window.localStorage.removeItem('current_hotel');
-        window.localStorage.removeItem('houseData');
+        this.$nextTick(() => {
+          window.localStorage.removeItem('current_hotel');
+          window.localStorage.removeItem('houseData');
+        });
         this.$router.push({
           path: '/release'
         })
@@ -67,6 +72,13 @@
         if (index === 0) {
           this.$router.push({
             path: '/release'
+          });
+        } else if (this.$route.meta.name === 'releaseFood' || this.$route.meta.name === 'releaseStory') {
+          this.$router.push({
+            path: '/pop/type',
+            query: {
+              direction: 'left'
+            }
           });
         } else this.$router.push({
           path: path[index - 1],
@@ -155,6 +167,11 @@
       width: 46px;
       top: 10px;
     }
+    @media screen and (max-width: 320px) {
+      div.close, div.left {
+        padding: 0 12px;
+      }
+    }
     .close, .left {
       display: flex;
       justify-content: space-between;
@@ -171,6 +188,7 @@
         width: 16px;
         height: 2px;
         background-color: #2E312F;
+        transition: transform .2s;
         transform: rotate(45deg);
       }
       p + p {
