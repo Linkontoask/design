@@ -4,7 +4,6 @@
     <div class="img-box-release">
       <p>美食照片</p>
       <upload ref="upload"
-              :action="'/hotel/around_region/'"
               @append="append"
               @success="handleSuccess"
               @error="handleError"
@@ -51,10 +50,10 @@
       }
     },
     methods: {
-      append(file) {
-        this.formDate.append('files', file);
+      append(file, name) {
+        this.formDate.append('files', file, name);
       },
-      handleReleaseFood() {
+      async handleReleaseFood() {
         this.$refs.name.mergeMesh('blur');
         this.$refs.price.mergeMesh('blur');
         if (this.$refs.name.error || this.$refs.price.error || this.releaseData.desc === '') {
@@ -64,7 +63,10 @@
           })
         } else {
           this.$refs.upload.$refs.upload.submit();
-          axios.post(this.action, this.formDate)
+          for (let [key,value] of Object.entries(this.releaseData)) {
+            this.formDate.append(key, value)
+          }
+          const data = await axios.post('/hotel/around_region/', this.formDate, {'Content-Type':'multipart/form-data'})
         }
 
       },

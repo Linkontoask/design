@@ -1,7 +1,8 @@
 <template>
   <div class="popSearch">
+    <div class="close" @touchend="handleClose">取消</div>
     <div class="search-top">
-      <input type="text" @blur="handleBlur" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+      <input type="text" @blur="handleBlur" :value="searchString" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
       <div class="btn-search">搜索</div>
     </div>
     <transition name="pop-bottom">
@@ -13,15 +14,43 @@
 <script>
   export default {
     name: "popSearch",
+    data() {
+      return {
+      }
+    },
+    computed: {
+      searchString() {
+        return this.$route.query.params
+      }
+    },
     methods: {
       handleBlur() {
 
+      },
+      handleClose() {
+        this.$router.push({
+          path: '/homeStay'
+        })
       }
+    },
+    mounted() {
+      this.$refs.input.focus()
     }
   }
 </script>
 
 <style scoped lang="less">
+  .popSearch {
+    .close {
+      position: absolute;
+      left: 80%;
+      margin-left: 28px;
+      height: 32px;
+      line-height: 32px;
+      top: 16px;
+      font-size: 14px;
+    }
+  }
   .search-top {
     display: flex;
     align-items: center;

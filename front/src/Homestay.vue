@@ -54,10 +54,6 @@
   -moz-osx-font-smoothing: grayscale;
   color: #5F6564;
   font-size: 16px;
-  height: 100%;
-}
-html, body {
-  height: 100%;
 }
 *{
   margin: 0;

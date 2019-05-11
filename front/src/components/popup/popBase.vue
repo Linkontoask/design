@@ -55,7 +55,7 @@
       handleNotSave() {
         this.$nextTick(() => {
           window.localStorage.removeItem('current_hotel');
-          window.localStorage.removeItem('houseData');
+          setTimeout(() => {window.localStorage.removeItem('houseData')}, 1000)
         });
         this.$router.push({
           path: '/release'
@@ -163,9 +163,9 @@
     height: calc(100vh - 14px);
     .pop-control {
       position: relative;
-      height: 46px;
+      height: 56px;
       width: 46px;
-      top: 10px;
+      top: 18px;
     }
     @media screen and (max-width: 320px) {
       div.close, div.left {
@@ -176,7 +176,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 12px;
       padding: 0 36px;
       span {
         font-size: 12px;

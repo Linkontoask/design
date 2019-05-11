@@ -29,16 +29,16 @@
             </li>
             <li>
               <img src="../assets/calender.png" alt="city" class="t">
-              <strong class="day">{{ day }}</strong>
-              <span>3.28 周四 - 3.29 周五</span>
+              <strong class="day">{{ date.getDate() }}</strong>
+              <span>{{ searchString }}</span>
               <div>
                 <span>共一晚</span>
               </div>
             </li>
           </ul>
-          <ve-button class="primary">搜索房源</ve-button>
+          <ve-button class="primary" @click="handleSearch">搜索房源</ve-button>
         </div>
-        <div class="homeStay-search" style="opacity: 0;" v-else></div>
+        <div class="homeStay-search" style="opacity: 0;height: 136px" v-else></div>
       </transition>
       <div class="normal" ref="normal"></div>
       <div class="homeStay-house">
@@ -76,6 +76,7 @@
   import house from '../static/house'
   import BScroll from 'better-scroll'
   let y = 0;
+  const Day =  ['一','二','三','四','五','六','日'];
   export default {
     name: 'homeStayContent',
     components: {
@@ -83,12 +84,19 @@
       Food,
       Story
     },
+    computed: {
+      searchString() {
+        const date = this.date;
+        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay() - 1] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()===7?1:date.getDay()] }`
+      }
+    },
     data() {
       return {
         focus: false,
         dir: 'down',
+        Day: Day,
         isStart: false,
-        day: new Date().getDate(),
+        date: new Date(),
         swiperOptionBanner: {
           loop: true,
           autoplay: {
@@ -178,6 +186,14 @@
       }
     },
     methods: {
+      handleSearch() {
+        this.$router.push({
+          path: '/PopSearch/resultSearch',
+          query: {
+            params: this.searchString
+          }
+        })
+      },
       handleFocus() {
         this.focus = true;
         setTimeout(() => {
@@ -192,7 +208,7 @@
       handleEnd(ev) {
         let top = Math.floor(this.$refs.content.getBoundingClientRect().y);
         this.dir = top > y ? 'up' : 'down';
-        if (this.dir === 'down' && -top < 426) {
+        if (top !== y && this.dir === 'down' && -top < 426) {
           this.isStart = true;
           this.scroll.scrollToElement(this.$refs.normal, 300, 'ease')
         } else if (-top < 426) {
@@ -221,7 +237,8 @@
     activated() {
       console.log('homestay', 'keep-alive');
       this.scroll && this.scroll.refresh();
-      this.isStart = -this.$refs.content.getBoundingClientRect().y > 426;
+      this.isStart = -this.$refs.content.getBoundingClientRect().y >= 426;
+      this.focus = false;
     }
   }
 </script>
@@ -232,20 +249,20 @@
     transition: opacity .3s, width .3s;
   }
   .hide-enter-active {
-    height: 0 !important;
+    max-height: 0;
     padding: 0 !important;
     opacity: 0
   }
   .hide-leave-active {
-    height: 134px !important;
+    max-height: 134px;
     opacity: 1;
   }
   .hide-leave-to {
-    height: 0 !important;
+    max-height: 0;
     opacity: 0;
   }
   .hide-enter-to {
-    height: 134px !important;
+    max-height: 134px;
     padding: 24px 40px !important;
     opacity: 1;
   }
@@ -266,7 +283,7 @@
     opacity: 1;
   }
   .homeStay-content {
-    height: 100%;
+    height: 100vh;
     .content {
       padding-bottom: 96px;
     }
@@ -309,7 +326,7 @@
       border-radius: 4px;
       background-color: white;
       z-index: 9;
-      transition: top .3s;
+      transition: top .3s ease-in-out;
       input {
         border: none;
         height: 100%;
@@ -337,8 +354,7 @@
       position: relative;
       margin: -10px auto 0;
       width: 262px;
-      height: 134px;
-      transition: height .3s, opacity .3s, padding .3s;
+      transition: max-height .3s, opacity .3s, padding .3s;
       padding: 24px 40px;
       border-radius: 12px;
       box-shadow: 0 3px 4px rgba(59, 59, 59, 0.16);

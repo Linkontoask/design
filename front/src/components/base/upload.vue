@@ -43,7 +43,7 @@
     },
     methods: {
       handleRequest(file) {
-        this.$emit('append', file.file);
+        this.$emit('append', file.file, file.name);
       },
       handleChangeFile(file, fileList) {
         this.$emit('change', fileList);
