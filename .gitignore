@@ -1,3 +1,6 @@
 /res
 /高清PDF
 /psd
+/.idea
+/hotel/*.sqlite3
+/hotel/hotel/__pycache__
