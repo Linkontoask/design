@@ -21,8 +21,15 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hotel/register/', views.register_user),
     url(r'^hotel/login_in/',views.login_in),
-    # 房源信息登录接口
-    url(r'^hotel/login_in/',views.login_in),
+    # 录入房源信息
+    url(r'^hotel/hotel_room/$',views.entering_hotel_room_import),
+    # 录入周边信息
+    url(r'^hotel/around_region/$',views.entering_around_region_import),
+    # 录入故事信息
+    url(r'^hotel/story_board/$',views.entering_story_board_import),
+
+    # 得到周边信息
+    url(r'^hotel/get_around/$',views.get_around_region_view),
 
 
 
