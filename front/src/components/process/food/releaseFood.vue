@@ -54,7 +54,7 @@
       append(file) {
         this.formDate.append('files', file);
       },
-      async handleReleaseFood() {
+      handleReleaseFood() {
         this.$refs.name.mergeMesh('blur');
         this.$refs.price.mergeMesh('blur');
         if (this.$refs.name.error || this.$refs.price.error || this.releaseData.desc === '') {
@@ -63,15 +63,14 @@
             message: '请填写相关信息后发布'
           })
         } else {
-          await this.setDate();
+          this.$refs.upload.$refs.upload.submit();
+          axios.post(this.action, this.formDate)
         }
 
       },
       async setDate() {
         this.$refs.upload.$refs.upload.submit();
-        return await axios.post(this.action, Object.assign({
-          'X-CSRFToken': cookie.get('csrftoken')
-        }, ...this.releaseData, this.formDate))
+
       },
       handleSuccess() {
         this.$msg({
