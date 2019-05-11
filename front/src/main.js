@@ -1,13 +1,15 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Homestay from './Homestay.vue'
+import router from './router/'
+import store from './store/'
 import './registerServiceWorker'
+import './config/'
+import './router/beforEach'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: h => h(Homestay)
+}).$mount('#homeStay')
