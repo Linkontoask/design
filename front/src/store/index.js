@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 const state = {
   showActionBar: true,
-  beforeUrl: []
+  beforeUrl: [],
+  releaseHouse: {}, // 后期优化发布房源数据管理
 };
 
 export default new Vuex.Store({

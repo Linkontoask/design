@@ -10,7 +10,7 @@
     <swiperBase :data="residence">
       <div class="mask">特色民居</div>
     </swiperBase>
-    <div class="release-btn" v-hammer:tap="handleTap">
+    <div class="release-btn" ref="btn" v-hammer:tap="handleTap">
       <div>
         <span></span>
         <span></span>
@@ -56,6 +56,11 @@
           }
         })
       }
+    },
+    mounted() {
+      if ((document.documentElement.clientHeight || document.body.clientHeight) <= 710) {
+        this.$refs.btn.style = 'box-shadow: none'
+      }
     }
   }
 </script>
@@ -73,7 +78,7 @@
   }
   .release-btn {
     position: fixed;
-    bottom: 170px;
+    bottom: 17%;
     left: 50%;
     width: 74px;
     height: 36px;

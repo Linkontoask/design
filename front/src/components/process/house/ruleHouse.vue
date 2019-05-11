@@ -2,7 +2,7 @@
   <div class="ruleHouse">
     <h1>入住规则</h1>
     <div class="titleInput new-box">
-      <p>房源名称</p>
+      <p>房客入住和离开时间</p>
       <div class="simulation-input" @click="handleCheckType(0)">
         <i v-if="!data.cTime">入住时间</i>
         <p v-else>{{ data.cTime }}</p>
@@ -18,7 +18,7 @@
     <div class="control-next">
       <ve-button class="primary" @click="handleNext">下一步</ve-button>
     </div>
-    <list :data="lists" v-if="showList" :abs="true" @change="handleChange"></list>
+    <list :data="lists" v-if="showList" :abs="false" @change="handleChange"></list>
   </div>
 </template>
 
@@ -78,23 +78,17 @@
       },
       handleChange(index) {
         if (this.now === 0) {
-          this.data.cTime =  m + '月' + index + '日';
-          if (index === 30) {
-            this.next = true;
-            this.pushArray(31, this.listLTime, 1)
-          } else {
-            this.next = false;
-            this.pushArray(31, this.listLTime, index + 1)
-          }
+          this.data.cTime =  (index < 10 ? '0' + index : index) + ':00';
+          this.pushArray(24, this.listLTime, 1)
         } else {
-          this.data.lTime = (this.next ? (m + 1) : m) + '月' + index + '日';
-          this.pushArray(index + 1, this.listCTime, 1)
+          this.data.lTime = (index < 10 ? '0' + index : index) + ':00';
+          this.pushArray(index, this.listCTime, 1)
         }
         this.showList = false
       },
-      pushArray(len = 31, obj, c = 1) {
+      pushArray(len = 24, obj, c = 1) {
         obj = [];
-        for (let i = c; i < len; i++) {
+        for (let i = c; i <= len; i++) {
           obj.push(i)
         }
         this.lists = obj;
@@ -108,7 +102,7 @@
       }
     },
     mounted() {
-      this.pushArray(31, this.listCTime, 1);
+      this.pushArray(24, this.listCTime, 1);
       const houseData = Storage.get('houseData') || {};
       if (houseData.rule) {
         this.data = houseData.rule

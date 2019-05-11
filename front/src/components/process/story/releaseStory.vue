@@ -1,7 +1,7 @@
 <template>
   <div class="releaseStory">
     <h1>发布有趣的故事</h1>
-    <div class="img-box">
+    <div class="img-box-release">
       <p>故事中的图片</p>
       <upload ref="upload"
               :data="releaseData"
@@ -13,7 +13,7 @@
     <div class="titleInput new-box">
       <p>故事标题</p>
       <div class="box">
-        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入美食名字" type="reg" inspect="^.+$" message="请输入美食名字" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入美食名字" type="reg" inspect="^.+$" message="请输入故事的标题" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">
@@ -35,14 +35,16 @@
     },
     data() {
       return {
-        releaseData: {}
+        releaseData: {
+          content: '',
+          fileList: []
+        }
       }
     },
     methods: {
       handleRelease() {
         this.$refs.name.mergeMesh('blur');
-        this.$refs.price.mergeMesh('blur');
-        if (this.$refs.name.error || this.$refs.price.error || this.releaseData.content) {
+        if (this.$refs.name.error || this.releaseData.content === '' || this.fileList.length === 0) {
           this.$msg({
             type: 'error',
             message: '请填写相关信息后发布'
@@ -56,7 +58,9 @@
         })
       },
       handleError(err) {},
-      handleFileListChange(fileList) {},
+      handleFileListChange(fileList) {
+        this.fileList = fileList
+      },
     },
   }
 </script>

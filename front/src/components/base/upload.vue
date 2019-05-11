@@ -5,13 +5,11 @@
             class="avatar-uploader"
             :action="action"
             list-type="picture-card"
-            :data="data"
             :file-list="fileList"
             :auto-upload="false"
             :show-file-list="true"
+            :http-request="handleRequest"
             :on-change="handleChangeFile"
-            :on-success="() => $emit('success')"
-            :on-error="() => $emit('error')"
             :before-upload="beforeAvatarUpload"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove">
@@ -41,9 +39,12 @@
       action: {
         type: String,
         default: ''
-      }
+      },
     },
     methods: {
+      handleRequest(file) {
+        this.$emit('append', file.file);
+      },
       handleChangeFile(file, fileList) {
         this.$emit('change', fileList);
       },

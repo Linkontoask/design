@@ -11,6 +11,10 @@ const User = () => import(/* webpackChunkName: "user" */ '../views/user');
 const Msg = () => import(/* webpackChunkName: "msg" */ '../views/msg');
 
 const Pop = () => import(/* webpackChunkName: "pop" */ '../components/popup/popBase');
+const PopSearch = () => import(/* webpackChunkName: "PopSearch" */ '../components/popup/popSearch');
+
+const normalSearch = () => import(/* webpackChunkName: "normalSearch" */ '../components/normalSearch');
+const resultSearch = () => import(/* webpackChunkName: "resultSearch" */ '../components/resultSearch');
 
 import house from '../components/process/index';
 import releaseFood from '../components/process/food/'
@@ -77,5 +81,14 @@ export default new Router({
         {path: 'releaseStory', meta: {name: 'releaseStory', keepAlive: true}, name: 'popReleaseStory', component: releaseStory},
       ]
     },
+    {
+      path: '/PopSearch',
+      component: PopSearch,
+      children: [
+        {path: '', redirect: 'normalSearch'},
+        {path: 'normalSearch', component: normalSearch},
+        {path: 'resultSearch', component: resultSearch},
+      ]
+    }
   ]
 })

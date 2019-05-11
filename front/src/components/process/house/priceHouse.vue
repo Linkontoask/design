@@ -1,7 +1,7 @@
 <template>
   <div class="priceHouse">
     <h1>您的房源价格和图片</h1>
-    <div class="img-box">
+    <div class="img-box-release">
       <p>房源图片</p>
       <upload
               ref="upload"

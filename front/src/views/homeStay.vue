@@ -1,57 +1,70 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
-  <div class="homeStay-content" @touchmove="handleMove" @touchend="handleEnd" @touchstart="handleStart" ref="homeStay">
-    <div class="homeStay-banner">
-      <swiper :options="swiperOptionBanner" class="swiper">
-        <swiper-slide v-for="(item, index) in slides" :key="index">
-          <img :src="require('../' + item)" alt="not find img">
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
-      <span aria-city="地点" class="city">重庆</span>
-    </div>
-    <div class="homeStay-search" :style="{opacity: opacity}">
-      <ul>
-        <li>
-          <img src="../assets/city-fill.png" alt="city" class="t">
-          <span>重庆 - 邮电大学</span>
-          <div>
-            <span>我的附近</span>
-            <img src="../assets/locat.png" alt="locat" class="s">
-          </div>
-        </li>
-        <li>
-          <img src="../assets/calender.png" alt="city" class="t">
-          <span>3.28 周四 - 3.29 周五</span>
-          <div>
-            <span>共一晚</span>
-          </div>
-        </li>
-      </ul>
-      <ve-button class="primary">搜索房源</ve-button>
-    </div>
-    <div class="homeStay-house">
-      <h2>热门房源</h2>
-      <House :data="house" class="house-content"></House>
-      <div class="line-primary">更多房源</div>
-    </div>
-    <div class="homeStay-house homeStay-food">
-      <h2>热门美食</h2>
-      <swiper :options="swiperOptionFood" class="swiper food-swiper">
-        <swiper-slide v-for="(item, index) in foodSlider" :key="index">
-          <img :src="require('../' + item.src)" alt="not find img">
-          <div class="mask-food">
-            <h4>推荐理由</h4>
-            <div class="clamp2">{{ item.desc }}</div>
-          </div>
-        </swiper-slide>
-      </swiper>
-      <Food :data="foodViews" style="margin-top: 24px"></Food>
-      <div class="line-primary">更多美食</div>
-    </div>
-    <div class="homeStay-house homeStay-food homeStay-story">
-      <h2>精彩故事</h2>
-      <Story :data="storyViews" style="margin-top: 12px"></Story>
-      <div class="line-primary">更多故事</div>
+  <div class="homeStay-content" ref="homeStay">
+    <transition name="show">
+      <div class="search-top" :class="{focusTop: focus}" v-if="isStart">
+        <input type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+        <div class="btn-search">搜索</div>
+      </div>
+    </transition>
+    <div class="content" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
+      <div class="homeStay-banner">
+        <swiper :options="swiperOptionBanner" class="swiper">
+          <swiper-slide v-for="(item, index) in slides" :key="index">
+            <img :src="require('../' + item)" alt="not find img">
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+        <span aria-city="地点" class="city">重庆</span>
+      </div>
+      <transition name="hide">
+        <div class="homeStay-search" v-if="!isStart">
+          <ul>
+            <li>
+              <img src="../assets/city-fill.png" alt="city" class="t">
+              <span>重庆 - 邮电大学</span>
+              <div>
+                <span>我的附近</span>
+                <img src="../assets/locat.png" alt="locat" class="s">
+              </div>
+            </li>
+            <li>
+              <img src="../assets/calender.png" alt="city" class="t">
+              <strong class="day">{{ day }}</strong>
+              <span>3.28 周四 - 3.29 周五</span>
+              <div>
+                <span>共一晚</span>
+              </div>
+            </li>
+          </ul>
+          <ve-button class="primary">搜索房源</ve-button>
+        </div>
+        <div class="homeStay-search" style="opacity: 0;" v-else></div>
+      </transition>
+      <div class="normal" ref="normal"></div>
+      <div class="homeStay-house">
+        <h2>热门房源</h2>
+        <House :data="house" class="house-content"></House>
+        <div class="line-primary">更多房源</div>
+      </div>
+      <div class="homeStay-house homeStay-food">
+        <h2>热门美食</h2>
+        <swiper :options="swiperOptionFood" class="swiper food-swiper">
+          <swiper-slide v-for="(item, index) in foodSlider" :key="index">
+            <img :src="require('../' + item.src)" alt="not find img">
+            <div class="mask-food">
+              <h4>推荐理由</h4>
+              <div class="clamp2">{{ item.desc }}</div>
+            </div>
+          </swiper-slide>
+        </swiper>
+        <Food :data="foodViews" style="margin-top: 24px"></Food>
+        <div class="line-primary">更多美食</div>
+      </div>
+      <div class="homeStay-house homeStay-food homeStay-story">
+        <h2>精彩故事</h2>
+        <Story :data="storyViews" style="margin-top: 12px"></Story>
+        <div class="line-primary">更多故事</div>
+      </div>
     </div>
   </div>
 </template>
@@ -61,12 +74,8 @@
   import Food from 'components/base/food'
   import Story from 'components/base/story'
   import house from '../static/house'
-
-  const isOk = !!(document.documentElement && document.documentElement.scrollTop);
-  const dc = document.documentElement;
-  const body = document.body;
-  let top = {};
-
+  import BScroll from 'better-scroll'
+  let y = 0;
   export default {
     name: 'homeStayContent',
     components: {
@@ -76,6 +85,10 @@
     },
     data() {
       return {
+        focus: false,
+        dir: 'down',
+        isStart: false,
+        day: new Date().getDate(),
         swiperOptionBanner: {
           loop: true,
           autoplay: {
@@ -162,53 +175,101 @@
           uuid: 'aa154613146434154axd'
         },],
         house: house,
-        opacity: 1,
-        scroll: {
-          start: 0,
-          end: 0
-        },
-        direction: 'up'
       }
     },
     methods: {
-      handleStart() {
-        isOk ? top.s = dc.scrollTop : top.s = body.scrollTop;
-        this.scroll.start = top.s;
+      handleFocus() {
+        this.focus = true;
+        setTimeout(() => {
+          this.$router.push({
+            path: '/PopSearch'
+          })
+        }, 300)
       },
-      handleEnd() {
-        isOk ? top.e = dc.scrollTop : top.e = body.scrollTop;
-        this.scroll.end = top.e;
-        this.direction = (this.scroll.start > this.scroll.end) ? 'down' : 'up';
-        if (top.e >= 1 && this.direction === 'up') {
-          let id;
-          function step() {
-            let scrollTop = dc.scrollTop || body.scrollTop;
-            if (scrollTop >= 500) {
-              window.cancelAnimationFrame(id)
-            } else {
-              dc.scrollTop = body.scrollTop = scrollTop + Math.floor(scrollTop / (scrollTop - 12));
-              id = window.requestAnimationFrame(step);
-            }
-          }
-          id = window.requestAnimationFrame(step);
+      handleStart(ev) {
+        y = Math.floor(this.$refs.content.getBoundingClientRect().y);
+      },
+      handleEnd(ev) {
+        let top = Math.floor(this.$refs.content.getBoundingClientRect().y);
+        this.dir = top > y ? 'up' : 'down';
+        if (this.dir === 'down' && -top < 426) {
+          this.isStart = true;
+          this.scroll.scrollToElement(this.$refs.normal, 300, 'ease')
+        } else if (-top < 426) {
+          this.isStart = false;
         }
       },
-      handleMove() {
-
+      handleMove(e) {
+        e.preventDefault();
       }
     },
     mounted() {
-
+      this.$nextTick(() => {
+        this.scroll = new BScroll(this.$refs.homeStay, {
+          scrollX: false,
+          scrollY: true,
+          momentum: true,
+          bounce: true,
+        });
+        this.scroll.on('scrollEnd', p => {
+          if (this.isStart && -p.y < 426 && this.dir === 'up') {
+            this.isStart = false;
+          }
+        });
+      })
     },
     activated() {
       console.log('homestay', 'keep-alive');
+      this.scroll && this.scroll.refresh();
+      this.isStart = -this.$refs.content.getBoundingClientRect().y > 426;
     }
   }
 </script>
 
 <style lang="less" scoped>
   @import "../style/global";
+  .show-enter-active, .show-leave-active {
+    transition: opacity .3s, width .3s;
+  }
+  .hide-enter-active {
+    height: 0 !important;
+    padding: 0 !important;
+    opacity: 0
+  }
+  .hide-leave-active {
+    height: 134px !important;
+    opacity: 1;
+  }
+  .hide-leave-to {
+    height: 0 !important;
+    opacity: 0;
+  }
+  .hide-enter-to {
+    height: 134px !important;
+    padding: 24px 40px !important;
+    opacity: 1;
+  }
+  .show-enter-active {
+    width: 0 !important;
+    opacity: 0
+  }
+  .show-leave-active {
+    width: 80% !important;
+    opacity: 1;
+  }
+  .show-leave-to {
+    width: 0 !important;
+    opacity: 0;
+  }
+  .show-enter-to {
+    width: 80% !important;
+    opacity: 1;
+  }
   .homeStay-content {
+    height: 100%;
+    .content {
+      padding-bottom: 96px;
+    }
     .homeStay-banner {
       position: relative;
       .swiper {
@@ -227,26 +288,82 @@
         z-index: 1;
       }
     }
+    .normal {
+      position: absolute;
+      top: 426px;
+    }
+    div.focusTop {
+      top: 64px;
+    }
+    .search-top {
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 32px;
+      box-shadow: 0 4px 7px 0 #e6e6e6;
+      padding: 10px 20px;
+      border-radius: 4px;
+      background-color: white;
+      z-index: 9;
+      transition: top .3s;
+      input {
+        border: none;
+        height: 100%;
+        font-size: 14px;
+      }
+      input:focus {
+        outline: none;
+      }
+      .btn-search {
+        background-color: #25A3A8;
+        color: white;
+        text-align: center;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 54px;
+        height: 100%;
+        line-height: 52px;
+        font-size: 14px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
     .homeStay-search {
       position: relative;
       margin: -10px auto 0;
       width: 262px;
       height: 134px;
-      max-height: 134px;
+      transition: height .3s, opacity .3s, padding .3s;
       padding: 24px 40px;
       border-radius: 12px;
       box-shadow: 0 3px 4px rgba(59, 59, 59, 0.16);
       border: 1px solid #E4ECE8;
       background-color: white;
+      overflow: hidden;
       z-index: 4;
       ul {
         padding: 0;
         li {
+          position: relative;
           display: flex;
           align-items: center;
           height: 26px;
           font-size: 14px;
           border-bottom: 1px solid #E4ECE8;
+          .day {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #25A3A8;
+          }
           > span {
             display: inline-block;
             margin-left: 10px;
