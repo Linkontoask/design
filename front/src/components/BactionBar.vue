@@ -57,7 +57,7 @@
     height: 6.25rem - @topIndicator;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 1rem 2.25rem;
+    padding: 1rem 0;
     .active {
       color: #25A3A8;
     }
@@ -69,6 +69,14 @@
       margin-top: 0.5rem;
       font-size: 0.75rem;
       font-weight: 400;
+      width: 100%;
+    }
+    li {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
     }
   }
 }
