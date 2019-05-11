@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from link import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^hotel/register/', views.register_user),
+    url(r'^hotel/login_in/',views.login_in),
+    # 房源信息登录接口
+    url(r'^hotel/login_in/',views.login_in),
+
+
+
+    # 测试接口
+    url(r'^get_user/',views.get_users),
+
 ]
