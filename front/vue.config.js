@@ -13,6 +13,7 @@ module.exports = {
         }
       },
     },
+    host: "0.0.0.0"
   },
   transpileDependencies: ['v-easy-message'],
   configureWebpack: {

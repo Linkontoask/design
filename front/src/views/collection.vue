@@ -91,6 +91,7 @@
     .collection-stay {
       padding: 0 36px;
       margin-top: 24px;
+      overflow: hidden;
       h1 {
         margin-top: 66px - @topIndicator;
       }
@@ -102,7 +103,6 @@
       }
       .swiper-city {
         font-size: 14px;
-        overflow: hidden;
         ul {
           display: flex;
           align-items: center;

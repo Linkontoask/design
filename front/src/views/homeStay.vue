@@ -3,7 +3,7 @@
     <transition name="show">
       <div class="search-top" :class="{focusTop: focus}" v-if="isStart">
         <input type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
-        <div class="btn-search">搜索</div>
+        <div class="btn-search" @touchend="handleSearchGo">搜索</div>
       </div>
     </transition>
     <div class="content" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
@@ -66,6 +66,9 @@
         <div class="line-primary">更多故事</div>
       </div>
     </div>
+    <div class="bg-logo" v-show="!isStart" :style="{opacity}">
+      <img src="../assets/logo.png" alt="not find img">
+    </div>
   </div>
 </template>
 
@@ -87,11 +90,12 @@
     computed: {
       searchString() {
         const date = this.date;
-        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay() - 1] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()===7?1:date.getDay()] }`
+        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay()] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()===7?1:date.getDay() + 1] }`
       }
     },
     data() {
       return {
+        opacity: 0.1,
         focus: false,
         dir: 'down',
         Day: Day,
@@ -186,6 +190,14 @@
       }
     },
     methods: {
+      handleSearchGo() {
+        this.focus = true;
+        setTimeout(() => {
+          this.$router.push({
+            path: '/PopSearch'
+          })
+        }, 300)
+      },
       handleSearch() {
         this.$router.push({
           path: '/PopSearch/resultSearch',
@@ -226,12 +238,23 @@
           scrollY: true,
           momentum: true,
           bounce: true,
+          probeType: 3
         });
         this.scroll.on('scrollEnd', p => {
+
+        });
+        this.scroll.on('scroll', p => {
+          let y = Math.floor(p.y);
+          if (y >= 24) {
+            // 性能优化
+            setTimeout(() => {
+              this.opacity = 1 - ((100 - y) / 100).toFixed(2);
+            }, 0)
+          }
           if (this.isStart && -p.y < 426 && this.dir === 'up') {
             this.isStart = false;
           }
-        });
+        })
       })
     },
     activated() {
@@ -284,6 +307,17 @@
   }
   .homeStay-content {
     height: 100vh;
+    .bg-logo {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+      img {
+        display: block;
+        width: 64px;
+        margin: 24px auto 0;
+      }
+    }
     .content {
       padding-bottom: 96px;
     }
@@ -311,44 +345,6 @@
     }
     div.focusTop {
       top: 64px;
-    }
-    .search-top {
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      height: 32px;
-      box-shadow: 0 4px 7px 0 #e6e6e6;
-      padding: 10px 20px;
-      border-radius: 4px;
-      background-color: white;
-      z-index: 9;
-      transition: top .3s ease-in-out;
-      input {
-        border: none;
-        height: 100%;
-        font-size: 14px;
-      }
-      input:focus {
-        outline: none;
-      }
-      .btn-search {
-        background-color: #25A3A8;
-        color: white;
-        text-align: center;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 54px;
-        height: 100%;
-        line-height: 52px;
-        font-size: 14px;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-      }
     }
     .homeStay-search {
       position: relative;

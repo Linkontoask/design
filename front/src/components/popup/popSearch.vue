@@ -1,9 +1,9 @@
 <template>
   <div class="popSearch">
     <div class="close" @touchend="handleClose">取消</div>
-    <div class="search-top">
-      <input type="text" @blur="handleBlur" :value="searchString" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
-      <div class="btn-search">搜索</div>
+    <div class="search-top" style="top: 64px;">
+      <input type="text" @blur="handleBlur" v-model="searchString" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+      <div class="btn-search" @touchend="handleSearch">搜索</div>
     </div>
     <transition name="pop-bottom">
       <router-view />
@@ -12,18 +12,27 @@
 </template>
 
 <script>
+  import Storage from '../../utils/localStorage'
   export default {
     name: "popSearch",
     data() {
       return {
+        searchString: this.$route.query.params
       }
     },
     computed: {
-      searchString() {
-        return this.$route.query.params
-      }
     },
     methods: {
+      handleSearch() {
+        let searched_  = Storage.get('searched_');
+        if (searched_) {
+          searched_.push(this.searchString)
+        } else {
+          searched_ = [this.searchString]
+        }
+        searched_ = [...new Set(searched_)];
+        Storage.set('searched_', searched_)
+      },
       handleBlur() {
 
       },
@@ -42,51 +51,12 @@
 <style scoped lang="less">
   .popSearch {
     .close {
-      position: absolute;
-      left: 80%;
-      margin-left: 28px;
+      text-align: right;
+      margin-right: 6%;
       height: 32px;
       line-height: 32px;
-      top: 16px;
+      margin-top: 16px;
       font-size: 14px;
-    }
-  }
-  .search-top {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 64px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 32px;
-    box-shadow: 0 4px 7px 0 #e6e6e6;
-    padding: 10px 20px;
-    border-radius: 4px;
-    background-color: white;
-    z-index: 9;
-    transition: top .3s;
-    input {
-      border: none;
-      height: 100%;
-      font-size: 14px;
-    }
-    input:focus {
-      outline: none;
-    }
-    .btn-search {
-      background-color: #25A3A8;
-      color: white;
-      text-align: center;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 54px;
-      height: 100%;
-      line-height: 52px;
-      font-size: 14px;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
     }
   }
 </style>

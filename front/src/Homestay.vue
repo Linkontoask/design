@@ -6,14 +6,16 @@
       </keep-alive>
     </transition>
     <div style="height: 118px" v-if="showActionBar"></div>
-    <Action v-if="showActionBar"></Action>
+    <transition name="action">
+      <Action v-if="showActionBar"></Action>
+    </transition>
   </div>
 </template>
 
 <script>
   import Action from './components/BactionBar'
   import {mapState, mapMutations} from 'vuex'
-  const path = ['/login', '/signup', '/pop'];
+  const path = ['/login', '/signup', '/pop', '/PopSearch'];
   export default {
     data() {
       return {
@@ -58,6 +60,18 @@
 *{
   margin: 0;
   padding: 0
+}
+.action-enter-active, .action-leave-active {
+  transition: bottom .3s;
+}
+.action-leave-to {
+  bottom: -98px !important;
+}
+.action-enter-active {
+  bottom: -98px !important;
+}
+.action-enter-to {
+  bottom: 0 !important;
 }
 li {
   list-style-type: none
