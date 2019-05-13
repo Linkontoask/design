@@ -17,6 +17,7 @@ const normalSearch = () => import(/* webpackChunkName: "normalSearch" */ '../com
 const resultSearch = () => import(/* webpackChunkName: "resultSearch" */ '../components/resultSearch');
 
 import house from '../components/process/index';
+import user from '../components/popup/user/index'
 import releaseFood from '../components/process/food/'
 import releaseStory from '../components/process/story/'
 
