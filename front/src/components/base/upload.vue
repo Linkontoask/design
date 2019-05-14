@@ -56,7 +56,7 @@
         this.$emit('change', fileList);
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
+        /*const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
         const isLt2M = file.size / 1024 / 1024 < 1;
 
         if (!isJPG) {
@@ -71,7 +71,7 @@
             message: '上传图片大小不能超过 1MB!'
           });
         }
-        return isJPG && isLt2M;
+        return isJPG && isLt2M;*/
       },
     }
   }

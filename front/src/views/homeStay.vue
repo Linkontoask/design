@@ -21,8 +21,8 @@
           <ul>
             <li>
               <img src="../assets/city-fill.png" alt="city" class="t">
-              <span>重庆 - 邮电大学</span>
-              <div>
+              <input type="text" v-model="searchStr">
+              <div @touchend="searchStr = '重庆 - 邮电大学'">
                 <span>我的附近</span>
                 <img src="../assets/locat.png" alt="locat" class="s">
               </div>
@@ -44,7 +44,7 @@
       <div class="homeStay-house">
         <h2>热门房源</h2>
         <House :data="house" class="house-content"></House>
-        <div class="line-primary">更多房源</div>
+        <div class="line-primary" @touchend="handleMoreHouse">更多房源</div>
       </div>
       <div class="homeStay-house homeStay-food">
         <h2>热门美食</h2>
@@ -95,6 +95,7 @@
     },
     data() {
       return {
+        searchStr: '上海',
         opacity: 0.1,
         focus: false,
         dir: 'down',
@@ -190,6 +191,11 @@
       }
     },
     methods: {
+      handleMoreHouse() {
+        this.$router.push({
+          path: '/PopHouse/houseList'
+        })
+      },
       handleSearchGo() {
         this.focus = true;
         setTimeout(() => {
@@ -202,7 +208,7 @@
         this.$router.push({
           path: '/PopSearch/resultSearch',
           query: {
-            params: this.searchString
+            params: this.searchStr
           }
         })
       },
@@ -358,6 +364,17 @@
       background-color: white;
       overflow: hidden;
       z-index: 4;
+      input {
+        border: none;
+        height: 26px;
+        width: 140px;
+        margin-left: 10px;
+        color: #5F6564;
+        font-size: 14px;
+      }
+      input:focus {
+        outline: none;
+      }
       ul {
         padding: 0;
         li {

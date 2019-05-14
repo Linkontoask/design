@@ -52,6 +52,12 @@
       }
     },
     methods: {
+      handleSwiper(ev) {
+        console.log(ev)
+        if (ev.type === 'swiperight') {
+          this.handleTap()
+        }
+      },
       handleNotSave() {
         this.$nextTick(() => {
           window.localStorage.removeItem('current_hotel');
@@ -103,60 +109,6 @@
 </script>
 
 <style scoped lang="less">
-  .pop-right-enter-active, .pop-right-leave-active, .pop-left-leave-active, .pop-left-leave-active {
-    transition: left .3s, opacity .3s;
-  }
-  .pop-left-enter-active {
-    left: -100%;
-    opacity: 0;
-  }
-  .pop-left-leave-active {
-    left: 0;
-    opacity: 1;
-  }
-  .pop-left-leave-to {
-    left: 100%;
-    opacity: 0;
-  }
-  .pop-left-enter-to {
-    left: 0;
-    opacity: 1;
-  }
-  .pop-right-enter-active {
-    left: 100%;
-    opacity: 0;
-  }
-  .pop-right-leave-active {
-    left: 0;
-    opacity: 1;
-  }
-  .pop-right-leave-to {
-    left: -100%;
-    opacity: 0;
-  }
-  .pop-right-enter-to {
-    left: 0;
-    opacity: 1;
-  }
-  .pop-bottom-enter-active, .pop-bottom-leave-active {
-    transition: top .3s, opacity .3s;
-  }
-  .pop-bottom-enter-active {
-    top: 100vh;
-    opacity: 0;
-  }
-  .pop-bottom-leave-active {
-    top: 0;
-    opacity: 1;
-  }
-  .pop-bottom-leave-to {
-    top: 100vh;
-    opacity: 0;
-  }
-  .pop-bottom-enter-to {
-    top: 0;
-    opacity: 1;
-  }
   .popBase {
     position: relative;
     width: 100%;
@@ -166,6 +118,8 @@
       height: 56px;
       width: 46px;
       top: 18px;
+    }
+    .pop-box {
     }
     @media screen and (max-width: 320px) {
       div.close, div.left {

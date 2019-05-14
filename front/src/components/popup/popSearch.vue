@@ -2,10 +2,12 @@
   <div class="popSearch">
     <div class="close" @touchend="handleClose">取消</div>
     <div class="search-top" style="top: 64px;">
-      <input type="text" @blur="handleBlur" v-model="searchString" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+      <form @submit.prevent="formSubmit" action="javascript:return true">
+        <input type="search" @blur="handleBlur" v-model="str" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+      </form>
       <div class="btn-search" @touchend="handleSearch">搜索</div>
     </div>
-    <transition name="pop-bottom">
+    <transition :name="direction">
       <router-view />
     </transition>
   </div>
@@ -13,16 +15,36 @@
 
 <script>
   import Storage from '../../utils/localStorage'
+  import {mapState, mapMutations} from 'vuex'
   export default {
     name: "popSearch",
     data() {
       return {
-        searchString: this.$route.query.params
+        str: '',
+        direction: 'pop-left'
       }
     },
     computed: {
+      ...mapState({
+        searchString: state => state.searchString
+      }),
+    },
+    watch: {
+      searchString(val) {
+        this.str = val;
+        this.handleSearch()
+      },
+      $route(to) {
+        this.direction = to.path.includes('normalSearch') ? 'pop-left' : 'pop-right'
+      }
     },
     methods: {
+      ...mapMutations([
+        'SEARCH',
+      ]),
+      formSubmit() {
+        return false;
+      },
       handleSearch() {
         let searched_  = Storage.get('searched_');
         if (searched_) {
@@ -31,7 +53,13 @@
           searched_ = [this.searchString]
         }
         searched_ = [...new Set(searched_)];
-        Storage.set('searched_', searched_)
+        Storage.set('searched_', searched_);
+        this.$router.push({
+          path: '/PopSearch/resultSearch',
+          query: {
+            params: this.str
+          }
+        })
       },
       handleBlur() {
 
@@ -43,7 +71,7 @@
       }
     },
     mounted() {
-      this.$refs.input.focus()
+      if (!this.$route.path.includes('resultSearch')) this.$refs.input.focus()
     }
   }
 </script>

@@ -15,7 +15,7 @@
 <script>
   import Action from './components/BactionBar'
   import {mapState, mapMutations} from 'vuex'
-  const path = ['/login', '/signup', '/pop', '/PopSearch'];
+  const path = ['/login', '/signup', '/pop', '/PopSearch', '/PopHouse'];
   export default {
     data() {
       return {

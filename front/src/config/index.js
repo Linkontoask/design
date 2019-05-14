@@ -10,6 +10,7 @@ Dialog
 } from 'element-ui'
 import '../style/cover.less'
 import '../style/release.less'
+import '../style/animation.less'
 
 Vue.use(VueHammer);
 Vue.use(LyTab);

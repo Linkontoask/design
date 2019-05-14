@@ -33,7 +33,7 @@
         this.$refs.password.mergeMesh('blur');
         this.handleBlur();
         if (!this.$refs.user.error && !this.$refs.password.error) {
-          const data = await axios.get('/hotel/register', this.data);
+          const data = await axios.get.call(this, '/hotel/register', this.data);
           if (!data.r) {
             this.$msg({type: 'success', message: data.e, duration: 2000,});
             this.$router.push('login')

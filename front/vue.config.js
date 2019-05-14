@@ -12,6 +12,13 @@ module.exports = {
           '^/hotel': '/hotel'
         }
       },
+      '/media': {
+        target: 'http://172.16.6.160:9999',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/media': '/media'
+        }
+      },
     },
     host: "0.0.0.0"
   },

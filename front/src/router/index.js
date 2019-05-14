@@ -12,9 +12,13 @@ const Msg = () => import(/* webpackChunkName: "msg" */ '../views/msg');
 
 const Pop = () => import(/* webpackChunkName: "pop" */ '../components/popup/popBase');
 const PopSearch = () => import(/* webpackChunkName: "PopSearch" */ '../components/popup/popSearch');
+const popHouse = () => import(/* webpackChunkName: "popHouse" */ '../components/popup/popHouse');
+
 
 const normalSearch = () => import(/* webpackChunkName: "normalSearch" */ '../components/normalSearch');
 const resultSearch = () => import(/* webpackChunkName: "resultSearch" */ '../components/resultSearch');
+const houseList = () => import(/* webpackChunkName: "houseList" */ '../components/popup/house/houseList');
+const houseDetail = () => import(/* webpackChunkName: "houseDetail" */ '../components/popup/house/detailHouse');
 
 import house from '../components/process/index';
 import releaseFood from '../components/process/food/'
@@ -89,6 +93,15 @@ export default new Router({
         {path: 'normalSearch', component: normalSearch},
         {path: 'resultSearch', component: resultSearch},
       ]
-    }
+    },
+    {
+      path: '/PopHouse',
+      component: popHouse,
+      children: [
+        {path: '', redirect: 'houseList'},
+        {path: 'houseList', name: 'houseList', component: houseList},
+        {path: 'houseDetail', name: 'houseDetail', component: houseDetail},
+      ]
+    },
   ]
 })

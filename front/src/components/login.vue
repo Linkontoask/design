@@ -34,7 +34,7 @@
         this.$refs.user.mergeMesh('blur');
         this.$refs.password.mergeMesh('blur');
         if (!this.$refs.user.error && !this.$refs.password.error) {
-          const data = await axios.get('/hotel/login_in', this.data);
+          const data = await axios.get.call(this, '/hotel/login_in', this.data);
           if (!data.r) {
             this.$msg({type: 'success', message: data.e, duration: 2000,});
             cookie.set('hotel_', this.data.username);

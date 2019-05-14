@@ -5,8 +5,6 @@
       <p>美食照片</p>
       <upload ref="upload"
               @append="append"
-              @success="handleSuccess"
-              @error="handleError"
               @change="handleFileListChange"></upload>
     </div>
     <div class="titleInput new-box">
@@ -46,6 +44,7 @@
         releaseData: {
           type: 1
         },
+        fileList: [],
         formDate: new FormData()
       }
     },
@@ -56,7 +55,7 @@
       async handleReleaseFood() {
         this.$refs.name.mergeMesh('blur');
         this.$refs.price.mergeMesh('blur');
-        if (this.$refs.name.error || this.$refs.price.error || this.releaseData.desc === '') {
+        if (this.$refs.name.error || this.$refs.price.error || this.releaseData.desc === '' || this.fileList.length === 0) {
           this.$msg({
             type: 'error',
             message: '请填写相关信息后发布'
@@ -66,7 +65,16 @@
           for (let [key,value] of Object.entries(this.releaseData)) {
             this.formDate.append(key, value)
           }
-          const data = await axios.post('/hotel/around_region/', this.formDate, {'Content-Type':'multipart/form-data'})
+          const data = await axios.postFile.call(this, '/hotel/around_region/', this.formDate);
+          if (data.r === 0) {
+            this.$msg({
+              type: 'success',
+              message: '美食发布成功'
+            });
+            this.$router.push({
+              path: '/release'
+            })
+          }
         }
 
       },
@@ -84,7 +92,9 @@
         })
       },
       handleError(err) {},
-      handleFileListChange(fileList) {},
+      handleFileListChange(fileList) {
+        this.fileList = fileList;
+      },
     },
   }
 </script>

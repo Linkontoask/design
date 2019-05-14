@@ -3,6 +3,9 @@
     <h1>描述一下您的房源周边美食和景点</h1>
     <div class="titleInput new-box">
       <p>周边美食</p>
+      <div class="food-img">
+        <img v-for="(item, index) in checkedImgList" :key="index" :src="item" alt="服务器错误">
+      </div>
       <div class="simulation-input" @click="handleCheckType(0)">
         <i v-if="!dataView.food">请选择美食</i>
         <p v-else>{{ dataView.food }}</p>
@@ -43,27 +46,22 @@
         },
         lists: [],
         getList: {
-          food: [{name: '清蒸猪脑', id: 0},{name: '小龙虾', id: 1},],
+          food: [],
           attractions: [{name: '北海', id: 0}, {name: '重庆邮电大学老校门', id: 1},],
         },
+        checkedImgList: [],
         index: 0,
         showList: false,
       }
     },
     methods: {
       handleNext() {
-        const d = this.dataView;
-        if (d.attractions && d.food) {
-          this.save();
-          this.$router.push({
-            path: '/pop/priceHouse',
-            query: {
-              direction: 'right',
-            }
-          })
-        } else return this.$msg({
-          type: 'error',
-          message: '请填写完信息之后再下一步'
+        this.save();
+        this.$router.push({
+          path: '/pop/priceHouse',
+          query: {
+            direction: 'right',
+          }
         })
       },
       handleCheckType(index) {
@@ -82,6 +80,7 @@
           }
           if (!this.data.food.find(i => i === obj.id)) {
             this.data.food.push(obj.id);
+            this.checkedImgList.push(obj.imgs[0])
           }
         } else {
           if (!this.dataView.attractions.includes(obj.name)) {
@@ -102,11 +101,11 @@
         }));
       },
       async getFood() {
-        const data = await axios.get('/', {})
+        const data = await axios.get.call(this, '/hotel/get_around/', {});
         this.getList.food = data.data;
       },
       async getAttractions() {
-        const data = await axios.get('/', {})
+        const data = await axios.get.call(this, '/', {});
         this.getList.attractions = data.data;
       }
     },
@@ -116,6 +115,7 @@
         this.dataView = houseData.rimView;
         this.data = houseData.rim;
       }
+      this.getFood()
     },
     beforeDestroy() {
       this.save();

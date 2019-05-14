@@ -5,17 +5,14 @@
       <p>房源图片</p>
       <upload
               ref="upload"
-              :data="releaseData"
-              :action="'/hotel/upload/house'"
-              @success="handleSuccess"
-              @error="handleError"
+              @append="append"
               @change="handleFileListChange"
       ></upload>
     </div>
     <div class="titleInput new-box">
       <p>基础价格</p>
       <div class="box">
-        <ve-plain-input ref="price" :target="['modify', 'blur']" placeholder="请输入入住房源需要支付的金额" type="reg" inspect="^\d+$" message="请输入正确的金额" v-model="data.price" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="price" :target="['modify', 'blur']" placeholder="请输入入住房源需要支付的金额" type="reg" inspect="^\d+$" message="请输入正确的金额" v-model="data.priceHouse" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">
@@ -35,6 +32,7 @@
 <script>
   import list from '../../base/list'
   import upload from '../../base/upload'
+  import axios from '../../../utils/axios'
   import Storage from '../../../utils/localStorage'
   export default {
     name: 'priceHouse',
@@ -53,16 +51,23 @@
           lists: [{name: '支付宝', id: 0},{name: '微信', id: 1},{name: '银联', id: 2},]
         },
         releaseData: {},
-        fileList: []
+        fileList: [],
+        formDate: new FormData()
       }
     },
     methods: {
+      append(file, name) {
+        this.formDate.append('files', file, name);
+      },
       handleSuccess() {
         Storage.remove('houseData');
         Storage.remove('current_hotel');
         this.$msg({
           type: 'success',
           message: '发布成功，等待收益吧'
+        });
+        this.$router.push({
+          path: '/release'
         })
       },
       handleError(err) {
@@ -71,7 +76,7 @@
       handleFileListChange(fileList) {
         this.fileList = fileList;
       },
-      handleRelease() {
+      async handleRelease() {
         this.$refs.price.mergeMesh('blur');
         if (this.fileList.length <= 0) {
           this.$msg({
@@ -90,7 +95,16 @@
           })
         } else if (!this.$refs.price.error) {
           //TODO 发布房源，组装数据给后台
-          this.$refs.upload.$refs.upload.submit() // 子组件upload
+          this.formDate = new FormData();
+          this.$refs.upload.$refs.upload.submit(); // 子组件upload
+          this.getReleaseData();
+          // for (let [key,value] of Object.entries(this.releaseData)) {
+            this.formDate.append('other', JSON.stringify(this.releaseData))
+          // }
+          const data = await axios.postFile.call(this, '/hotel/hotel_room/', this.formDate);
+          if (data.r === 0) {
+            this.handleSuccess()
+          }
         }
       },
       handleCheckType() {
@@ -101,22 +115,32 @@
           this.dataView.type = ((this.dataView.type !== '' ? this.dataView.type + ',' : '') + obj.name);
         }
         this.dataView.showList = false;
+      },
+      getReleaseData() {
+        const data = JSON.parse(window.localStorage.getItem('houseData'));
+        delete data.rimView;
+        // 图片在file KEY 下，应该有多个
+        let facitityHouse = [];
+        data.facitity.forEach((i, index) => {
+          if (i) {
+            facitityHouse.push(index)
+          }
+        });
+        this.releaseData = {
+          posHouse: data.position.city + '-' + data.position.position + ',' + data.position.id,
+          around: data.rim.food || [],
+          typeHouse: data.style.houseType,
+          roomHouse: data.style.buildType,
+          // signerHouse: JSON.stringify(data.style),
+          nameHouse: data.desc.name,
+          descHouse: data.desc.desc,
+          rule: [data.rule.cTime, data.rule.lTime],
+          facitityHouse: facitityHouse,
+          priceHouse: this.data.priceHouse
+        };
       }
     },
     beforeMount() {
-      const data = JSON.parse(window.localStorage.getItem('houseData'));
-      delete data.rimView;
-      // 图片在file KEY 下，应该有多个
-      const releaseData = {
-        houseName: '', // 房源名字
-        houseDesc: '', // 房源描述，可能为空
-        facitityData: '', // 房源设施，是不是需要前后端把这个设施订死
-        position: '', // 房源位置
-        rim: '', // 房源周边，根据接口返回的周边美食，然后返美食ID，数组
-        rule: '', // 房源入住规则
-        price: '', // 房源价格
-      };
-      this.releaseData = releaseData;
     }
   }
 </script>

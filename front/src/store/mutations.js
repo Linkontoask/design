@@ -1,6 +1,7 @@
 import {
   IS_SHOW_NATION,
-  BEFORE_URL
+  BEFORE_URL,
+  SEARCH
 } from './mutation-types.js'
 
 export default {
@@ -11,4 +12,7 @@ export default {
     state.beforeUrl.push(url);
     // console.log(state.beforeUrl)
   },
+  [SEARCH](state, str) {
+    state.searchString = str;
+  }
 }

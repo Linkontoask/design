@@ -4,16 +4,13 @@
     <div class="img-box-release">
       <p>故事中的图片</p>
       <upload ref="upload"
-              :data="releaseData"
-              :action="'/hotel/upload/house'"
-              @success="handleSuccess"
-              @error="handleError"
+              @append="append"
               @change="handleFileListChange"></upload>
     </div>
     <div class="titleInput new-box">
       <p>故事标题</p>
       <div class="box">
-        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入美食名字" type="reg" inspect="^.+$" message="请输入故事的标题" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入故事标题" type="reg" inspect="^.+$" message="请输入故事的标题" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">
@@ -28,6 +25,7 @@
 
 <script>
   import upload from '../../base/upload'
+  import axios from '../../../utils/axios'
   export default {
     name: "releaseStory",
     components: {
@@ -37,24 +35,44 @@
       return {
         releaseData: {
           content: '',
-          fileList: []
-        }
+          name: '',
+        },
+        fileList: [],
+        formDate: new FormData()
       }
     },
     methods: {
-      handleRelease() {
+      append(file, name) {
+        this.formDate.append('files', file, name);
+      },
+      async handleRelease() {
         this.$refs.name.mergeMesh('blur');
         if (this.$refs.name.error || this.releaseData.content === '' || this.fileList.length === 0) {
           this.$msg({
             type: 'error',
             message: '请填写相关信息后发布'
           })
+        } else {
+          this.$refs.upload.$refs.upload.submit();
+          for (let [key,value] of Object.entries(this.releaseData)) {
+            this.formDate.append(key, value)
+          }
+          const data = await axios.postFile.call(this, '/hotel/story_board/', this.formDate);
+          if (data.r === 0) {
+            this.$msg({
+              type: 'success',
+              message: '故事发布成功'
+            });
+            this.$router.push({
+              path: '/release'
+            })
+          }
         }
       },
       handleSuccess() {
         this.$msg({
           type: 'success',
-          message: '故事发布成功，可以在房源发布的过程中选择您发布的美食了'
+          message: '故事发布成功'
         })
       },
       handleError(err) {},
