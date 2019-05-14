@@ -19,6 +19,15 @@ const normalSearch = () => import(/* webpackChunkName: "normalSearch" */ '../com
 const resultSearch = () => import(/* webpackChunkName: "resultSearch" */ '../components/resultSearch');
 const houseList = () => import(/* webpackChunkName: "houseList" */ '../components/popup/house/houseList');
 const houseDetail = () => import(/* webpackChunkName: "houseDetail" */ '../components/popup/house/detailHouse');
+const houseDesc = () => import(/* webpackChunkName: "houseDesc" */ '../components/popup/house/descHouse');
+const houseFacility = () => import(/* webpackChunkName: "houseFacility" */ '../components/popup/house/houseFacility');
+const landlord = () => import(/* webpackChunkName: "landlord" */ '../components/popup/house/landlord');
+const houseBook = () => import(/* webpackChunkName: "houseBook" */ '../components/popup/house/bookHouse');
+const lastBook = () => import(/* webpackChunkName: "lastBook" */ '../components/popup/house/lastBook');
+const firstBook = () => import(/* webpackChunkName: "firstBook" */ '../components/popup/house/bookFrist');
+
+
+const Success = () => import(/* webpackChunkName: "success" */ '../components/popup/house/success');
 
 import house from '../components/process/index';
 import user from '../components/popup/user/index'
@@ -69,6 +78,11 @@ export default new Router({
       component: User
     },
     {
+      path: '/success',
+      name: 'success',
+      component: Success
+    },
+    {
       path: '/pop',
       component: Pop,
       children: [
@@ -102,7 +116,23 @@ export default new Router({
         {path: '', redirect: 'houseList'},
         {path: 'houseList', name: 'houseList', component: houseList},
         {path: 'houseDetail', name: 'houseDetail', component: houseDetail},
+        {path: 'houseDesc', name: 'houseDesc', component: houseDesc},
+        {path: 'houseFacility', name: 'houseFacility', component: houseFacility},
+        {path: 'landlord', name: 'landlord', component: landlord},
+        {path: 'houseBook', component: houseBook,
+          children: [
+            {path: '', redirect: 'firstBook'},
+            {path: 'lastBook', name: 'lastBook', component: lastBook},
+            {path: 'firstBook', name: 'firstBook', component: firstBook},
+          ]},
       ]
     },
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
 })

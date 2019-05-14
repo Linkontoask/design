@@ -24,7 +24,9 @@
     },
     data() {
       return {
-        data: {}
+        data: {
+          avatar: 'avatar-' + Math.floor(Math.random() * 8 + 1) + '.png'
+        }
       }
     },
     methods: {

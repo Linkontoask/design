@@ -2,22 +2,24 @@
   <div class="houseList">
     <h1>所有房源</h1>
     <div class="house-content">
-      <ul>
-        <li v-for="(item, index) in houseList" :key="index" v-hammer:tap="handleTap">
+      <ul v-if="houseList.length !== 0">
+        <li v-for="(item, index) in houseList" :key="index" @click="handleTap(item)">
           <swiper :options="swiperOption" ref="city" class="swiper-content">
             <swiper-slide v-for="(img, imgIndex) in item.imgs" :key="imgIndex">
               <div>
                 <img :src="img" alt="not find img">
               </div>
             </swiper-slide>
+            <div class="swiper-paginations" slot="pagination"></div>
           </swiper>
-          <h4>{{ item.name }}</h4>
+          <h4 class="clamp2">{{ item.name }}</h4>
           <div>
-            <p><span>{{ item.price }}</span> / 晚</p>
-            <tag bgColor="#25A3A8" v-for="(tag, i) in item.tag" :key="i">{{ tag }}</tag>
+            <p><span>￥{{ item.price }}</span> / 晚</p>
+            <tag bgColor="#25A3A8" v-for="(tag, i) in item.tag.split('|')" :key="i">{{ tag }}</tag>
           </div>
         </li>
       </ul>
+      <div class="none" v-else>没有已发布的房源</div>
     </div>
   </div>
 </template>
@@ -25,6 +27,7 @@
 <script>
   // hotel/search_for_all
   import axios from '../../../utils/axios'
+  import Storage from '../../../utils/localStorage'
   import tag from '../../base/ve-tag'
   export default {
     name: "houseList",
@@ -36,15 +39,20 @@
         houseList: [],
         swiperOption: {
           slidesPerView: 'auto',
+          pagination: {
+            el: '.swiper-paginations'
+          }
         }
       }
     },
     methods: {
       handleTap(item) {
+        Storage.set('now_checked_house', item);
         this.$router.push({
           path: '/PopHouse/houseDetail',
           query: {
-            uuid: item.id
+            bgColor: '#fff',
+            direction: 'pop-right'
           }
         })
       }
@@ -54,7 +62,6 @@
     },
     async beforeMount() {
       const data = await axios.get.call(this, '/hotel/search_for_all', {});
-      console.log(data)
       this.houseList = data.data.hotel_list;
     }
   }
@@ -70,12 +77,27 @@
     color: #2E312F;
   }
   .house-content {
+    padding-bottom: 36px;
     li {
       width: 80%;
-      margin: 24px auto 0;
+      margin: 36px auto 0;
+      h4 {
+        margin-top: 24px;
+        margin-bottom: 8px;
+      }
       img {
         width: 100%;
+        border-radius: 4px;
       }
+      span {
+        color: #EB0C0C;
+      }
+    }
+    .none {
+      font-size: 24px;
+      text-align: center;
+      line-height: 320px;
+      color: #eaeaea;
     }
   }
 }

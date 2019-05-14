@@ -1,6 +1,6 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="popHouse">
-    <div class="pop-control left" v-hammer:tap="handleTap">
+    <div class="pop-control" :class="control" v-hammer:tap="handleTap">
       <p :style="{backgroundColor: bgColor}"></p>
       <p :style="{backgroundColor: bgColor}"></p>
     </div>
@@ -16,7 +16,8 @@
     data() {
       return {
         direction: 'pop-bottom',
-        bgColor: '#2E312F'
+        bgColor: '#2E312F',
+        control: 'left'
       }
     },
     methods: {
@@ -27,6 +28,8 @@
     watch: {
       $route(to) {
         this.bgColor = to.query.bgColor || '#2E312F';
+        this.direction = to.query.direction || 'pop-right';
+        this.control = to.query.control || 'left';
       }
     },
     computed: {
@@ -48,6 +51,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 36px;
+    z-index: 2;
     p {
       position: absolute;
       top: 8px;

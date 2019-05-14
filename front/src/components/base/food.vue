@@ -2,17 +2,17 @@
   <div class="Stay-food">
     <ul>
       <li v-for="(item, index) in data" :key="index">
-        <img :src="require('../../' + item.src)" alt="not find img">
+        <div class="img-box" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="content">
-          <h3>{{ item.title }}</h3>
+          <h3>{{ item.name }}</h3>
           <p class="desc">{{ item.desc }}</p>
           <div class="price">
-            <ve-tag v-for="obj in item.tag" :key="obj">{{ obj }}</ve-tag>
+            <ve-tag v-for="obj in tag" :key="obj">{{ obj }}</ve-tag>
             <p>人均：<span>￥{{ item.price }}</span></p>
           </div>
           <p class="position">
-            <span>{{ item.position }}</span>
-            <span>{{ item.d }}</span>
+            <span>{{ position }}</span>
+            <span>{{ d }}</span>
           </p>
         </div>
       </li>
@@ -27,10 +27,17 @@
     components: {
       veTag
     },
+    data() {
+      return {
+        tag: ['小吃', '美食', '性价比'],
+        position: '重庆邮电大学',
+        d: '距您180米'
+      }
+    },
     props: {
       data: {
         type: Array,
-        default: []
+        default: [],
       }
     }
   }
@@ -38,9 +45,11 @@
 
 <style lang="less" scoped>
 .Stay-food {
-  img {
+  .img-box {
     width: 100px;
     height: 100px;
+    background-position: center;
+    background-size: 150%;
     border-radius: 4px;
   }
   li {
@@ -68,7 +77,7 @@
         text-overflow: ellipsis;
       }
       .price {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -85,7 +94,7 @@
         justify-content: space-between;
         font-size: 12px;
         color: #8F9895;
-        margin-top: 8px;
+        margin-top: 16px;
       }
     }
   }

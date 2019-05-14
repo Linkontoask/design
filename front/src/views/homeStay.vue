@@ -260,6 +260,9 @@
           if (this.isStart && -p.y < 426 && this.dir === 'up') {
             this.isStart = false;
           }
+          if (-p.y > 426) {
+            this.isStart = true;
+          }
         })
       })
     },
