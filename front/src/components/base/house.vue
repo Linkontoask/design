@@ -1,7 +1,7 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="stay-house">
     <ul>
-      <li v-for="(item, index) in data" :key="index" v-hammer:tap="handleView">
+      <li v-for="(item, index) in data" :key="index" @touchend="handleView(index)" @touchmove="handleMove">
         <img :src="item.imgs[0]" alt="not find img">
         <div class="house-content">
           <p class="content-1">
@@ -23,6 +23,11 @@
   import Storage from '../../utils/localStorage'
   export default {
     name: 'stayHouse',
+    data() {
+      return {
+        isMove: false
+      }
+    },
     props: {
       data: {
         type: Array,
@@ -30,8 +35,15 @@
       }
     },
     methods: {
-      handleView() {
-        Storage.set('now_checked_house', this.data);
+      handleMove() {
+        this.isMove = true
+      },
+      handleView(index) {
+        if (this.isMove) {
+          this.isMove = false;
+          return false
+        }
+        Storage.set('now_checked_house', this.data[index]);
         this.$router.push({
           path: '/PopHouse/houseDetail',
           query: {

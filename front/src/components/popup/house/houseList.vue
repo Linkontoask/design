@@ -15,7 +15,7 @@
           <h4 class="clamp2">{{ item.name }}</h4>
           <div>
             <p><span>￥{{ item.price }}</span> / 晚</p>
-            <tag bgColor="#25A3A8" v-for="(tag, i) in item.tag.split('|')" :key="i">{{ tag }}</tag>
+            <tag style="margin-top: 8px" bgColor="#25A3A8" v-for="(tag, i) in item.tag.split('|')" :key="i">{{ tag }}</tag>
           </div>
         </li>
       </ul>
