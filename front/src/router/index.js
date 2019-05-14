@@ -21,6 +21,7 @@ const houseList = () => import(/* webpackChunkName: "houseList" */ '../component
 const houseDetail = () => import(/* webpackChunkName: "houseDetail" */ '../components/popup/house/detailHouse');
 
 import house from '../components/process/index';
+import user from '../components/popup/user/index'
 import releaseFood from '../components/process/food/'
 import releaseStory from '../components/process/story/'
 
