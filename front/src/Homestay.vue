@@ -86,6 +86,11 @@ li {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+  .clamp1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 .router-fade-enter-active, .router-fade-leave-active {
   transition: opacity .3s;
 }

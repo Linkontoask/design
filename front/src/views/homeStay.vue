@@ -44,7 +44,7 @@
       <div class="homeStay-house">
         <h2>热门房源</h2>
         <House :data="house" class="house-content"></House>
-        <div class="line-primary" @touchend="handleMoreHouse">更多房源</div>
+        <div class="line-primary" v-hammer:tap="handleMoreHouse">更多房源</div>
       </div>
       <div class="homeStay-house homeStay-food">
         <h2>热门美食</h2>
@@ -76,8 +76,8 @@
   import House from 'components/base/house'
   import Food from 'components/base/food'
   import Story from 'components/base/story'
-  import house from '../static/house'
   import BScroll from 'better-scroll'
+  import axios from "../utils/axios";
   let y = 0;
   const Day =  ['一','二','三','四','五','六','日'];
   export default {
@@ -127,67 +127,9 @@
           src: 'static/img/food-3.png',
           desc: '亚参叻沙是叻沙的一种，是马来西亚槟城的代表食物之一Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙'
         }],
-        foodViews: [
-          {
-            src: 'static/img/food-1.png',
-            title: '特色小龙虾',
-            desc: '《韩非子·六反》：“今家人之治产也，相忍以饥寒，相强以劳苦，虽犯军旅之难，饥馑之患，温衣美食者必是家也。',
-            tag: ['小吃', '美食'],
-            price: 46,
-            position: '鹅岭正街附近',
-            d: '距您178m',
-            uuid: 'xad634313443'
-          },
-          {
-            src: 'static/img/food-2.png',
-            title: '特色小龙虾',
-            desc: '冬天温暖，夏天凉爽，宾至如归才是招揽顾客的秘诀。',
-            tag: ['小吃'],
-            price: 43,
-            position: '鹅岭正街附近',
-            d: '距您968m',
-            uuid: 'xad634313443'
-          },
-          {
-            src: 'static/img/food-3.png',
-            title: '特色小龙虾',
-            desc: '美食当前,总能有所思,或馋性千娇,食前观察、吃中思想、品后体味, 食为天性,静静地咀嚼。',
-            tag: ['小吃', '美食', '特色'],
-            price: 89,
-            position: '鹅岭正街附近',
-            d: '距您188m',
-            uuid: 'xad634313443'
-          },],
-        storyViews: [{
-          src: 'static/img/story-1.png',
-          title: '广西北海 - 房源',
-          desc: '重庆可以看到美丽的山水之城,犹在美丽的山水之间，看见人世繁华',
-          comment: ['static/img/avatar-1.png', 'static/img/avatar-3.png'],
-          extent: 78,
-          uuid: 'aa154613146434154axd'
-        },{
-          src: 'static/img/story-2.png',
-          title: '广西北海 - 房源',
-          desc: '重庆可以看到美丽的山水之城,犹在美丽的山水之间，看见人世繁华',
-          comment: ['static/img/avatar-3.png', 'static/img/avatar-3.png'],
-          extent: 45,
-          uuid: 'aa154613146434154axd'
-        },{
-          src: 'static/img/story-3.png',
-          title: '广西北海 - 房源',
-          desc: '重庆可以看到美丽的山水之城,犹在美丽的山水之间，看见人世繁华',
-          comment: ['static/img/avatar-1.png', 'static/img/avatar-3.png', 'static/img/avatar-2.png'],
-          extent: 25,
-          uuid: 'aa154613146434154axd'
-        },{
-          src: 'static/img/story-1.png',
-          title: '广西北海 - 房源',
-          desc: '重庆可以看到美丽的山水之城,犹在美丽的山水之间，看见人世繁华',
-          comment: ['static/img/avatar-1.png'],
-          extent: 5,
-          uuid: 'aa154613146434154axd'
-        },],
-        house: house,
+        foodViews: [],
+        storyViews: [],
+        house: [],
       }
     },
     methods: {
@@ -235,9 +177,20 @@
       },
       handleMove(e) {
         e.preventDefault();
+      },
+      async getData() {
+        const food = await axios.get.call(this, '/hotel/get_around/', {is_all: 'yes'});
+        const house = await axios.get.call(this, '/hotel/get_hotel/', {is_all: 'yes'});
+        const story = await axios.get.call(this, '/hotel/get_story/', {is_all: 'yes'});
+        this.storyViews = story.data;
+        this.foodViews = food.data;
+        this.house = house.data;
       }
     },
-    mounted() {
+    async beforeMount() {
+      this.getData();
+    },
+    async mounted() {
       this.$nextTick(() => {
         this.scroll = new BScroll(this.$refs.homeStay, {
           scrollX: false,

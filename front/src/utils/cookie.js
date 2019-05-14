@@ -18,10 +18,10 @@ const set = function (name, value, domain, expires, path) {
     expires = domain;
     domain = undefined
   }
-  var t = new Date();
+  const t = new Date();
   t.setTime(t.getTime() + expires);
 
-  var mainDo = (domain ? ';domain=' + domain : '');
+  const mainDo = (domain ? ';domain=' + domain : '');
   document.cookie = name + '=' + value + mainDo + ';expires=' + t;
 };
 
@@ -31,9 +31,9 @@ const set = function (name, value, domain, expires, path) {
  * @returns string or null
  */
 const get = function (name) {
-  var cookie = document.cookie.split('; ');
-  for (var i = 0; i < cookie.length; i++) {
-    var cookieArr = cookie[i].split('=');
+  const cookie = document.cookie.split('; ');
+  for (let i = 0; i < cookie.length; i++) {
+    const cookieArr = cookie[i].split('=');
     if (cookieArr[0] === name) {
       return cookieArr[1];
     }
@@ -41,9 +41,14 @@ const get = function (name) {
   return null;
 };
 
+const remove = function (name) {
+  set(name, '', -1)
+};
+
 const cookie = {
   get,
-  set
+  set,
+  remove
 };
 
 export default cookie

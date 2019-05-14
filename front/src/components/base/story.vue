@@ -2,15 +2,16 @@
   <div class="Stay-story">
     <ul>
       <li v-for="(item, index) in data" :key="index">
-        <img :src="require('../../' + item.src)" alt="not find img">
+        <img :src="item.imgs[0]" alt="not find img">
         <div class="content">
-          <h4>{{ item.title }}</h4>
-          <div class="desc clamp2">{{ item.desc }}</div>
+          <h4>{{ item.name }}</h4>
+          <div class="desc clamp2">{{ item.content }}</div>
           <div class="comment">
-            <div>
-              <img v-for="obj in item.comment" :src="require('../../' + obj)" alt="not find img">
+            <div v-if="item.comment">
+              <img v-for="obj in item.comment" :src="obj" alt="not find img">
             </div>
-            <p>{{ item.extent }}条评论</p>
+            <p v-if="item.extent">{{ item.extent }}条评论</p>
+            <p style="margin-left: 0" v-else>这个故事还没有人评论哦</p>
           </div>
         </div>
       </li>
@@ -24,7 +25,7 @@
     props: {
       data: {
         type: Array,
-        default: []
+        default: () => []
       }
     }
   }

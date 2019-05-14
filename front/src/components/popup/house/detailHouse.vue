@@ -161,6 +161,11 @@
             direction: 'pop-right'
           }
         })
+      },
+      async getData() {
+        const data = await axios.get.call(this, '/hotel/get_one_hotel/', {hotel_id: Storage.get('now_checked_house').hotel_id});
+        this.house = data.data.hotel_dict[0];
+        this.around_list = data.data.around_list;
       }
     },
     mounted() {
@@ -176,12 +181,12 @@
           });
         };
       }, 1000);
-
+    },
+    async activated() {
+      this.getData()
     },
     async beforeMount() {
-      const data = await axios.get.call(this, '/hotel/get_one_hotel/', {hotel_id: Storage.get('now_checked_house').hotel_id});
-      this.house = data.data.hotel_dict[0];
-      this.around_list = data.data.around_list;
+      this.getData()
     }
   }
 </script>

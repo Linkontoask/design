@@ -1,17 +1,17 @@
-<template>
+<template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="stay-house">
     <ul>
-      <li v-for="(item, index) in data" :key="index">
-        <img :src="require('../../static/img/' + item.src)" alt="not find img">
+      <li v-for="(item, index) in data" :key="index" v-hammer:tap="handleView">
+        <img :src="item.imgs[0]" alt="not find img">
         <div class="house-content">
           <p class="content-1">
-            <span class="medium">{{ item.title }}</span>
-            <span>{{ item.position }}</span>
+            <span class="medium clamp1">{{ item.name }}</span>
+            <span>{{ item.position.slice(0, 2) }}</span>
           </p>
-          <div class="content-2 clamp2">{{ item.desc }}</div>
+          <div class="content-2 clamp2">{{ item.host_desc ? item.host_desc : '没有此房源的描述信息' }}</div>
           <div class="content-3">
             <strong>{{ item.price }}</strong>
-            <p>{{ item.oldPrice }}</p>
+            <p>{{ item.price + Math.floor(Math.random() * 100 + 20) }}</p>
           </div>
         </div>
       </li>
@@ -20,12 +20,25 @@
 </template>
 
 <script>
+  import Storage from '../../utils/localStorage'
   export default {
     name: 'stayHouse',
     props: {
       data: {
         type: Array,
-        default: []
+        default: () => []
+      }
+    },
+    methods: {
+      handleView() {
+        Storage.set('now_checked_house', this.data);
+        this.$router.push({
+          path: '/PopHouse/houseDetail',
+          query: {
+            bgColor: '#fff',
+            direction: 'pop-bottom'
+          }
+        })
       }
     }
   }
@@ -53,6 +66,9 @@
           span:last-child {
             color: #8F9895;
             font-size: 12px;
+            width: 24px;
+            display: block;
+            flex-shrink: 0;
           }
         }
         .content-2 {

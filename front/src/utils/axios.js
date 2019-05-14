@@ -1,12 +1,16 @@
 import axios from 'axios'
 import cookie from "./cookie";
-import Vue from 'vue'
+
 const qs = require('qs');
 export default {
   async get (url, data) {
     try {
       let res = await axios.get(url, {params: data});
       res = res.data;
+      if (res.e === "'AnonymousUser' object is not iterable") {
+        cookie.remove('hotel_');
+        this.$router.push('login')
+      }
       return new Promise((resolve) => {
         if (res.r === 0) {
           resolve(res)

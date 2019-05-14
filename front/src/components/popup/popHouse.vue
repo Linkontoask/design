@@ -5,7 +5,9 @@
       <p :style="{backgroundColor: bgColor}"></p>
     </div>
     <transition appear :name="direction">
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </transition>
   </div>
 </template>
@@ -23,17 +25,23 @@
     methods: {
       handleTap() {
         this.$router.back()
-      }
-    },
-    watch: {
-      $route(to) {
+      },
+      normalVal(to) {
         this.bgColor = to.query.bgColor || '#2E312F';
         this.direction = to.query.direction || 'pop-right';
         this.control = to.query.control || 'left';
       }
     },
+    watch: {
+      $route(to) {
+        this.normalVal(to)
+      }
+    },
     computed: {
 
+    },
+    mounted() {
+      this.normalVal(this.$route)
     }
   }
 </script>
