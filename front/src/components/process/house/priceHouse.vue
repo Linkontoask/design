@@ -98,9 +98,7 @@
           this.formDate = new FormData();
           this.$refs.upload.$refs.upload.submit(); // 子组件upload
           this.getReleaseData();
-          // for (let [key,value] of Object.entries(this.releaseData)) {
-            this.formDate.append('other', JSON.stringify(this.releaseData))
-          // }
+          this.formDate.append('other', JSON.stringify(this.releaseData));
           const data = await axios.postFile.call(this, '/hotel/hotel_room/', this.formDate);
           if (data.r === 0) {
             this.handleSuccess()

@@ -13,6 +13,7 @@
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
     "ly-tab": "^2.1.2",
+    "mo-js": "^0.288.2",
     "path": "^0.12.7",
     "qs": "^6.7.0",
     "register-service-worker": "^1.6.2",

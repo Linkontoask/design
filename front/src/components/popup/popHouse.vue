@@ -4,7 +4,7 @@
       <p :style="{backgroundColor: bgColor}"></p>
       <p :style="{backgroundColor: bgColor}"></p>
     </div>
-    <transition appear :name="direction">
+    <transition appear :name="direction" mode="out-in">
       <keep-alive>
         <router-view />
       </keep-alive>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+  import cookie from '../../utils/cookie'
+  import Storage from '../../utils/localStorage'
   export default {
     name: "popHouse",
     data() {
@@ -24,7 +26,27 @@
     },
     methods: {
       handleTap() {
-        this.$router.back()
+        let url = Storage.get('before_url_house_');
+        if (url) {
+          this.$router.push({
+            path: url[url.length === 1 ? 0 : (url.length - 2)],
+            query: {
+              direction: 'pop-left'
+            }
+          });
+          this.$nextTick(() => {
+            url.pop();
+            Storage.set('before_url_house_', url);
+          });
+        }
+        if (!url || (url && url.length === 0)) {
+          this.$router.push({
+            path: Storage.get('popHouse_before') || '',
+            query: {
+              direction: 'pop-bottom'
+            }
+          })
+        }
       },
       normalVal(to) {
         this.bgColor = to.query.bgColor || '#2E312F';
@@ -33,7 +55,10 @@
       }
     },
     watch: {
-      $route(to) {
+      $route(to, form) {
+        let url = Storage.get('before_url_house_') || [];
+        url.push(form.path);
+        Storage.set('before_url_house_', url);
         this.normalVal(to)
       }
     },

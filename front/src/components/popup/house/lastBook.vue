@@ -1,7 +1,7 @@
 <template>
   <div class="last-book">
     <div class="user-info">
-      <h3>房客信息 <span>更改</span></h3>
+      <h3>房客信息 <span @touchend="handleChange">更改</span></h3>
       <ul>
         <li v-for="(item, index) in user" :key="index">
           <span>{{ item.name }}</span>
@@ -26,10 +26,15 @@
     name: "lastBook",
     data() {
       return {
-        user: [{name: 'Link', id: '430723xxxxxxxx0124'},{name: 'Join', id: '56241xxxxxxxx1224'},]
+        user: [{name: 'Link', id: '430723xxxxxxxx0124'},{name: 'Join', id: '562413xxxxxxxx1224'},]
       }
     },
     methods: {
+      handleChange() {
+        this.$router.push({
+          path: '/PopHouse/newTenant'
+        })
+      },
       handleBook() {
         this.$router.push({
           path: '/success'

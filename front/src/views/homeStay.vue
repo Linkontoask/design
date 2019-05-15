@@ -182,13 +182,13 @@
         const food = await axios.get.call(this, '/hotel/get_around/', {is_all: 'yes'});
         const house = await axios.get.call(this, '/hotel/get_hotel/', {is_all: 'yes'});
         const story = await axios.get.call(this, '/hotel/get_story/', {is_all: 'yes'});
-        this.storyViews = story.data;
-        this.foodViews = food.data;
-        this.house = house.data;
+        this.storyViews = story.data.slice(0, 8);
+        this.foodViews = food.data.slice(0, 4);
+        this.house = house.data.slice(0, 6);
       }
     },
     async beforeMount() {
-      this.getData();
+      // this.getData();
     },
     async mounted() {
       this.$nextTick(() => {
@@ -220,7 +220,7 @@
       })
     },
     activated() {
-      console.log('homestay', 'keep-alive');
+      this.getData();
       this.scroll && this.scroll.refresh();
       this.isStart = -this.$refs.content.getBoundingClientRect().y >= 426;
       this.focus = false;

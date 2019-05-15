@@ -5,8 +5,11 @@ import 'swiper/dist/css/swiper.css'
 import LyTab from 'ly-tab'
 import { VueHammer } from 'vue2-hammer'
 import {
-Upload,
-Dialog
+  Upload,
+  Dialog,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
 } from 'element-ui'
 import '../style/cover.less'
 import '../style/release.less'
@@ -18,3 +21,6 @@ Vue.use(VueAwesomeSwiper);
 Vue.use(VEasy);
 Vue.use(Dialog);
 Vue.use(Upload);
+Vue.use(Dropdown);
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);

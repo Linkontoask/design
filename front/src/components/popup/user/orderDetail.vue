@@ -1,11 +1,13 @@
 <template>
-  <div class=""></div>
+  <div class="order-detail">
+    <div class="top"></div>
+  </div>
 </template>
 
 <script>
   import axios from '../../../utils/axios'
   export default {
-    name: '',
+    name: 'orderDetail',
     data() {
       return {
 
@@ -24,5 +26,14 @@
 </script>
 
 <style scoped lang="less">
-
+.order-detail {
+  position: relative;
+  margin-top: -56px;
+  .top {
+    width: 100%;
+    height: 266px;
+    background: url("../../../assets/order.png") no-repeat;
+    background-size: 100%;
+  }
+}
 </style>

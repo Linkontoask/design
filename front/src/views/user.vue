@@ -1,11 +1,11 @@
 <template>
   <div class="user">
-    <div class="user-info">
+    <div class="user-info" @click="handleViewUserInformation">
       <div class="user-info-text">
-        <h3>{{ name }}</h3>
+        <h3>{{ user.user_name }}</h3>
         <p>{{ user.signature }}</p>
       </div>
-      <div class="user-info-avatar" :style="{backgroundImage: `url(${require('../static/img/' + user.avatar)})`}"></div>
+      <div class="user-info-avatar" v-if="user.avatar" :style="{backgroundImage: `url(${require('../assets/' + user.avatar)})`}"></div>
     </div>
     <div class="user-amount">
       <div>
@@ -14,68 +14,89 @@
       </div>
       <div>
         <p>账户余额</p>
-        <h4>￥138.6</h4>
+        <h4>￥{{ user.property }}</h4>
       </div>
       <div>
         <p>积分</p>
-        <h4>12分</h4>
+        <h4>{{ user.score }}分</h4>
       </div>
     </div>
     <div class="user-control">
       <ul>
-        <li v-for="(item, index) in control" :key="index">
+        <li v-for="(item, index) in control" :key="index" @click="handleClick(item.path)">
           <p>{{ item.name }}</p>
           <img :src="require('../assets/' + item.icon)" alt="not find img">
         </li>
       </ul>
     </div>
-    <ve-button class="primary">退出登录</ve-button>
   </div>
 </template>
 
 <script>
   import cookie from 'utils/cookie';
+  import axios from 'utils/axios';
+  import Storage from '../utils/localStorage'
   const control = [{
     name: '全部订单',
+    path: 'userOrderList',
     icon: 'orders.png'
   },{
     name: '支付方式',
+    path: 'userPay',
     icon: 'pay.png'
   },{
     name: '发布房源',
+    path: 'popNewHouse',
     icon: 'release-333.png'
   },{
     name: '我的房源',
+    path: 'userInformation',
     icon: 'house-333.png'
   },{
     name: '联系客服',
+    path: '',
     icon: 'CustomerService.png'
   },{
     name: '设置',
+    path: 'userSetting',
     icon: 'setting.png'
   },{
     name: '反馈',
+    path: 'userFeedBack',
     icon: 'feedback.png'
   }];
   export default {
     name: "user",
     data() {
       return {
-        name: '',
         user: {
           signature: '我的个性签名',
-          avatar: 'infomation.png'
         },
         control: control
       }
     },
     methods: {
+      handleClick(name) {
+        this.$router.push({
+          name,
+          query: {
+
+          }
+        })
+      },
+      handleViewUserInformation() {
+        this.$router.push({
+          name: 'userInformation'
+        })
+      }
+    },
+    async mounted() {
 
     },
-    mounted() {
-      this.name = cookie.get('hotel_');
-    },
-    activated() {
+    async activated() {
+      const data = await axios.get('/hotel/user_info/', {});
+      Storage.set('user_info_', data.data);
+      this.user = data.data;
       console.log('user', 'keep-alive');
     }
   }
@@ -103,6 +124,8 @@
       width: 64px;
       height: 64px;
       background: no-repeat center;
+      border-radius: 50%;
+      background-size: 110%;
     }
   }
   .user-amount {

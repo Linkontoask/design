@@ -1,11 +1,12 @@
 <template>
   <div class="user-information">
+    <div class="edit" @touchend="handleEdit">编辑</div>
     <div class="user-info">
       <div class="user-info-text">
-        <h3>{{ user.name }}</h3>
-        <p>{{ user.join_time }}</p>
+        <h3>{{ user.user_name }}</h3>
+        <p>加入逸宿时间：{{ user.register_time }}</p>
       </div>
-      <div class="user-info-avatar" :style="{backgroundImage: `url(${user.avatar})`}"></div>
+      <div class="user-info-avatar" v-if="user.avatar" :style="{backgroundImage: `url(${require('../../../assets/'+user.avatar)})`}"></div>
     </div>
     <div class="box">
       <h4>我发布的故事</h4>
@@ -13,35 +14,51 @@
     </div>
     <div class="box">
       <h4>我发布的房源</h4>
-      <story :data="houseList"></story>
+      <House :data="houseList"></House>
     </div>
   </div>
 </template>
 
 <script>
-  import axios from '../../../utils/axios'
-  import cookie from '../../../utils/cookie'
+  import Storage from '../../../utils/localStorage'
   import story from '../../base/story'
+  import House from '../../base/house'
+  import axios from "../../../utils/axios";
   export default {
     name: 'userInformation',
     data() {
       return {
-        user: {
-          name: 'Link',
-          join_time: '2019年10月1号'
-        },
+        user: {},
         storyList: [],
         houseList: []
       }
     },
     components: {
-      story
+      story,
+      House
     },
     methods: {
-
+      handleEdit() {
+        this.$router.push({
+          name: 'userEditInformation',
+          query: {
+            direction: 'pop-right'
+          }
+        })
+      },
+      async getDate() {
+        const store = await axios.get('/hotel/get_story/', {});
+        const house = await axios.get('/hotel/get_hotel/', {});
+        this.storyList = store.data;
+        this.houseList = house.data;
+      }
     },
     mounted() {
 
+    },
+    async activated() {
+      this.user = Storage.get('user_info_');
+      this.getDate()
     },
     beforeMount() {
 
@@ -52,6 +69,15 @@
 <style scoped lang="less">
   @import "../../../style/global";
 .user-information {
+  position: relative;
+  padding-bottom: 36px;
+  .edit {
+    position: fixed;
+    top: 23px;
+    right: 36px;
+    font-size: 14px;
+    color: #2E312F;
+  }
   .user-info {
     display: flex;
     align-items: center;
@@ -74,6 +100,8 @@
       width: 64px;
       height: 64px;
       background: no-repeat center;
+      border-radius: 50%;
+      background-size: 110%;
     }
   }
   .box {

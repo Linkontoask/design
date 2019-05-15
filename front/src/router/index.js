@@ -21,18 +21,23 @@ const houseList = () => import(/* webpackChunkName: "houseList" */ '../component
 const houseDetail = () => import(/* webpackChunkName: "houseDetail" */ '../components/popup/house/detailHouse');
 const houseDesc = () => import(/* webpackChunkName: "houseDesc" */ '../components/popup/house/descHouse');
 const houseFacility = () => import(/* webpackChunkName: "houseFacility" */ '../components/popup/house/houseFacility');
+const evaluation = () => import(/* webpackChunkName: "evaluation" */ '../components/popup/house/evaluationAll');
+const newTenant = () => import(/* webpackChunkName: "newTenant" */ '../components/popup/house/newTenant');
+const addTenant = () => import(/* webpackChunkName: "addTenant" */ '../components/popup/house/addTenant');
 const landlord = () => import(/* webpackChunkName: "landlord" */ '../components/popup/house/landlord');
 const houseBook = () => import(/* webpackChunkName: "houseBook" */ '../components/popup/house/bookHouse');
 const lastBook = () => import(/* webpackChunkName: "lastBook" */ '../components/popup/house/lastBook');
 const firstBook = () => import(/* webpackChunkName: "firstBook" */ '../components/popup/house/bookFrist');
 
-
 const Success = () => import(/* webpackChunkName: "success" */ '../components/popup/house/success');
 
+
+
 import house from '../components/process/index';
-import user from '../components/popup/user/index'
-import releaseFood from '../components/process/food/'
-import releaseStory from '../components/process/story/'
+import user from '../components/popup/user/index';
+import releaseFood from '../components/process/food/';
+import releaseStory from '../components/process/story/';
+import releaseEvaluation from '../components/evaluation/';
 
 Vue.use(Router);
 
@@ -118,7 +123,19 @@ export default new Router({
         {path: 'houseDetail', name: 'houseDetail', component: houseDetail},
         {path: 'houseDesc', name: 'houseDesc', component: houseDesc},
         {path: 'houseFacility', name: 'houseFacility', component: houseFacility},
+        {path: 'evaluation', name: 'evaluation', component: evaluation},
+        {path: 'newTenant', name: 'newTenant', component: newTenant},
+        {path: 'addTenant', name: 'addTenant', component: addTenant},
         {path: 'landlord', name: 'landlord', component: landlord},
+        {path: 'userInformation', name: 'userInformation', component: user.userInformation},
+        {path: 'userEditInformation', name: 'userEditInformation', component: user.editInformation},
+        {path: 'userFeedBack', name: 'userFeedBack', component: user.feedBack},
+        {path: 'userOrderDetail', name: 'userOrderDetail', component: user.orderDetail},
+        {path: 'userOrderList', name: 'userOrderList', component: user.orderList},
+        {path: 'userPay', name: 'userPay', component: user.pay},
+        {path: 'userSetting', name: 'userSetting', component: user.setting},
+        {path: 'houseEvaluation', name: 'houseEvaluation', component: releaseEvaluation.houseEvaluation},
+        {path: 'storyEvaluation', name: 'storyEvaluation', component: releaseEvaluation.storyEvaluation},
         {path: 'houseBook', component: houseBook,
           children: [
             {path: '', redirect: 'firstBook'},
