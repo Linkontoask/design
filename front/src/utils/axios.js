@@ -9,9 +9,9 @@ export default {
       res = res.data;
       if (res.e === "'AnonymousUser' object is not iterable") {
         cookie.remove('hotel_');
-        this.$router.push('login');
+        this.$router.push({name: 'login'});
       }
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         if (res.r === 0) {
           resolve(res)
         } else {
@@ -19,7 +19,7 @@ export default {
             type: 'error',
             message: res.e
           });
-          // resolve(res)
+          reject(res)
         }
       })
     } catch (err) {

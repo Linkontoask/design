@@ -74,6 +74,11 @@
         })
       },
       handleTap() {
+        if (this.$route.query.back) {
+          return this.$router.push({
+            path: this.$route.query.back
+          })
+        }
         const index = path.findIndex(i => this.$route.meta.name === i);
         if (index === 0) {
           this.$router.push({

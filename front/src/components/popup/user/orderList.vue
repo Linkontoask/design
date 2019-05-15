@@ -13,12 +13,12 @@
     </el-dropdown>
     <div class="order-content">
       <ul>
-        <li v-for="(item, index) in orderList" :key="index" @click="handleViewDetail(item.id)">
+        <li v-for="(item, index) in orderList" :key="index">
           <h2>
             <p>{{ item.name }}</p>
             <span>{{ item.status }}</span>
           </h2>
-          <div class="order-img">
+          <div class="order-img" @click.stop="handleViewDetail(item.id)">
             <img :src="item.imgs[0]" alt="服务器错误">
             <div class="mask">
               <div class="time">
@@ -46,7 +46,7 @@
             <div class="btn plain" v-if="item.status === '待支付'">联系房东</div>
             <div class="btn plain right" v-else>再次预定</div>
             <div class="btn fill" v-if="item.status === '待支付'">立即支付</div>
-            <div class="btn plain right" v-else @touchend="handleEvaluation">立即评价</div>
+            <div class="btn plain right" v-else @click="handleEvaluation">立即评价</div>
           </div>
         </li>
       </ul>

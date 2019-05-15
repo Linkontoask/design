@@ -80,7 +80,7 @@
         this.$router.push({
           name,
           query: {
-
+            back: this.$route.path
           }
         })
       },

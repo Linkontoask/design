@@ -5,7 +5,7 @@
         <li v-for="(item, index) in details" :key="index">
           <p>{{ item.name }}</p>
           <p>
-            <img v-for="(img, i) in getStart(item.score)" :key="i" :src="require('../../assets/' + (img ? 'start-fill' : 'start') + '.png')" alt="">
+            <img v-for="(img, i) in getStart(item.score)" :key="i" @touchend="handleScore(index, i)" :src="require('../../assets/' + (img ? 'start-fill' : 'start') + '.png')" alt="">
           </p>
         </li>
       </ul>
@@ -33,6 +33,9 @@
       }
     },
     methods: {
+      handleScore(index, i) {
+        this.details[index].score = i + 1;
+      },
       handleRelease() {
 
       },
@@ -82,7 +85,7 @@
       }
     }
     img {
-      width: 16px;
+      width: 24px;
       & + img {
         margin-left: 4px;
       }
