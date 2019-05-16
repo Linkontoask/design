@@ -2,10 +2,10 @@
   <div class="landlord">
     <div class="user-info">
       <div class="user-info-text">
-        <h3>{{ user.name }}</h3>
-        <p>{{ user.join_time }}</p>
+        <h3>{{ user.user_name }}</h3>
+        <p>{{ user.register_time }}</p>
       </div>
-      <img class="user-info-avatar" :src="require('../../../assets/'+user.avatar)" alt="">
+      <img class="user-info-avatar" v-if="user.avatar" :src="require('../../../assets/'+user.avatar)" alt="">
     </div>
     <div class="text">
       <h1>心灵的旅行</h1>
@@ -25,6 +25,7 @@
 
 <script>
   import house from '../../base/house'
+  import axios from '../../../utils/axios'
   export default {
     name: "landlord",
     components: {
@@ -32,14 +33,29 @@
     },
     data() {
       return {
-        user: {
-          name: 'Link',
-          join_time: '2019年10月1号',
-          avatar: 'avatar-1.png'
-        },
+        user: {},
         houseList: []
       }
     },
+    methods: {
+      async getData() {
+        const data = await axios.get.call(this, '/hotel/user_info/', {
+          user_id: this.$route.query.uuid
+        });
+        this.user = data.data;
+        const house = await axios.get('/hotel/get_hotel/', {
+          is_all: 'no',
+          user_id: this.$route.query.uuid
+        });
+        this.houseList = house.data;
+      }
+    },
+    async activated() {
+      this.getData()
+    },
+    beforeMount() {
+
+    }
   }
 </script>
 
@@ -87,7 +103,6 @@
     padding: 48px 36px;
     h3 {
       font-size: 16px;
-      margin-bottom: 24px;
     }
   }
 }

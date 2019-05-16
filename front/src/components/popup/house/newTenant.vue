@@ -6,7 +6,7 @@
     <ul>
       <Radio class="li" v-for="(item, index) in tenant" :i="index" :key="index" :checked="checkedList[index]" @click="value => handleCheck(index, value)" type="checkbox">
         <h5>{{ item.name }}</h5>
-        <p>身份证：{{ item.car }}</p>
+        <p>身份证：{{ item.id }}</p>
       </Radio>
     </ul>
     <div class="add">
@@ -23,6 +23,7 @@
 
 <script>
   import Radio from '../../base/radio'
+  import Storage from '../../../utils/localStorage'
   export default {
     name: "newTenant",
     components: {
@@ -31,8 +32,8 @@
     data() {
       return {
         checkedList: [true, false],
-        result: Array.from({length: this.checkedList}).fill(false),
-        tenant: [{name: 'Link', car: '430724xxxxxxxx4612'},{name: 'Join', car: '430724xxxxxxxx4612'}]
+        result: [true,false],
+        tenant: [{name: 'Link', id: '430723xxxxxxxx0124'},{name: 'Join', id: '562413xxxxxxxx1224'}]
       }
     },
     methods: {
@@ -46,7 +47,11 @@
       },
       handleSave() {
         if (this.result.includes(true)) {
-          this.$router.back()
+          let ids = [];
+          this.tenant.filter((i, index) => this.result[index]).forEach(item => {
+            ids.push(item.id)
+          });
+          this.$parent.handleTap(null, {is_check: ids.join('|')});
         } else {
           this.$msg({
             type: 'error',

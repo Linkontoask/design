@@ -10,6 +10,7 @@ const state = {
   beforeUrl: [],
   releaseHouse: {}, // 后期优化发布房源数据管理
   searchString: '', // 搜索字符串
+  bookHouse: {}, // 预定房源信息
 };
 
 export default new Vuex.Store({

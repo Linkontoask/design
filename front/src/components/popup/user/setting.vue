@@ -3,7 +3,7 @@
     <h1>设置</h1>
     <div>
       <ul>
-        <li v-for="(item, index) in list" :key="index">
+        <li v-for="(item, index) in list" :key="index" @touchend="handleViewList(index)">
           <p>{{ item.name }}</p>
           <span>{{ item.result }}</span>
         </li>
@@ -27,25 +27,42 @@
     data() {
       return {
         list: [{name: '通知', result: '关', id: 0},{name: '语言', result: '中文', id: 1},],
+        notice: [{name: '开'},{name: '关'},],
+        language: [{name: '中文'},{name: '英语'},{name: '法语'},{name: '西班牙语'},],
+        check: 0,
         listView: {
+          lists: [],
           showList: false
         }
       }
     },
     methods: {
-      handleChange() {
-
+      handleViewList(index) {
+        this.check = index;
+        if (index === 0) {
+          this.listView.lists = this.notice
+        } else {
+          this.listView.lists = this.language
+        }
+        this.listView.showList = true
+      },
+      handleChange(value) {
+        this.listView.showList = false;
+        this.list[this.check].result = value.name
       },
       async handleOut() {
+        cookie.remove('hotel_');
+        Storage.remove('houseData');
+        Storage.remove('now_checked_house');
+        Storage.remove('before_url_house_');
+        Storage.remove('popHouse_before');
+        Storage.remove('user_info_');
+        this.$router.push({name: 'login'});
         const data = await axios.get.call(this, '/hotel/login_out/', {});
         this.$msg({
           type: 'success',
           message: data.e
         });
-        cookie.remove('hotel_');
-        Storage.remove('houseData');
-        Storage.remove('now_checked_house');
-        this.$router.push({name: 'login'});
       }
     },
     mounted() {

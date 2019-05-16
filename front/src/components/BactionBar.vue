@@ -11,7 +11,6 @@
 
 <script>
   import action from '../static/BactionBar'
-  import {mapState, mapMutations} from 'vuex'
 
   export default {
     name: 'action',

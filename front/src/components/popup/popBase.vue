@@ -35,7 +35,7 @@
         beforeUrl: state => state.beforeUrl
       }),
       showTopControl() {
-        return !['type', 'releaseFood', 'releaseStory'].includes(this.$route.meta.name)
+        return !['type', 'releaseFood', 'releaseStory', 'newHouse'].includes(this.$route.meta.name)
       }
     },
     data() {

@@ -20,6 +20,7 @@
 
 <script>
   import upload from '../base/upload'
+  import axios from '../../utils/axios'
   export default {
     name: "releaseEvaluation",
     components: {
@@ -36,8 +37,8 @@
       handleScore(index, i) {
         this.details[index].score = i + 1;
       },
-      handleRelease() {
-
+      async handleRelease() {
+        const data = await axios.postFile.call('/hotel/user_appraise/', this.formDate)
       },
       append(file, name) {
         this.formDate.append('files', file, name);
@@ -60,6 +61,7 @@
   .primary {
     width: 100%;
     margin-top: 48px;
+    margin-bottom: 36px;
   }
   textarea {
     font-family: PingFangSC-Regular, sans-serif;
@@ -70,6 +72,8 @@
     outline-color: #25A3A8;
     -moz-outline-radius: 8px;
     margin-top: 16px;
+    font-size: 14px;
+    box-shadow: none;
   }
   .details {
     margin-top: 36px;

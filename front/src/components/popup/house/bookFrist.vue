@@ -1,16 +1,6 @@
 <template>
   <div class="first-book">
-    <div class="time">
-      <div class="info">
-        <span>入住时间</span>
-        <span>离开时间</span>
-      </div>
-      <div class="time-a">
-        <span>{{ time.m + '月' + time.d + '日' }}</span>
-        <div><p>共{{ p }}晚</p><div class="line"></div></div>
-        <span>{{ time.m + '月' + (time.d + p) + '日' }}</span>
-      </div>
-    </div>
+    <Time :time="bTime" :day="p"></Time>
     <div class="price">
       <strong>费用明细</strong>
       <ul>
@@ -21,17 +11,22 @@
       </ul>
       <div>
         <span>总共</span>
-        <span>￥262</span>
+        <span>￥{{priceAll}}</span>
       </div>
     </div>
-    <div class="btn" @touchend="handleGo">立即预定</div>
+    <div class="btn" @touchend="handleGo">继续完成预定</div>
   </div>
 </template>
 
 <script>
-  const date = new Date()
+  import {mapState, mapMutations} from 'vuex'
+  import Time from '../../base/time'
+  const date = new Date();
   export default {
     name: "bookFrist",
+    components: {
+      Time
+    },
     data() {
       return {
         p: 1,
@@ -39,18 +34,41 @@
           m: date.getMonth() + 1,
           d: date.getDate()
         },
+        priceAll: '',
         price: [{name: '房源费用', price: 212},{name: '清洁费', price: 30},{name: '服务费', price: 20},],
       }
     },
+    computed: {
+      bTime() {
+        return [this.time.m + '月' + this.time.d + '日', this.time.m + '月' + (this.time.d + this.p) + '日']
+      }
+    },
     methods: {
+      ...mapMutations([
+        'BOOK_HOUSE'
+      ]),
       handleGo() {
+        this.BOOK_HOUSE({
+          time: this.bTime
+        });
         this.$router.push({
           path: '/PopHouse/houseBook/lastBook',
           query: {
-            direction: 'pop-right'
+            direction: 'pop-right',
+            is_check: '430723xxxxxxxx0124'
           }
         })
+      },
+      update() {
+        this.priceAll = this.$route.query.price;
+        this.$set(this.price, 0, {name: '房源费用', price: this.priceAll - 50})
       }
+    },
+    activated() {
+      this.update()
+    },
+    beforeMount() {
+      this.update()
     }
   }
 </script>
@@ -58,45 +76,6 @@
 <style scoped lang="less">
 .first-book {
   position: relative;
-  .time {
-    margin-top: 36px;
-    padding: 0 36px;
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .info {
-      font-size: 14px;
-    }
-    .time-a {
-      margin-top: 12px;
-      > div {
-        width: 60%;
-        color: #FE5656;
-        text-align: center;
-        font-size: 12px;
-        position: relative;
-        .line {
-          position: absolute;
-          width: 100%;
-          top: 9px;
-          border-bottom: 1px solid #EBF5F1;
-        }
-        p {
-          position: relative;
-          z-index: 2;
-          background-color: white;
-          width: 54px;
-          margin: 0 auto;
-        }
-      }
-      span {
-        font-size: 18px;
-        color: #25A3A8;
-      }
-    }
-  }
   .price {
     padding: 36px 36px 0;
     > div {

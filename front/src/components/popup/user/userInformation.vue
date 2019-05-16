@@ -47,8 +47,8 @@
         })
       },
       async getDate() {
-        const store = await axios.get('/hotel/get_story/', {});
-        const house = await axios.get('/hotel/get_hotel/', {});
+        const store = await axios.get.call(this, '/hotel/get_story/', {is_all: 'no'});
+        const house = await axios.get.call(this, '/hotel/get_hotel/', {is_all: 'no'});
         this.storyList = store.data;
         this.houseList = house.data;
       }

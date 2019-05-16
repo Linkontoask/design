@@ -25,14 +25,12 @@
       }
     },
     methods: {
-      handleTap() {
+      handleTap(ev, query = {}) {
         let url = Storage.get('before_url_house_');
         if (url) {
           this.$router.push({
-            path: url[url.length === 1 ? 0 : (url.length - 2)],
-            query: {
-              direction: 'pop-left'
-            }
+            path: url[url.length === 1 ? 0 : (url.length - 1)],
+            query: Object.assign({direction: 'pop-left'}, query)
           });
           this.$nextTick(() => {
             url.pop();
@@ -52,13 +50,17 @@
         this.bgColor = to.query.bgColor || '#2E312F';
         this.direction = to.query.direction || 'pop-right';
         this.control = to.query.control || 'left';
-      }
+      },
+    },
+    beforeRouteUpdate (to, from, next) {
+      let url = Storage.get('before_url_house_') || [];
+      url.push(from.fullPath);
+      url = [...new Set(url)];
+      Storage.set('before_url_house_', url);
+      next()
     },
     watch: {
       $route(to, form) {
-        let url = Storage.get('before_url_house_') || [];
-        url.push(form.path);
-        Storage.set('before_url_house_', url);
         this.normalVal(to)
       }
     },
