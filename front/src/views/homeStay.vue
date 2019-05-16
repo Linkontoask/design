@@ -21,7 +21,7 @@
           <ul>
             <li>
               <img src="../assets/city-fill.png" alt="city" class="t">
-              <input type="text" v-model="searchStr">
+              <input type="text" @blur="handleSearchBlur" v-model="searchStr">
               <div @touchend="searchStr = '重庆 - 邮电大学'">
                 <span>我的附近</span>
                 <img src="../assets/locat.png" alt="locat" class="s">
@@ -133,6 +133,9 @@
       }
     },
     methods: {
+      handleSearchBlur() {
+        this.scroll && this.scroll.refresh();
+      },
       handleMoreHouse() {
         this.$router.push({
           path: '/PopHouse/houseList'
@@ -198,9 +201,6 @@
           momentum: true,
           bounce: true,
           probeType: 3
-        });
-        this.scroll.on('scrollEnd', p => {
-
         });
         this.scroll.on('scroll', p => {
           let y = Math.floor(p.y);

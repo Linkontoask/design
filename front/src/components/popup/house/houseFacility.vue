@@ -53,7 +53,7 @@
 
 <style scoped lang="less">
 .houseFacility {
-  padding: 36px;
+  padding: 84px 36px 0;
   .box {
     margin-top: 24px;
     padding-bottom: 24px;

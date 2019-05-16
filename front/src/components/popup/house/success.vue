@@ -4,16 +4,18 @@
       <img src="../../../assets/success.png" alt="">
     </div>
     <p>预定成功</p>
-    <div @touchend="handleView">查看订单信息</div>
+    <div @click="handleViewOrder">查看订单信息</div>
   </div>
 </template>
 
 <script>
+  import Storage from '../../../utils/localStorage'
   export default {
     name: "success",
     methods: {
-      handleView() {
-
+      handleViewOrder() {
+        Storage.remove('before_url_house_')
+        this.$router.push({name: 'userOrderDetail', query: {bgColor: '#fff'}})
       }
     }
   }

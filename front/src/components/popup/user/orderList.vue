@@ -15,90 +15,111 @@
       <ul>
         <li v-for="(item, index) in orderList" :key="index">
           <h2>
-            <p>{{ item.name }}</p>
-            <span>{{ item.status }}</span>
+            <p>{{ item.hotel_info[0].name }}</p>
+            <span>{{ item.order_status === 1 ? '未支付' : '完成' }}</span>
           </h2>
-          <div class="order-img" @click.stop="handleViewDetail(item.id)">
-            <img :src="item.imgs[0]" alt="服务器错误">
+          <div class="order-img" @click.stop="handleViewDetail(item.order_id)">
+            <img :src="item.hotel_info[0].imgs[0]" alt="服务器错误">
             <div class="mask">
               <div class="time">
                 <div>
-                  <h4>{{ item.time[0] }}</h4>
+                  <h4>{{ item.order_info.time[0] }}</h4>
                   <p>周四 10:00</p>
                 </div>
                 <span></span>
                 <div>
-                  <h4>{{ item.time[1] }}</h4>
+                  <h4>{{ item.order_info.time[1] }}</h4>
                   <p>周五 12:00</p>
                 </div>
               </div>
               <div class="price">
                 <p>支付总价</p>
-                <h3>￥{{ item.price }}</h3>
+                <h3>￥{{ item.order_info.price }}</h3>
               </div>
             </div>
           </div>
           <div class="order-status">
-            <span class="time-out" v-if="item.status === '待支付'">
+            <span class="time-out" v-if="item.order_status === 1">
               <img src="../../../assets/time.png" alt="">
-              <span>28分</span>自动取消订单
+              <span>28分</span>后自动取消订单
             </span>
-            <div class="btn plain" v-if="item.status === '待支付'">联系房东</div>
+            <div class="btn plain" v-if="item.order_status === 1">联系房东</div>
             <div class="btn plain right" v-else>再次预定</div>
-            <div class="btn fill" v-if="item.status === '待支付'">立即支付</div>
-            <div class="btn plain right" v-else @click="handleEvaluation">立即评价</div>
+            <div class="btn fill" v-if="item.order_status === 1" @click="handlePay(item)">立即支付</div>
+            <div class="btn plain right" v-else @click="handleEvaluation(item)">立即评价</div>
           </div>
         </li>
       </ul>
     </div>
+    <confirm :vis.sync="confirmShow">
+      <span>{{ content }}</span>
+    </confirm>
   </div>
 </template>
 
 <script>
   import axios from '../../../utils/axios'
+  import confirm from '../../base/confirm'
   export default {
     name: 'orderList',
     data() {
       return {
-        orderList: [{
-          name: '洪崖洞',
-          status: '待支付',
-          imgs: ['https://secure.gravatar.com/avatar/e4fdea5792f1b89f112307232e6056d1?s=800&d=identicon'],
-          time: ['04月25日', '04月26日'],
-          price: '346.00'
-        },{
-          name: '洪崖洞',
-          status: '完成',
-          imgs: ['https://secure.gravatar.com/avatar/e4fdea5792f1b89f112307232e6056d1?s=800&d=identicon'],
-          time: ['04月25日', '04月26日'],
-          price: '346.00'
-        }]
+        orderList: [],
+        confirmShow: false,
+        content: ''
       }
     },
+    components: {
+      confirm
+    },
     methods: {
+      async handlePay(item) {
+        const data = await axios.post.call(this, '/hotel/pay_order/', {
+          order_id: item.order_id,
+          price: Number(item.order_info.price)
+        });
+        this.confirmShow = true;
+        if (data.r === 0) {
+          this.content = '支付成功';
+        } else {
+          this.content = data.e;
+        }
+      },
       handleViewDetail(id) {
         this.$router.push({
           name: 'userOrderDetail',
           query: {
-            uuid: id,
+            order_id: id,
             bgColor: '#fff'
           }
         })
       },
-      handleEvaluation() {
+      handleEvaluation(item) {
         this.$router.push({
-          name: 'houseEvaluation'
+          name: 'houseEvaluation',
+          query: {
+            uuid: item.order_id,
+            obj_class: item.hotel_info[0].obj_class
+          }
         })
       },
       handleCommand(command) {
         console.log(command)
+      },
+      async getData() {
+        const data = await axios.get.call(this, '/hotel/get_order_form/', {});
+        this.orderList = data.data;
+        console.log(data)
       }
+    },
+    async activated() {
+      this.getData()
     },
     mounted() {
 
     },
-    beforeMount() {
-
+    async beforeMount() {
+      this.getData()
     }
   }
 </script>
@@ -106,7 +127,7 @@
 <style scoped lang="less">
 .order-list {
   position: relative;
-  padding: 24px 36px;
+  padding: 86px 36px 0;
   .order-content {
     ul {
       li {

@@ -94,7 +94,7 @@
 
     },
     async activated() {
-      const data = await axios.get('/hotel/user_info/', {});
+      const data = await axios.get.call(this, '/hotel/user_info/', {});
       Storage.set('user_info_', data.data);
       this.user = data.data;
       console.log('user', 'keep-alive');

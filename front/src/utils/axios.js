@@ -29,7 +29,12 @@ export default {
   async post (url, data, config = {}) {
     try {
       config['X-CSRFToken'] = cookie.get('csrftoken') || 'mock';
-      let res = await axios.post(url, qs.stringify(data), {headers: config});
+      let dataLast = {};
+      for (let [key, value] of Object.entries(data)) {
+        dataLast[key] = JSON.stringify(value)
+      }
+      console.log(dataLast)
+      let res = await axios.post(url, qs.stringify(dataLast), {headers: config});
       res = res.data;
       return new Promise((resolve, reject) => {
         if (res.r === 0) {

@@ -43,7 +43,13 @@
         // console.log(ev.type, item)
       },
       tap(item) {
-        console.log('tap', item)
+        this.$router.push({
+          name: 'chat',
+          query: {
+            name: item.name,
+            uuid_: item.uuid
+          }
+        })
       },
       handleDelete(uuid) {
         setTimeout(() => {

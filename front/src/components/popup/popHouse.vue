@@ -6,7 +6,7 @@
     </div>
     <transition appear :name="direction" mode="out-in">
       <keep-alive>
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </keep-alive>
     </transition>
   </div>
@@ -25,14 +25,12 @@
       }
     },
     methods: {
-      handleTap() {
+      handleTap(ev, query = {}) {
         let url = Storage.get('before_url_house_');
         if (url) {
           this.$router.push({
-            path: url[url.length === 1 ? 0 : (url.length - 2)],
-            query: {
-              direction: 'pop-left'
-            }
+            path: url[url.length === 1 ? 0 : (url.length - 1)],
+            query: Object.assign({direction: 'pop-left'}, query)
           });
           this.$nextTick(() => {
             url.pop();
@@ -52,13 +50,17 @@
         this.bgColor = to.query.bgColor || '#2E312F';
         this.direction = to.query.direction || 'pop-right';
         this.control = to.query.control || 'left';
-      }
+      },
+    },
+    beforeRouteUpdate (to, from, next) {
+      let url = Storage.get('before_url_house_') || [];
+      url.push(from.fullPath);
+      url = [...new Set(url)];
+      Storage.set('before_url_house_', url);
+      next()
     },
     watch: {
       $route(to, form) {
-        let url = Storage.get('before_url_house_') || [];
-        url.push(form.path);
-        Storage.set('before_url_house_', url);
         this.normalVal(to)
       }
     },
@@ -74,24 +76,29 @@
 <style scoped lang="less">
 .popHouse {
   .pop-control {
-    position: relative;
-    height: 56px;
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    height: 36px;
     width: 46px;
-    top: 18px;
   }
   .close, .left {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 36px;
     z-index: 2;
     p {
       position: absolute;
-      top: 8px;
-      width: 16px;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 22px;
       height: 2px;
       transition: transform .2s;
       transform: rotate(45deg);
+      background-color: #333;
     }
     p + p {
       transform: rotate(-45deg);

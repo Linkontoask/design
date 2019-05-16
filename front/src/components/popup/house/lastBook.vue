@@ -3,7 +3,7 @@
     <div class="user-info">
       <h3>房客信息 <span @touchend="handleChange">更改</span></h3>
       <ul>
-        <li v-for="(item, index) in user" :key="index">
+        <li v-for="(item, index) in user" :key="index" v-if="item.is">
           <span>{{ item.name }}</span>
           <span>{{ item.id }}</span>
         </li>
@@ -13,8 +13,11 @@
     </div>
     <div class="control">
       <div>
-        <p><span class="price">{{ '￥189' }}</span> / 一晚</p>
-        <p>★★★★☆</p>
+        <p><span class="price">￥{{ house.price }}</span> / 一晚</p>
+        <p>
+          <img v-for="(item, index) in start" :key="index"
+               :src="require('../../../assets/' + (item ? 'start-fill' : 'start') + '.png')" alt="">
+        </p>
       </div>
       <div class="btn-go" @touchend="handleBook">立即预定</div>
     </div>
@@ -22,24 +25,73 @@
 </template>
 
 <script>
+  import {mapState, mapMutations} from 'vuex'
+  import Storage from '../../../utils/localStorage'
+  import axios from '../../../utils/axios'
   export default {
     name: "lastBook",
     data() {
       return {
-        user: [{name: 'Link', id: '430723xxxxxxxx0124'},{name: 'Join', id: '562413xxxxxxxx1224'},]
+        house: {},
+        user: [{name: 'Link', id: '430723xxxxxxxx0124', is: false},{name: 'Join', id: '562413xxxxxxxx1224', is: false},]
       }
     },
+    computed: {
+      ...mapState({
+        bookHouse: state => state.bookHouse
+      }),
+      start() {
+        const d = Array.from({length: 5 - this.house.total_score}).fill(false);
+        return Array.from({length: this.house.total_score}).fill(true).concat(d)
+      },
+    },
     methods: {
+      ...mapMutations([
+        'BOOK_HOUSE'
+      ]),
+
       handleChange() {
         this.$router.push({
           path: '/PopHouse/newTenant'
         })
       },
-      handleBook() {
-        this.$router.push({
-          path: '/success'
-        })
+      async handleBook() {
+        this.BOOK_HOUSE({
+          tenant: this.user.filter(i => i.is)
+        });
+        const data = await axios.post.call(this, '/hotel/order_form/', this.bookHouse);
+        if (data.r === 0) {
+          this.$router.push({
+            path: '/success',
+            query: {
+              uuid: data.order_id
+            }
+          })
+        } else {
+          this.$msg({
+            type: 'error',
+            message: data.e
+          })
+        }
+
+      },
+      dataBeing() {
+        this.house = Storage.get('now_checked_house');
+        this.user.forEach(item => {
+          item.is = false;
+          this.$route.query.is_check.split('|').forEach(obj => {
+            if (item.id === obj) {
+              item.is = true
+            }
+          })
+        });
       }
+    },
+    activated() {
+      this.dataBeing()
+    },
+    beforeMount() {
+      this.dataBeing()
     }
   }
 </script>
@@ -90,6 +142,9 @@
     align-items: center;
     justify-content: space-between;
     background-color: white;
+    img {
+      width: 14px;
+    }
     p:first-child {
       font-size: 14px;
     }

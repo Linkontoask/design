@@ -48,7 +48,8 @@
           path: '/PopHouse/houseDetail',
           query: {
             bgColor: '#fff',
-            direction: 'pop-bottom'
+            direction: 'pop-bottom',
+            id: this.data[index].hotel_id
           }
         })
       }

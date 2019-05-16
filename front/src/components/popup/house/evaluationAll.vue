@@ -58,6 +58,7 @@
 
 <style scoped lang="less">
 .evaluation {
+  margin-top: 54px;
   h1 {
     font-size: 20px;
     color: #2E3130;
