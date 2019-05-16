@@ -25,10 +25,19 @@
     },
     methods: {
       handleSave() {
+        if (this.$refs.show_name.error) {
+          const node = this.$refs.show_name.$el.children[1];
+          node.classList.add('animated', 'bounce', 'faster');
+          function handleAnimationEnd() {
+            node.classList.remove('animated', 'bounce');
+            node.removeEventListener('animationend', handleAnimationEnd)
+          }
+
+          node.addEventListener('animationend', handleAnimationEnd)
+        }
         if (!this.$refs.show_name.error && !this.$refs.user_name.error) {
           this.$parent.handleTap()
         }
-
       },
       getDate() {
         this.user = Storage.get('user_info_')
@@ -50,7 +59,7 @@
 <style scoped lang="less">
 .edit-information {
   position: relative;
-  padding: 0 36px;
+  padding: 108px 36px 0;
   .save {
     position: fixed;
     top: 23px;

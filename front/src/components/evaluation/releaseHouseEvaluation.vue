@@ -76,7 +76,7 @@
     box-shadow: none;
   }
   .details {
-    margin-top: 36px;
+    margin-top: 86px;
     ul {
       padding-bottom: 20px;
       li {

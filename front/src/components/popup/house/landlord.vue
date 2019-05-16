@@ -68,7 +68,7 @@
     justify-content: space-between;
     padding-bottom: 24px;
     width: calc(100% - 72px);
-    margin: 108px - @topIndicator auto 0;
+    margin: 108px auto 0;
     border-bottom: 1px solid #E3E9E6;
     .user-info-text {
       h3 {

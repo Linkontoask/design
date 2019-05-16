@@ -6,7 +6,7 @@
     </div>
     <transition appear :name="direction" mode="out-in">
       <keep-alive>
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </keep-alive>
     </transition>
   </div>
@@ -76,24 +76,29 @@
 <style scoped lang="less">
 .popHouse {
   .pop-control {
-    position: relative;
-    height: 56px;
+    position: absolute;
+    top: 14px;
+    left: 8px;
+    height: 36px;
     width: 46px;
-    top: 18px;
   }
   .close, .left {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 36px;
     z-index: 2;
     p {
       position: absolute;
-      top: 8px;
-      width: 16px;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 22px;
       height: 2px;
       transition: transform .2s;
       transform: rotate(45deg);
+      background-color: #333;
     }
     p + p {
       transform: rotate(-45deg);

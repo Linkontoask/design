@@ -18,7 +18,7 @@
     </div>
     <div class="order-information">
       <h3>订单信息</h3>
-      <div class="order-tenant" v-for="(item, index) in order.tenant" :key="index">
+      <div class="order-tenant" v-if="order.order_info" v-for="(item, index) in order.order_info.tenant" :key="index">
         <p>入住人姓名：<span>{{ item.name }}</span></p>
         <p>入住人身份证号：<span>{{ item.id }}</span></p>
       </div>
@@ -26,10 +26,10 @@
     <div class="order-information" style="padding-top: 0">
       <h3>房源信息</h3>
       <div class="order-house">
-        <img src="" alt="">
+        <img style="width: 100px;" :src="order.hotel_info[0].imgs[0]" alt="">
         <div class="house-base">
-          <div class="clamp2">{{ order.hotel.name }}</div>
-          <span>{{ order.hotel.position }}</span>
+          <div class="clamp2">{{ order.hotel_info[0].name }}</div>
+          <span>{{ order.hotel_info[0].position }}</span>
         </div>
         <div class="right">
           <p></p>
@@ -38,8 +38,8 @@
       </div>
     </div>
     <div style="margin-top: -36px">
-      <Time :time="bTime" :day="p"></Time>
-      <p class="price">在线支付：<strong>￥{{ order.price }}</strong></p>
+      <Time :time="order.order_info.time" :day="p"></Time>
+      <p class="price">在线支付：<strong>￥{{ order.order_info.price }}</strong></p>
     </div>
   </div>
 </template>
@@ -57,10 +57,9 @@
       return {
         p: 1,
         top: ['提交订单', '房东确认', '房客入住', '房客离开'],
-        order: {price: '138',hotel: {name: '房源的名字，宽窄巷子、春熙路、太鼓励文殊院', position: '房源的地理位置'}, tenant: [{name: 'Link', id: '430723199708145612'}, {name: 'Link', id: '430723199708145612'}]},
-        time: {
-          m: date.getMonth() + 1,
-          d: date.getDate()
+        order: {
+          order_info: {},
+          hotel_info: [{position: '', name: ''}]
         },
       }
     },
@@ -70,13 +69,20 @@
       }
     },
     methods: {
-
+      async getData() {
+        const data = await axios.get.call(this, '/hotel/get_order_form/', this.$route.query);
+        this.order = data.data[0];
+        console.log(this.order)
+      }
     },
     mounted() {
 
     },
-    beforeMount() {
-
+    async activated() {
+      this.getData()
+    },
+    async beforeMount() {
+      this.getData()
     }
   }
 </script>
@@ -84,7 +90,6 @@
 <style scoped lang="less">
 .order-detail {
   position: relative;
-  margin-top: -56px;
   .top {
     width: 100%;
     height: 266px;
@@ -216,6 +221,7 @@
     }
     .house-base {
       width: 80%;
+      margin-left: 20px;
     }
     .clamp2 {
       font-size: 16px;

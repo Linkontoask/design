@@ -59,11 +59,21 @@
         this.BOOK_HOUSE({
           tenant: this.user.filter(i => i.is)
         });
-        console.log(this.bookHouse)
-        // const data = await axios.get.call(this, '', this.bookHouse);
-        /*this.$router.push({
-          path: '/success'
-        })*/
+        const data = await axios.post.call(this, '/hotel/order_form/', this.bookHouse);
+        if (data.r === 0) {
+          this.$router.push({
+            path: '/success',
+            query: {
+              uuid: data.order_id
+            }
+          })
+        } else {
+          this.$msg({
+            type: 'error',
+            message: data.e
+          })
+        }
+
       },
       dataBeing() {
         this.house = Storage.get('now_checked_house');

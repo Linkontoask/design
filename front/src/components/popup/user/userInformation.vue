@@ -10,11 +10,13 @@
     </div>
     <div class="box">
       <h4>我发布的故事</h4>
-      <story :data="storyList"></story>
+      <story v-if="storyList.length !== 0" :data="storyList"></story>
+      <div class="info" v-else>还没有发布故事哦</div>
     </div>
     <div class="box">
       <h4>我发布的房源</h4>
-      <House :data="houseList"></House>
+      <House v-if="houseList.length !== 0" :data="houseList"></House>
+      <div class="info" v-else>还没有发布房源哦</div>
     </div>
   </div>
 </template>
@@ -84,7 +86,7 @@
     justify-content: space-between;
     padding-bottom: 24px;
     width: calc(100% - 72px);
-    margin: 108px - @topIndicator auto 0;
+    margin: 108px auto 0;
     border-bottom: 1px solid #E3E9E6;
     .user-info-text {
       h3 {
@@ -107,6 +109,10 @@
   .box {
     padding: 0 36px;
     margin-top: 32px;
+    .info {
+      margin-top: 24px;
+      color: #e6e6e6;
+    }
     h4 {
       font-weight: 500;
     }

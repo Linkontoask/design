@@ -15,6 +15,7 @@ import {
 import '../style/cover.less'
 import '../style/release.less'
 import '../style/animation.less'
+import 'animate.css'
 
 Vue.use(vueLazyload);
 Vue.use(VueHammer);

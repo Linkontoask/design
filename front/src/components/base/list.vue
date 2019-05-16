@@ -142,7 +142,6 @@
         color: #159EA4;
         opacity: .6;
         p {
-          transition: font-size .2s;
           font-size: 14px;
         }
       }

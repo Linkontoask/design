@@ -103,6 +103,7 @@
         }],
         house: {},
         hotel_user: {},
+        hotel_Appraise: {},
         isShowMap: false,
         around_list: [],
         swiperOption: {
@@ -170,11 +171,12 @@
         })
       },
       async getData() {
-        const data = await axios.get.call(this, '/hotel/get_one_hotel/', {hotel_id: Storage.get('now_checked_house').hotel_id});
+        const data = await axios.get.call(this, '/hotel/get_one_hotel/', {hotel_id: this.$route.query.id});
         this.house = data.data.hotel_dict[0];
         this.around_list = data.data.around_list;
         this.hotel_user = data.data.hotel_user;
         this.similar_hotel = data.data.similar_hotel;
+        this.hotel_Appraise = data.data.hotel_Appraise;
       },
       scroll() {
         const top = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -266,7 +268,6 @@
 <style scoped lang="less">
   .detailHouse {
     position: relative;
-    margin-top: -56px;
     padding-bottom: 68px;
     .detail-house-img {
       position: relative;

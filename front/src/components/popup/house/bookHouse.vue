@@ -47,7 +47,7 @@
   position: relative;
   height: calc(100vh - 80px);
   .top {
-    margin-top: 24px;
+    margin-top: 84px;
     padding: 0 36px 24px;
     border-bottom: 1px solid #E4ECE8;
     height: 80px;
