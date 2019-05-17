@@ -3,20 +3,21 @@
     <h1>订单中心</h1>
     <el-dropdown class="fixed" trigger="click" @command="handleCommand">
       <span class="el-dropdown-link">
-        全部订单<i class="el-icon-arrow-down el-icon--right"></i>
+        {{ status }}<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item command="all">全部订单</el-dropdown-item>
-        <el-dropdown-item command="complete">已完成订单</el-dropdown-item>
-        <el-dropdown-item command="undone">未完成订单</el-dropdown-item>
+        <el-dropdown-item command="1">未支付</el-dropdown-item>
+        <el-dropdown-item command="2">待评价</el-dropdown-item>
+        <el-dropdown-item command="3">已完成</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <div class="order-content">
-      <ul>
+      <ul v-if="orderList.length !== 0">
         <li v-for="(item, index) in orderList" :key="index">
           <h2>
             <p>{{ item.hotel_info[0].name }}</p>
-            <span>{{ item.order_status === 1 ? '未支付' : '完成' }}</span>
+            <span>{{ item.order_status === 1 ? '未支付' : ( item.order_status === 2 ? '待评价' : '完成' ) }}</span>
           </h2>
           <div class="order-img" @click.stop="handleViewDetail(item.order_id)">
             <img :src="item.hotel_info[0].imgs[0]" alt="服务器错误">
@@ -43,15 +44,16 @@
               <img src="../../../assets/time.png" alt="">
               <span>28分</span>后自动取消订单
             </span>
-            <div class="btn plain" v-if="item.order_status === 1">联系房东</div>
-            <div class="btn plain right" v-else>再次预定</div>
+            <div class="btn plain" v-if="item.order_status === 1" @click="handleChat">联系房东</div>
+            <div class="btn plain right" v-else @click="handleAgain(item)">再次预定</div>
             <div class="btn fill" v-if="item.order_status === 1" @click="handlePay(item)">立即支付</div>
-            <div class="btn plain right" v-else @click="handleEvaluation(item)">立即评价</div>
+            <div class="btn plain right" v-if="item.order_status === 2" @click="handleEvaluation(item)">立即评价</div>
           </div>
         </li>
       </ul>
+      <div v-else style="line-height: 2">没有当前状态的房源哦！<span style="color: #25A3A8" @click="handleClick">点我</span>预定房源，或者改变筛选条件</div>
     </div>
-    <confirm :vis.sync="confirmShow">
+    <confirm :vis.sync="confirmShow" @status="value => confirmShow = value">
       <span>{{ content }}</span>
     </confirm>
   </div>
@@ -60,19 +62,43 @@
 <script>
   import axios from '../../../utils/axios'
   import confirm from '../../base/confirm'
+  import Storage from '../../../utils/localStorage'
   export default {
     name: 'orderList',
     data() {
       return {
         orderList: [],
+        allOrder: [],
         confirmShow: false,
-        content: ''
+        content: '',
+        status: '全部订单'
       }
     },
     components: {
       confirm
     },
     methods: {
+      handleClick() {
+        this.$router.push({
+          name: 'homeStay'
+        })
+      },
+      handleAgain(item) {
+        Storage.set('now_checked_house', item.hotel_info[0]);
+        this.$router.push({
+          path: '/PopHouse/houseBook/firstBook',
+          query: {
+            control: 'close',
+            direction: 'pop-bottom',
+            price: item.hotel_info[0].price
+          }
+        })
+      },
+      handleChat() {
+        this.$router.push({
+          name: 'chat'
+        })
+      },
       async handlePay(item) {
         const data = await axios.post.call(this, '/hotel/pay_order/', {
           order_id: item.order_id,
@@ -81,6 +107,7 @@
         this.confirmShow = true;
         if (data.r === 0) {
           this.content = '支付成功';
+          this.getData()
         } else {
           this.content = data.e;
         }
@@ -98,17 +125,29 @@
         this.$router.push({
           name: 'houseEvaluation',
           query: {
-            uuid: item.order_id,
+            uuid: item.hotel_info[0].hotel_id,
+            order_id: item.order_id,
             obj_class: item.hotel_info[0].obj_class
           }
         })
       },
       handleCommand(command) {
-        console.log(command)
+        switch (command) {
+          case 'all': this.status = '全部订单'; break;
+          case '1': this.status = '未支付'; break;
+          case '2': this.status = '待评价'; break;
+          case '3': this.status = '已完成'; break;
+        }
+        if (command === 'all') {
+          this.orderList = this.allOrder;
+          return false
+        }
+        this.orderList = this.allOrder.filter(i => i.order_status === Number(command));
       },
       async getData() {
         const data = await axios.get.call(this, '/hotel/get_order_form/', {});
         this.orderList = data.data;
+        this.allOrder = data.data; // 用于筛选
         console.log(data)
       }
     },
@@ -119,7 +158,7 @@
 
     },
     async beforeMount() {
-      this.getData()
+      // this.getData()
     }
   }
 </script>

@@ -66,7 +66,7 @@
 
 <style scoped lang="less">
 .new-tenant {
-  padding: 28px 36px 0;
+  padding: 86px 36px 0;
   .save {
     position: absolute;
     top: 23px;

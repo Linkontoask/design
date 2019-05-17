@@ -14,7 +14,7 @@
     <upload class="upload" ref="upload"
             @append="append"
             @change="handleFileListChange"></upload>
-    <ve-button class="primary" @click="handleRelease">发布</ve-button>
+    <ve-button class="primary" @click.native="handleRelease">发布</ve-button>
   </div>
 </template>
 
@@ -38,7 +38,29 @@
         this.details[index].score = i + 1;
       },
       async handleRelease() {
-        const data = await axios.postFile.call('/hotel/user_appraise/', this.formDate)
+        this.$refs.upload.$refs.upload.submit();
+        let score = [];
+        this.details.forEach(item => score.push(item.score));
+        let avg_score = score.reduce((a,b) => a + b) / 5;
+        this.formDate.append('avg_score', String(Math.floor(avg_score)));
+        this.formDate.append('score_info', score.join(','));
+        this.formDate.append('obj_class', this.$route.query.obj_class);
+        this.formDate.append('belong_id', this.$route.query.uuid);
+        this.formDate.append('order_id', this.$route.query.order_id);
+        this.formDate.append('content', this.value);
+        const data = await axios.postFile.call(this, '/hotel/user_appraise/', this.formDate);
+        if (data.r === 0) {
+          this.$msg({
+            type: 'success',
+            message: data.e
+          });
+          this.$parent.handleTap()
+        } else {
+          this.$msg({
+            type: 'error',
+            message: data.e
+          });
+        }
       },
       append(file, name) {
         this.formDate.append('files', file, name);

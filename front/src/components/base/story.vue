@@ -1,7 +1,7 @@
 <template>
   <div class="Stay-story">
     <ul>
-      <li v-for="(item, index) in data" :key="index">
+      <li v-for="(item, index) in data" :key="index" @touchend="handleView(index)" @touchmove="handleMove">
         <img :src="item.imgs[0]" alt="not find img">
         <div class="content">
           <h4>{{ item.name }}</h4>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+  import Storage from '../../utils/localStorage'
   export default {
     name: 'stayStory',
     props: {
@@ -27,6 +28,31 @@
         type: Array,
         default: () => []
       }
+    },
+    data() {
+      return {
+        isMove: false
+      }
+    },
+    methods: {
+      handleView(index) {
+        if (this.isMove) {
+          this.isMove = false;
+          return false
+        }
+        Storage.set('now_checked_story', this.data[index]);
+        this.$router.push({
+          path: '/PopHouse/StoryDetail',
+          query: {
+            bgColor: '#fff',
+            direction: 'pop-bottom',
+            id: this.data[index].story_id
+          }
+        })
+      },
+      handleMove() {
+        this.isMove = true
+      },
     }
   }
 </script>

@@ -33,6 +33,10 @@ const Success = () => import(/* webpackChunkName: "success" */ '../components/po
 const Chat = () => import(/* webpackChunkName: "Chat" */ '../components/base/chat');
 
 
+const FoodDetail = () => import(/* webpackChunkName: "FoodDetail" */ '../components/food/foodDetail');
+const StoryDetail = () => import(/* webpackChunkName: "StoryDetail" */ '../components/story/storyDetail');
+
+
 import house from '../components/process/index';
 import user from '../components/popup/user/index';
 import releaseFood from '../components/process/food/';
@@ -141,6 +145,8 @@ export default new Router({
         {path: 'userSetting', name: 'userSetting', component: user.setting},
         {path: 'houseEvaluation', name: 'houseEvaluation', component: releaseEvaluation.houseEvaluation},
         {path: 'storyEvaluation', name: 'storyEvaluation', component: releaseEvaluation.storyEvaluation},
+        {path: 'FoodDetail', name: 'FoodDetail', component: FoodDetail},
+        {path: 'StoryDetail', name: 'StoryDetail', component: StoryDetail},
         {path: 'houseBook', component: houseBook,
           children: [
             {path: '', redirect: 'firstBook'},

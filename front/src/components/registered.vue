@@ -66,6 +66,7 @@
 <style lang="less" scoped>
   @import "../style/global";
   .login {
+    padding-bottom: 36px;
     .logo {
       display: block;
       margin: calc(6.625rem - @topIndicator) auto 0;

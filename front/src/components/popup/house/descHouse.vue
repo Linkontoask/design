@@ -27,6 +27,9 @@
 <style scoped lang="less">
 .desc-house {
   padding: 84px 36px 0;
+  h3 {
+    color: #2E3130;
+  }
   h5 {
     margin: 36px 0 24px 0;
   }

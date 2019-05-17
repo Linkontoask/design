@@ -67,6 +67,9 @@
     computed: {
 
     },
+    destroyed() {
+      Storage.remove('before_url_house_')
+    },
     mounted() {
       this.normalVal(this.$route)
     }
@@ -86,7 +89,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 2;
+    z-index: 9;
     p {
       position: absolute;
       left: 0;

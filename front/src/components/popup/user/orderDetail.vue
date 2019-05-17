@@ -1,6 +1,6 @@
 <template>
   <div class="order-detail">
-    <div class="top">
+    <div class="top" :style="{backgroundImage: `url(${order.hotel_info[0].imgs[0]})`}">
       <ul style="padding-top: 98px">
         <li v-for="item in top" :key="item">
           <span></span>
@@ -12,8 +12,10 @@
         </li>
       </ul>
       <div class="btn-group">
-        <div class="btn">立即评价</div>
-        <div class="btn">再次预定</div>
+        <div class="btn fill" v-if="order.order_status === 1" @click="handlePay">立即支付</div>
+        <div class="btn" v-else @click="handleEvaluation">立即评价</div>
+        <div class="btn plain" v-if="order.order_status === 1" @click="handleChat">联系房东</div>
+        <div class="btn" v-else @click="handleAgain">再次预定</div>
       </div>
     </div>
     <div class="order-information">
@@ -26,32 +28,34 @@
     <div class="order-information" style="padding-top: 0">
       <h3>房源信息</h3>
       <div class="order-house">
-        <img style="width: 100px;" :src="order.hotel_info[0].imgs[0]" alt="">
+        <img :src="order.hotel_info[0].imgs[0]" alt="">
         <div class="house-base">
           <div class="clamp2">{{ order.hotel_info[0].name }}</div>
           <span>{{ order.hotel_info[0].position }}</span>
-        </div>
-        <div class="right">
-          <p></p>
-          <p></p>
         </div>
       </div>
     </div>
     <div style="margin-top: -36px">
       <Time :time="order.order_info.time" :day="p"></Time>
-      <p class="price">在线支付：<strong>￥{{ order.order_info.price }}</strong></p>
+      <p class="price">在线支付：<strong>￥{{ order.order_info.price }}</strong><span style="font-size: 14px;margin-left: 10px">({{ order.order_status === 1 ? '未支付' : '已支付' }})</span></p>
     </div>
+    <confirm :vis="confirmShow" @status="value => confirmShow = value">
+      <span>{{ content }}</span>
+    </confirm>
   </div>
 </template>
 
 <script>
   import axios from '../../../utils/axios'
+  import Storage from '../../../utils/localStorage'
   import Time from '../../base/time'
+  import confirm from '../../base/confirm'
   const date = new Date();
   export default {
     name: 'orderDetail',
     components: {
-      Time
+      Time,
+      confirm
     },
     data() {
       return {
@@ -59,8 +63,10 @@
         top: ['提交订单', '房东确认', '房客入住', '房客离开'],
         order: {
           order_info: {},
-          hotel_info: [{position: '', name: ''}]
+          hotel_info: [{position: '', name: '', imgs: []}]
         },
+        confirmShow: false,
+        content: ''
       }
     },
     computed: {
@@ -69,6 +75,45 @@
       }
     },
     methods: {
+      async handlePay() {
+        const data = await axios.post.call(this, '/hotel/pay_order/', {
+          order_id: this.order.order_id,
+          price: Number(this.order.order_info.price)
+        });
+        this.confirmShow = true;
+        if (data.r === 0) {
+          this.content = '支付成功';
+          this.getData()
+        } else {
+          this.content = data.e;
+        }
+      },
+      handleEvaluation() {
+        this.$router.push({
+          name: 'houseEvaluation',
+          query: {
+            uuid: this.order.hotel_info[0].hotel_id,
+            order_id: this.order.order_id,
+            obj_class: this.order.hotel_info[0].obj_class
+          }
+        })
+      },
+      handleChat() {
+        this.$router.push({
+          name: 'chat'
+        })
+      },
+      handleAgain() {
+        Storage.set('now_checked_house', this.order.hotel_info[0]);
+        this.$router.push({
+          path: '/PopHouse/houseBook/firstBook',
+          query: {
+            control: 'close',
+            direction: 'pop-bottom',
+            price: this.order.hotel_info[0].price
+          }
+        })
+      },
       async getData() {
         const data = await axios.get.call(this, '/hotel/get_order_form/', this.$route.query);
         this.order = data.data[0];
@@ -82,7 +127,7 @@
       this.getData()
     },
     async beforeMount() {
-      this.getData()
+      // this.getData()
     }
   }
 </script>
@@ -91,12 +136,36 @@
 .order-detail {
   position: relative;
   .top {
+    position: relative;
     width: 100%;
     height: 266px;
-    background: url("../../../assets/order.png") no-repeat;
     background-size: 100%;
     color: white;
+    &::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: inherit;
+      filter: blur(2px);
+      z-index: 1;
+    }
+    &::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #484e4d;
+      opacity: .4;
+      z-index: 2;
+    }
     ul {
+      position: relative;
+      z-index: 2;
       padding: 0 36px 0;
       display: flex;
       align-items: center;
@@ -157,9 +226,11 @@
       }
     }
     .btn-group {
+      position: relative;
       padding: 36px;
       display: flex;
       align-items: center;
+      z-index: 2;
       .btn {
         padding: 8px 20px;
         background-color: #4E9EDB;
@@ -206,18 +277,9 @@
     justify-content: space-between;
     padding-bottom: 24px;
     border-bottom: 1px solid #E3E9E6;
-    .right {
-      p {
-        width: 24px;
-        height: 2px;
-        background-color: #8F9895;
-        transform: rotate(135deg);
-        margin-top: 14px;
-      }
-      p:last-child {
-        margin-top: -18px;
-        transform: rotate(-135deg);
-      }
+    img {
+      border-radius: 4px;
+      width: 100px;
     }
     .house-base {
       width: 80%;

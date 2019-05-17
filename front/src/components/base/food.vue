@@ -1,7 +1,7 @@
 <template>
   <div class="Stay-food">
     <ul>
-      <li v-for="(item, index) in data" :key="index">
+      <li v-for="(item, index) in data" :key="index" @touchend="handleView(index)" @touchmove="handleMove">
         <div class="img-box" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="content">
           <h3>{{ item.name }}</h3>
@@ -22,6 +22,7 @@
 
 <script>
   import veTag from './ve-tag'
+  import Storage from '../../utils/localStorage'
   export default {
     name: 'stayFood',
     components: {
@@ -31,8 +32,29 @@
       return {
         tag: ['小吃', '美食', '性价比'],
         position: '重庆邮电大学',
-        d: '距您180米'
+        d: '距您180米',
+        isMove: false
       }
+    },
+    methods: {
+      handleView(index) {
+        if (this.isMove) {
+          this.isMove = false;
+          return false
+        }
+        Storage.set('now_checked_food', this.data[index]);
+        this.$router.push({
+          path: '/PopHouse/FoodDetail',
+          query: {
+            bgColor: '#fff',
+            direction: 'pop-bottom',
+            id: this.data[index].hotel_id
+          }
+        })
+      },
+      handleMove() {
+        this.isMove = true
+      },
     },
     props: {
       data: {

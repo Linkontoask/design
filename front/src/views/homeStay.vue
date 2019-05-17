@@ -58,7 +58,7 @@
           </swiper-slide>
         </swiper>
         <Food :data="foodViews" style="margin-top: 24px"></Food>
-        <div class="line-primary">更多美食</div>
+        <!--<div class="line-primary">更多美食</div>-->
       </div>
       <div class="homeStay-house homeStay-food homeStay-story">
         <h2>精彩故事</h2>
@@ -219,7 +219,7 @@
         })
       })
     },
-    activated() {
+    async activated() {
       this.getData();
       this.scroll && this.scroll.refresh();
       this.isStart = -this.$refs.content.getBoundingClientRect().y >= 426;

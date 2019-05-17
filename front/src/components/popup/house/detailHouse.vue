@@ -37,8 +37,8 @@
       <div class="detail-box-t">
         <h3>评价</h3>
         <div class="evaluation">
-          <evaluationBase :evaluation="evaluation"></evaluationBase>
-          <div class="btn" @click="handleAllEvaluation">查看全部24条评价</div>
+          <evaluationBase :evaluation="hotel_Appraise.user_list"></evaluationBase>
+          <div class="btn" @click="handleAllEvaluation">查看全部{{ hotel_Appraise.appraise_num }}条评价</div>
         </div>
       </div>
       <div class="map">
@@ -95,12 +95,6 @@
     },
     data() {
       return {
-        evaluation: [{
-          avatar: 'https://secure.gravatar.com/avatar/e4fdea5792f1b89f112307232e6056d1?s=800&d=identicon',
-          name: 'Link',
-          time: '2019年5月20日',
-          content: '多么痛的领悟'
-        }],
         house: {},
         hotel_user: {},
         hotel_Appraise: {},
@@ -138,13 +132,25 @@
         'BOOK_HOUSE'
       ]),
       handleAllEvaluation() {
-        this.$router.push('evaluation')
+        this.$router.push({
+          name: 'evaluation',
+          query: {
+            belong_class: this.house.obj_class,
+            belong_id: this.house.hotel_id
+          }
+        })
       },
       handleMoreDesc() {
         this.$router.push('houseDesc')
       },
       handleMoreActive() {
-        this.$router.push('houseFacility')
+        // facility
+        this.$router.push({
+          name: 'houseFacility',
+          query: {
+            facility: this.house.facility ? this.house.facility.join('|') : ''
+          }
+        })
       },
       handlelandlord() {
         this.$router.push({
@@ -260,7 +266,7 @@
       this.getData()
     },
     async beforeMount() {
-      this.getData()
+      // this.getData()
     }
   }
 </script>

@@ -25,10 +25,10 @@
     },
     methods: {
       cancel() {
-        this.vis = false
+        this.$emit('status', false)
       },
       confirm() {
-        this.vis = false
+        this.$emit('status', false)
       },
     }
   }
@@ -73,6 +73,7 @@
       font-weight: bold;
       padding: 10px 0;
       color: #333;
+      text-align: center;
     }
     .ev-confirm-btn-group {
       > div {

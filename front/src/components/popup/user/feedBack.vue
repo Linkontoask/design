@@ -40,7 +40,7 @@
 <style scoped lang="less">
 .feed-back {
   position: relative;
-  padding: 24px 36px;
+  padding: 86px 36px 24px;
   p {
     font-size: 14px;
     color: #5F6564;

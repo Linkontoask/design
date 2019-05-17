@@ -1,14 +1,14 @@
 <template>
   <div class="edit-information">
     <div class="save" @touchend="handleSave">保存</div>
-    <img :src="require('../../../assets/'+user.avatar)" alt="服务器错误">
+    <img v-if="user.avatar" :src="require('../../../assets/'+user.avatar)" alt="服务器错误">
     <div class="titleInput new-box">
       <p>名字</p>
-      <ve-plain-input ref="user_name" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="取一个好听的名字吧" v-model="user.user_name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <ve-plain-input ref="user_name" :readonly="true" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="取一个好听的名字吧" v-model="user.user_name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
     </div>
     <div class="titleInput new-box">
       <p>个性签名</p>
-      <ve-plain-input ref="show_name" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="描述您的心情或心灵感触" v-model="user.show_name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <ve-plain-input ref="show_name" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="描述您的心情或心灵感触" v-model="user.signature" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
     </div>
   </div>
 </template>
@@ -24,8 +24,9 @@
       }
     },
     methods: {
-      handleSave() {
-        if (this.$refs.show_name.error) {
+      async handleSave() {
+        if (this.user.signature === '') {
+          this.$refs.show_name.error = true;
           const node = this.$refs.show_name.$el.children[1];
           node.classList.add('animated', 'bounce', 'faster');
           function handleAnimationEnd() {
@@ -35,13 +36,22 @@
 
           node.addEventListener('animationend', handleAnimationEnd)
         }
-        if (!this.$refs.show_name.error && !this.$refs.user_name.error) {
-          this.$parent.handleTap()
+        if (this.user.signature !== '') {
+          const data = await axios.get.call(this, '/hotel/edit_user_info/', {
+            signature: this.user.signature
+          }) || {};
+          if (data.r === 0 ) {
+            this.$msg({type: 'success', message: '信息已更新哦，快去我的界面看看吧'})
+            this.$parent.handleTap()
+          }
+          data.r === 1 && this.$msg({type: 'error', message: '操作失败，请刷新重试'})
         }
       },
-      getDate() {
-        this.user = Storage.get('user_info_')
-        console.log(this.user)
+      async getDate() {
+        this.$refs.show_name.error = false;
+        const data = await axios.get.call(this, '/hotel/user_info/', {});
+        this.user = data.data;
+        Storage.set('user_info_', this.user);
       }
     },
     mounted() {
@@ -51,7 +61,7 @@
       this.getDate()
     },
     beforeMount() {
-      this.getDate()
+      // this.getDate()
     }
   }
 </script>

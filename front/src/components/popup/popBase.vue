@@ -100,8 +100,7 @@
       }
     },
     beforeMount() {
-      this.direction = 'pop-' + this.$route.query.direction;
-      this.controlStyle = this.$route.path.includes('/type') ? 'close' : 'left'
+
     },
     mounted() {
 

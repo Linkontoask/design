@@ -50,7 +50,7 @@
   }
 .user-pay {
   position: relative;
-  padding: 24px 36px;
+  padding: 86px 36px 24px;
   ul {
     li {
       display: flex;

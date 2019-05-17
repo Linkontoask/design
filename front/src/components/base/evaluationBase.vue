@@ -3,14 +3,14 @@
     <ul>
       <li v-for="(item, index) in evaluation" :key="index">
         <div class="t">
-          <div class="detail-house-avatar" :style="{backgroundImage: `url(${item.avatar})`}"></div>
+          <div class="detail-house-avatar" :style="{backgroundImage: `url(${require('../../assets/'+item.user_info.avatar)})`}"></div>
           <div class="content">
-            <p>{{ item.name }}</p>
-            <p>{{ item.time }}</p>
+            <p>{{ item.user_info.user_name }}</p>
+            <p>{{ item.user_info.register_time }}</p>
           </div>
         </div>
-        <div class="clamp2">{{ item.content }}</div>
-        <img class="content-img" v-for="(img, i) in item.imgs" :key="i" :src="img" alt="服务器错误">
+        <div class="clamp2">{{ item.appraise }}</div>
+        <img class="content-img" v-for="(img, i) in item.img" :key="i" :src="img" alt="服务器错误">
       </li>
     </ul>
   </div>

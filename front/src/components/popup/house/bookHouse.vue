@@ -24,7 +24,7 @@
     name: '',
     data() {
       return {
-        house: {},
+        house: {imgs: []},
         component: first
       }
     },
@@ -36,8 +36,11 @@
     mounted() {
 
     },
-    beforeMount() {
+    activated() {
       this.house = Storage.get('now_checked_house') || {};
+    },
+    beforeMount() {
+
     }
   }
 </script>

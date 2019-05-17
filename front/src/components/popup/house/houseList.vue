@@ -52,7 +52,8 @@
           path: '/PopHouse/houseDetail',
           query: {
             bgColor: '#fff',
-            direction: 'pop-right'
+            direction: 'pop-right',
+            id: item.hotel_id
           }
         })
       }
@@ -60,9 +61,12 @@
     mounted() {
 
     },
-    async beforeMount() {
+    async activated() {
       const data = await axios.get.call(this, '/hotel/search_for_all', {});
       this.houseList = data.data.hotel_list;
+    },
+    async beforeMount() {
+
     }
   }
 </script>
@@ -73,7 +77,7 @@
   h1 {
     font-size: 20px;
     padding: 0 36px;
-    margin-top: 36px;
+    margin-top: 86px;
     color: #2E312F;
   }
   .house-content {
@@ -82,12 +86,13 @@
       width: 80%;
       margin: 36px auto 0;
       h4 {
-        margin-top: 24px;
+        margin-top: 8px;
         margin-bottom: 8px;
       }
       img {
         width: 100%;
         border-radius: 4px;
+        vertical-align: bottom;
       }
       span {
         color: #EB0C0C;
