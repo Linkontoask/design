@@ -2,6 +2,7 @@ import json
 import random
 from django.db.models import Q, F
 from django.apps import apps
+from django.db import transaction
 from link.models import HotelRoom, UsedImage, UserAppraise, AroundRegion, StoryBoard, UserProfile, OrderForm, \
     UserFavorite
 
@@ -81,9 +82,9 @@ def entering_user_appraise(data, files, avg_score, score_info, order_id):
         score_info_str += str(v) + (',' if i < len(new_exc_info) - 1 else '')
     class_obj.score_info = score_info_str
     class_obj.save()
-    UserAppraise.objects.create(**data)
+    appraise = UserAppraise.objects.create(**data)
     order_form_status(order_id)
-    save_files_for_class(files, data['belong_class'], data['belong_id'])
+    save_files_for_class(files, 'UserAppraise', appraise.id)
 
 
 def is_appraise(user_id, belong_class, belong_id):
@@ -101,7 +102,8 @@ def get_appraise_of_object(belong_class, belong_id, len=None):
     user_list = [{
         'user_name': ap.user.username,
         'appraise': ap.appraise,
-        'about_time': ap.about_time.strftime('%Y-%m-%d')
+        'about_time': ap.about_time.strftime('%Y-%m-%d'),
+        'img':get_img_for_obj(ap.id, 'UserAppraise'),
     } for ap in appraise]
     total_appraise = {'score_info': class_obj.score_info, 'total_score': class_obj.total_score}
     result_data = {'user_list': user_list[1:len] if len else user_list, 'total_appraise': total_appraise}
@@ -335,6 +337,7 @@ def get_order_form(order_id, user):
         'create': o.create.username,
         'hotel_id': o.hotel.id,
         'order_status': o.order_status,
+        'belong_class': 'OrderForm',
         'order_info': json.loads(o.detail),
         'hotel_info': get_hotel_room_info(hotel_id=o.hotel.id)
     } for o in orders]
@@ -343,11 +346,14 @@ def get_order_form(order_id, user):
 
 def pay_order(order_id, price, user_id):
     OrderForm.objects.filter(id=order_id).update(order_status=2)
-    hotel_user = OrderForm.objects.get(id=order_id).hotel.user.user_profile
-    hotel_user.score = int(hotel_user.score) + int(price) * 10
-    hotel_user.save()
-    UserProfile.objects.filter(user_id=user_id).update(property=F('property') - int(price))
-
+    with transaction.atomic():
+        hotel_user = OrderForm.objects.get(id=order_id).hotel.user.user_profile
+        hotel_user.property = F('property') + int(price)
+        hotel_user.save()
+        u = UserProfile.objects.get(user_id=user_id)
+        u.score = F('score') + int(price)
+        u.property = F('property') - int(price)
+        u.save()
 
 def order_form_status(order_id):
     OrderForm.objects.filter(id=order_id).update(order_status=3)
