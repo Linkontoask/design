@@ -6,8 +6,8 @@ from django.apps import apps
 
 from link.hotel_info import entering_hotel_info, entering_story_board, entering_around_region, get_around_region, \
     save_files_for_class, save_around_for_hotel, get_hotel_room_info, get_around_info, get_all_portrait, \
-    get_one_hotel_and_around, get_story, get_user_info, entering_user_appraise, get_appraise_of_object, \
-    submit_order_form, get_order_form, pay_order, user_collect, get_user_collect
+    get_one_hotel_and_around, get_user_info, entering_user_appraise, get_appraise_of_object, \
+    submit_order_form, get_order_form, pay_order, user_collect, get_user_collect, get_story_info
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -154,23 +154,20 @@ def entering_user_appraise_view(request):
     belong_id = request.POST.get('belong_id')
     # 非特殊要求，这个user_id  可以不传
     user_id = request.POST.get('user_id') if request.POST.get('user_id') else request.user.id
-    appraise = request.POST.get('appraise', '')
+    appraise = request.POST.get('content', '')
     # 平均分
     avg_score = request.POST.get('avg_score', 0)
     # 评价的细则，可以没有
-    score_info = json.loads(request.POST.get('score_info', '[]'))
+    score_info = request.POST.get('score_info', '')
 
     data = {
         'belong_class': belong_class,
-        'belong_id': belong_id,
-        'user_id': user_id,
+        'belong_id': int(belong_id),
+        'user_id': int(user_id),
         'appraise': appraise,
-        'score_info': score_info,
+        'detail': score_info,
     }
-    try:
-        result = entering_user_appraise(data, files, avg_score)
-    except Exception as e:
-        result = {'r': 1, 'e': str(e)}
+    result = entering_user_appraise(data, files, avg_score)
 
     return HttpResponse(json.dumps(result))
 
@@ -283,7 +280,7 @@ def get_story_view(request):
     hotel_id = request.GET.get('hotel_id', None)
     user = request.user
     try:
-        re_story = get_story(user, user_id, hotel_id, is_all)
+        re_story = get_story_info(user, user_id, hotel_id, is_all)
         result['data'] = re_story
     except Exception as e:
         result['r'] = 1

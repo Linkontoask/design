@@ -63,26 +63,32 @@ def entering_story_board(data, files):
 
 
 def entering_user_appraise(data, files, avg_score):
-    try:
-        class_model = apps.get_model('link', data['belong_class'])
-        class_obj = class_model.objects.get(id=data['belong_id'])
-        exc_info = json.loads(class_obj.exc_info)
-        score_num = class_obj.score_num
-        total_score = (class_obj.total_score * score_num + avg_score) / (score_num + 1)
-        class_obj.score_num = score_num + 1
-        class_obj.total_score = int(total_score)
-        new_exc_info = []
-        for i, v in enumerate(data['score_info']):
-            new_exc_info.append(
-                (exc_info[i] * score_num + v) / (score_num + 1)
-            )
-        class_obj.exc_info = json.dumps(new_exc_info)
-        class_obj.save()
-        UserAppraise.objects.create(**data)
-        save_files_for_class(files, data['belong_class'], data['belong_id'])
-    except Exception as e:
-        print('entering_user_appraise:', e)
-        raise e
+    # try:
+    class_model = apps.get_model('link', data['belong_class'])
+    class_obj = class_model.objects.get(id=data['belong_id'])
+    exc_info = class_obj.score_info.split(',')
+    score_num = class_obj.score_num
+    total_score = (class_obj.total_score * score_num + int(avg_score)) / (score_num + 1)
+    class_obj.score_num = score_num + 1
+    class_obj.total_score = int(total_score)
+    new_exc_info = []
+    ss = data['score_info'].split(',')
+    print('444444',ss)
+    for i, v in enumerate(ss):
+        print('111111',i, v,exc_info[i],type(exc_info[i]))
+        new_exc_info.append(
+            int((int(exc_info[i]) * score_num + int(v)) / (score_num + 1))
+        )
+    score_info_str =''
+    for i,v in enumerate(new_exc_info):
+        score_info_str += str(v) + (',' if i < len(new_exc_info)-1 else '')
+    class_obj.score_info = score_info_str
+    class_obj.save()
+    UserAppraise.objects.create(**data)
+    save_files_for_class(files, data['belong_class'], data['belong_id'])
+    # except Exception as e:
+    #     print('entering_user_appraise:', e)
+    #     raise e
 
 
 def get_appraise_of_object(belong_class, belong_id, len=None):
@@ -94,7 +100,7 @@ def get_appraise_of_object(belong_class, belong_id, len=None):
         'appraise': ap.appraise,
         'about_time': ap.about_time.strftime('%Y-%m-%d')
     } for ap in appraise]
-    total_appraise = {'score_info': json.loads(class_obj.score_info), 'total_score': class_obj.total_score}
+    total_appraise = {'score_info': class_obj.score_info, 'total_score': class_obj.total_score}
     result_data = {'user_list': user_list[1:len] if len else user_list, 'total_appraise': total_appraise}
     return result_data
 
@@ -240,18 +246,17 @@ def get_all_portrait():
     return img_list
 
 
-def get_story(user=None, user_id=None, hotel_id=None, is_all=None):
+def get_story_info(user=None, user_id=None, hotel_id=None, is_all=None, story_id=None):
     if user_id:
         storyboard = StoryBoard.objects.filter(user_id=user_id)
     else:
         storyboard = StoryBoard.objects.filter(user=user)
-
     if hotel_id:
         storyboard = StoryBoard.objects.filter(hotel_id=hotel_id)
-
     if is_all:
         storyboard = StoryBoard.objects.all()
-
+    if story_id:
+        storyboard = StoryBoard.objects.filter(id=story_id)
     result_list = [{
         'user_id': story.user_id,
         'hotel_id': story.hotel_id,
@@ -331,22 +336,32 @@ def pay_order(order_id, price, user_id):
     hotel_user.save()
     UserProfile.objects.filter(user_id=user_id).update(property=F('property') - int(price))
 
+
 # ------------------收藏-----------------
-def user_collect(collect_class,collect_id,user_id):
+def user_collect(collect_class, collect_id, user_id):
     params = {
-        'user_id':user_id,
-        'favorite_class':collect_class,
-        'favorite_id':collect_id,
+        'user_id': user_id,
+        'favorite_class': collect_class,
+        'favorite_id': collect_id,
     }
     UserFavorite.objects.create(**params)
 
+
 def get_user_collect(user_id):
     collects = UserFavorite.objects.filter(user_id=user_id)
-
-    re = [{
-        'belong_class':co.favorite_class,
-        'belong_id':co.favorite_id,
-        'belong_info':get_hotel_room_info(hotel_id=co.favorite_id) # 要处理为故事的情况
-    } for co in collects]
+    re = []
+    for collect in collects:
+        belong_class = collect.favorite_class
+        belong_id = collect.favorite_id
+        belong_info = 'not this class function'
+        if belong_class == 'HotelRoom':
+            belong_info = get_hotel_room_info(hotel_id=belong_id)
+        if belong_class == 'StoryBoard':
+            belong_info = get_story_info(story_id=belong_id)
+        re.append({
+            'belong_class': belong_class,
+            'belong_id': belong_id,
+            'belong_info':belong_info,
+        })
 
     return re

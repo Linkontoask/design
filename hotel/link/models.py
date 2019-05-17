@@ -82,9 +82,9 @@ class HotelRoom(models.Model):
     # 评价总人数
     score_num = models.IntegerField(default=0)
     # 总评分
-    total_score = models.SmallIntegerField(default=0)
+    total_score = models.SmallIntegerField(default=5)
     # 说明
-    score_info = models.TextField(default='[]')
+    score_info = models.TextField(default='5,5,5,5,5')
 
 
 class UserAppraise(models.Model):
@@ -112,7 +112,7 @@ class UserAppraise(models.Model):
     # 评价时间
     about_time = models.DateTimeField(auto_now_add=True)
     # 评价详情
-    detail = models.TextField(default='{}')
+    detail = models.TextField(default='')
 
     # # 对应用户
     # user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='user_appraise')
