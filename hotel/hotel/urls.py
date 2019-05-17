@@ -33,12 +33,12 @@ urlpatterns = [
                   # 录入故事信息
                   url(r'^hotel/story_board/$', views.entering_story_board_import),
 
-                # 录入用户评价
-                url(r'^hotel/user_appraise/$', views.entering_user_appraise_view),
-                # 录入订单
-                url(r'^hotel/order_form/$', views.submit_order_form_view),
-                # 录入收藏
-                url(r'^hotel/user_collect/$', views.submit_user_collect_view),
+                  # 录入用户评价
+                  url(r'^hotel/user_appraise/$', views.entering_user_appraise_view),
+                  # 录入订单
+                  url(r'^hotel/order_form/$', views.submit_order_form_view),
+                  # 录入收藏
+                  url(r'^hotel/user_collect/$', views.submit_user_collect_view),
 
                   # 得到头像集
                   url(r'^hotel/head_portrait/$', views.get_head_portrait),
@@ -54,18 +54,22 @@ urlpatterns = [
                   url(r'^hotel/get_story/$', views.get_story_view),  # 传入 user_id，is_all，hotel_id
                   # 得到用户信息
                   url(r'^hotel/user_info/$', views.get_user_info_view),  # 可传参数 user_id
-                # 得到用户评价
-                url(r'^hotel/get_appraise/$', views.get_appraise_view), # 参数 belong_class,belong_id
-                # 得到订单
-                url(r'^hotel/get_order_form/$', views.get_order_form_view), # order_id
+                  # 修改个性签名
+                  url(r'^hotel/edit_user_info/$', views.edit_user_info_view),  # 参数 signature
+                  # 判断用户是否以评价(当前用户)
+                  url(r'^hotel/is_appraise/$', views.is_appraise_view),  # 参数 belong_class,belong_id
+                  # 得到用户评价
+                  url(r'^hotel/get_appraise/$', views.get_appraise_view),  # 参数 belong_class,belong_id
+                  # 得到订单
+                  url(r'^hotel/get_order_form/$', views.get_order_form_view),  # order_id
 
-                # 得到收藏
-                url(r'^hotel/get_user_collect/$', views.get_user_collect_view),
+                  # 得到收藏
+                  url(r'^hotel/get_user_collect/$', views.get_user_collect_view),
+                  # 取消收藏
+                  url(r'^hotel/del_collect/$', views.del_collect_obj_view),  # 参数 belong_class,belong_id
 
-                # 支付
-                url(r'^hotel/pay_order/$', views.pay_order_view), # order_id,price
-
-
+                  # 支付
+                  url(r'^hotel/pay_order/$', views.pay_order_view),  # order_id,price
 
                   # 测试接口
                   url(r'^get_user/', views.get_users),

@@ -7,7 +7,8 @@ from django.apps import apps
 from link.hotel_info import entering_hotel_info, entering_story_board, entering_around_region, get_around_region, \
     save_files_for_class, save_around_for_hotel, get_hotel_room_info, get_around_info, get_all_portrait, \
     get_one_hotel_and_around, get_user_info, entering_user_appraise, get_appraise_of_object, \
-    submit_order_form, get_order_form, pay_order, user_collect, get_user_collect, get_story_info
+    submit_order_form, get_order_form, pay_order, user_collect, get_user_collect, get_story_info, is_appraise, \
+    del_collect_obj, edit_user_info
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -147,6 +148,7 @@ def entering_around_region_import(request):
 
 
 def entering_user_appraise_view(request):
+    result = {'r': 0, 'e': '评价成功'}
     # 图片
     files = request.FILES.getlist('files', None)
     # 方法里有回传这两个key  现在带回来
@@ -159,6 +161,8 @@ def entering_user_appraise_view(request):
     avg_score = request.POST.get('avg_score', 0)
     # 评价的细则，可以没有
     score_info = request.POST.get('score_info', '')
+    # 订单号
+    order_id = int(request.POST.get('order_id', 0))
 
     data = {
         'belong_class': belong_class,
@@ -167,7 +171,24 @@ def entering_user_appraise_view(request):
         'appraise': appraise,
         'detail': score_info,
     }
-    result = entering_user_appraise(data, files, avg_score)
+    try:
+        entering_user_appraise(data, files, avg_score, score_info, order_id)
+    except Exception as e:
+        result = {'r': 1, 'e': str(e)}
+        print('entering_user_appraise_view e:', e)
+
+    return HttpResponse(json.dumps(result))
+
+
+def is_appraise_view(request):
+    user = request.user
+    belong_class = request.POST.get('obj_class')
+    belong_id = request.POST.get('belong_id')
+    re = is_appraise(user.id, belong_class, belong_id)
+    if re:
+        result = {'r': 0, 'e': 'ok', 'data': re}
+    else:
+        result = {'r': 1, 'e': '请求失败', 'data': re}
 
     return HttpResponse(json.dumps(result))
 
@@ -233,9 +254,9 @@ def get_hotel_room_view(request):
 def get_one_hotel_room_view(request):
     result = {'r': 0, 'e': 'ok'}
     hotel_id = request.GET.get('hotel_id', None)
-    print(request.user)
+    user = request.user
     try:
-        re = get_one_hotel_and_around(hotel_id)
+        re = get_one_hotel_and_around(hotel_id, user.id)
         result['data'] = re
     except Exception as e:
         result = {'r': 1, 'e': str(e)}
@@ -289,6 +310,8 @@ def get_story_view(request):
     return HttpResponse(json.dumps(result))
 
 
+# --------------用户相关---------------------
+
 def get_users(request):
     users = User.objects.all()
     u_name = [u.username for u in users]
@@ -297,6 +320,15 @@ def get_users(request):
     print('aaaa', a)
 
     return HttpResponse(json.dumps(u_name))
+
+
+def edit_user_info_view(request):
+    signature = request.GET.get('signature','')
+    user = request.user
+    print('111111:',signature)
+    edit_user_info(user.id, signature)
+
+    return HttpResponse(json.dumps({'r': 0, 'e': 'ok'}))
 
 
 # ------------------订单 相关-----------------------------------
@@ -355,11 +387,12 @@ def submit_user_collect_view(request):
     collect_class = web_data.get('belong_class')
     collect_id = web_data.get('belong_id')
     try:
-        user_collect(collect_class,collect_id,user.id)
+        user_collect(collect_class, collect_id, user.id)
     except Exception as e:
         print(e)
         result = {'r': 1, 'e': str(e)}
     return HttpResponse(json.dumps(result))
+
 
 def get_user_collect_view(request):
     result = {'r': 0, 'e': 'ok'}
@@ -370,3 +403,12 @@ def get_user_collect_view(request):
         print(e)
         result = {'r': 1, 'e': str(e)}
     return HttpResponse(json.dumps(result))
+
+
+def del_collect_obj_view(request):
+    user = request.user
+    web_data = request.POST
+    belong_class = web_data.get('belong_class')
+    belong_id = web_data.get('belong_id')
+    del_collect_obj(user.id, belong_class, belong_id)
+    return HttpResponse(json.dumps({'r': 0, 'e': 'ok'}))

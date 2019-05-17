@@ -62,8 +62,7 @@ def entering_story_board(data, files):
     return result
 
 
-def entering_user_appraise(data, files, avg_score):
-    # try:
+def entering_user_appraise(data, files, avg_score, score_info, order_id):
     class_model = apps.get_model('link', data['belong_class'])
     class_obj = class_model.objects.get(id=data['belong_id'])
     exc_info = class_obj.score_info.split(',')
@@ -72,23 +71,27 @@ def entering_user_appraise(data, files, avg_score):
     class_obj.score_num = score_num + 1
     class_obj.total_score = int(total_score)
     new_exc_info = []
-    ss = data['score_info'].split(',')
-    print('444444',ss)
+    ss = score_info.split(',')
     for i, v in enumerate(ss):
-        print('111111',i, v,exc_info[i],type(exc_info[i]))
         new_exc_info.append(
             int((int(exc_info[i]) * score_num + int(v)) / (score_num + 1))
         )
-    score_info_str =''
-    for i,v in enumerate(new_exc_info):
-        score_info_str += str(v) + (',' if i < len(new_exc_info)-1 else '')
+    score_info_str = ''
+    for i, v in enumerate(new_exc_info):
+        score_info_str += str(v) + (',' if i < len(new_exc_info) - 1 else '')
     class_obj.score_info = score_info_str
     class_obj.save()
     UserAppraise.objects.create(**data)
+    order_form_status(order_id)
     save_files_for_class(files, data['belong_class'], data['belong_id'])
-    # except Exception as e:
-    #     print('entering_user_appraise:', e)
-    #     raise e
+
+
+def is_appraise(user_id, belong_class, belong_id):
+    obj = UserAppraise.objects.filter(belong_class=belong_class, user_id=int(user_id), belong_id=int(belong_id)).first()
+    if obj:
+        return True
+    else:
+        return False
 
 
 def get_appraise_of_object(belong_class, belong_id, len=None):
@@ -120,12 +123,12 @@ def get_around_region(user, user_id, is_all):
             imgs.append(arr_img.image.url)
         around_region_list.append(
             {'name': obj.name, 'id': obj.id, 'imgs': imgs, 'around_type': obj.around_type, 'obj_class': 'AroundRegion',
-             'price': obj.price})
+             'price': obj.price, 'detail': obj.detail})
 
     return around_region_list
 
 
-def get_hotel_room_info(user_id=None, search=None, hotel_id=None):
+def get_hotel_room_info(user_id=None, search=None, hotel_id=None, belong_user_id=None):
     if not user_id:
         hotel_rooms = HotelRoom.objects.filter()
     else:
@@ -148,16 +151,17 @@ def get_hotel_room_info(user_id=None, search=None, hotel_id=None):
                       'price': hotel.price,
                       'tag': hotel.tag,
                       'obj_class': 'HotelRoom',
+                      'is_collect': get_is_collect(belong_user_id, 'HotelRoom', hotel.id),
                       'imgs': get_img_for_obj(hotel.id, 'HotelRoom'),
                       'total_score': hotel.total_score} for hotel in hotel_rooms]
     return result_hotels
 
 
-def get_one_hotel_and_around(hotel_id):
+def get_one_hotel_and_around(hotel_id, belong_user_id=None):
     result = dict()
     hotel_obj = HotelRoom.objects.get(id=hotel_id)
     hotel_user_obj = hotel_obj.user
-    hotel_dict = get_hotel_room_info(hotel_id=hotel_id)
+    hotel_dict = get_hotel_room_info(hotel_id=hotel_id, belong_user_id=belong_user_id)
     around_list = get_around_info(hotel_id=hotel_id)
     hotel_user = get_user_info(hotel_user_obj.id)
     similar_hotel = get_similar_hotel(hotel_obj.tag.split('|'))
@@ -219,6 +223,7 @@ def get_around_info(user_obj=None, search=None, hotel_id=None):
     if hotel_id:
         around_list = around_list.filter(hotel_id=hotel_id)
     result = [{'user_id': around.user.id,
+               'around_id': around.id,
                'hotel_id': around.hotel.id if around.hotel else '',
                'name': around.name,
                'price': around.price,
@@ -263,7 +268,9 @@ def get_story_info(user=None, user_id=None, hotel_id=None, is_all=None, story_id
         'story_id': story.id,
         'name': story.theme,
         'content': story.content,
+        'create_time': story.create_time.strftime('%Y-%m-%d'),
         'obj_class': 'StoryBoard',
+        'user_info': get_user_info(story.user_id),
         'imgs': get_img_for_obj(story.id, 'StoryBoard')
     } for story in storyboard]
     return result_list
@@ -294,10 +301,14 @@ def get_user_info(user_id):
         'score': user_obj.score,
         'register_time': user_obj.register_time.strftime('%Y-%m-%d'),
         'avatar': user_obj.avatar,
-        # 'portrait':user_obj.portrait.image.url,
+        'signature': user_obj.signature,
     }
 
     return user_info
+
+
+def edit_user_info(user_id, _info):
+    UserProfile.objects.filter(user_id=user_id).update(signature=_info)
 
 
 # ------------------订单 相关-----------------------------------
@@ -313,10 +324,11 @@ def submit_order_form(user_id, hotel_id, submit_data):
 
 
 def get_order_form(order_id, user):
+    print('55555',order_id, user.id)
     if order_id:
         orders = OrderForm.objects.filter(id=order_id)
     else:
-        orders = OrderForm.objects.filter(hotel__user_id=user.id)
+        orders = OrderForm.objects.filter(create_id=user.id)
 
     re = [{
         'order_id': o.id,
@@ -335,6 +347,10 @@ def pay_order(order_id, price, user_id):
     hotel_user.score = int(hotel_user.score) + int(price) * 10
     hotel_user.save()
     UserProfile.objects.filter(user_id=user_id).update(property=F('property') - int(price))
+
+
+def order_form_status(order_id):
+    OrderForm.objects.filter(id=order_id).update(order_status=3)
 
 
 # ------------------收藏-----------------
@@ -361,7 +377,29 @@ def get_user_collect(user_id):
         re.append({
             'belong_class': belong_class,
             'belong_id': belong_id,
-            'belong_info':belong_info,
+            'belong_info': belong_info,
         })
 
     return re
+
+
+def get_is_collect(user_id, belong_class, belong_id):
+    params = {
+        'user_id': user_id,
+        'favorite_class': belong_class,
+        'favorite_id': belong_id
+    }
+    obj = UserFavorite.objects.filter(**params).first()
+    if obj:
+        return True
+    else:
+        return False
+
+
+def del_collect_obj(user_id, belong_class, belong_id):
+    params = {
+        'user_id': user_id,
+        'favorite_class': belong_class,
+        'favorite_id': belong_id
+    }
+    UserFavorite.objects.filter(**params).delete()

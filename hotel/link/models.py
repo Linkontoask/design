@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import User
 
 
@@ -41,6 +42,8 @@ class UserProfile(models.Model):
     portrait = models.ForeignKey(UsedImage, on_delete=models.SET_NULL, null=True, default=None)
     # 头像只有文件名
     avatar = models.CharField(max_length=20, default='')
+    # 个性签名
+    signature = models.CharField(max_length=20, default='')
 
 
 class HotelRoom(models.Model):
@@ -135,6 +138,7 @@ class UserFavorite(models.Model):
     favorite_id = models.IntegerField()
 
 
+
 class AroundRegion(models.Model):
     '''
     房源周边
@@ -172,6 +176,8 @@ class StoryBoard(models.Model):
     content = models.TextField(default='')
     # 评价总人数
     score_num = models.IntegerField(default=0)
+    # 创建时间
+    create_time = models.DateTimeField(auto_now_add=True)
     # 总评分
     total_score = models.SmallIntegerField(default=0)
     # 说明
@@ -186,7 +192,7 @@ class OrderForm(models.Model):
     hotel = models.ForeignKey(HotelRoom, null=True, on_delete=models.SET_NULL, related_name='hotel_order')
     # 创建时间
     order_time = models.TimeField(auto_now_add=True)
-    # 状态 1 侍支付  2.支付成功
+    # 状态 1 侍支付  2.支付成功 3.评价成功
     order_status = models.SmallIntegerField(default=1)
     # 详情
     detail = models.TextField(default='{}')
