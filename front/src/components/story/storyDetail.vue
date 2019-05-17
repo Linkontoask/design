@@ -3,9 +3,7 @@
     <div class="detail-story-img">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in story.imgs" :key="imgIndex">
-          <div>
-            <img :src="img" alt="not find img">
-          </div>
+          <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
       </swiper>
@@ -60,9 +58,22 @@
       getStorage() {
         this.story = Storage.get('now_checked_story')
       },
+      async handleCollection(status) {
+        let url = status ? '/hotel/user_collect/' : '/hotel/del_collect/';
+        const data = await axios.get.call(this, url, {
+          belong_class: this.story.obj_class,
+          belong_id: this.story.story_id,
+        });
+        if (data.r === 0) {
+          this.$msg({type: 'success', message: status ? '收藏成功' : '取消收藏成功'})
+        } else {
+          this.$msg({type: 'success', message: data.e})
+        }
+      },
       // 点赞动画
       heartAnimation() {
-        let el16 = this.$refs.heartBox, el16span = this.$refs.heart;
+        let vm = this;
+        let el16 = vm.$refs.heartBox, el16span = vm.$refs.heart;
         let opacityCurve16 = mojs.easing.path('M0,0 L25.333,0 L75.333,100 L100,0');
         let translationCurve16 = mojs.easing.path('M0,100h25.3c0,0,6.5-37.3,15-56c12.3-27,35-44,35-44v150c0,0-1.1-12.2,9.7-33.3c9.7-19,15-22.9,15-22.9');
         let squashCurve16 = mojs.easing.path('M0,100.004963 C0,100.004963 25,147.596355 25,100.004961 C25,70.7741867 32.2461944,85.3230873 58.484375,94.8579105 C68.9280825,98.6531013 83.2611815,99.9999999 100,100');
@@ -122,7 +133,11 @@
             })
           ],
           onUnCheck: function () {
+            vm.handleCollection(false);
             el16span.style.color = '#fff';
+          },
+          onCheck() {
+            vm.handleCollection(true);
           }
         });
       }
@@ -213,9 +228,11 @@
     }
     .swiper-content {
       height: 234px;
-      img {
-        max-height: 100%;
-        max-width: 100%;
+      .img-content {
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
       }
     }
   }

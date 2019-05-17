@@ -3,7 +3,7 @@
     <img src="../assets/logo.png" alt="LOGO" class="logo">
     <div class="login-box">
       <h4>用户名</h4>
-      <ve-plain-input ref="user" v-model="data.username" message="请输入正确的用户名" :options="{min: 2, max: 6}" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <ve-plain-input ref="user" v-model="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[a-zA-Z]|[0-9]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       <h4 style="padding-top: 6px">密码</h4>
       <ve-plain-input ref="password" v-model="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
       <h4 style="padding-top: 6px">确认密码</h4>

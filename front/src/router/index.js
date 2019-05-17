@@ -42,6 +42,7 @@ import user from '../components/popup/user/index';
 import releaseFood from '../components/process/food/';
 import releaseStory from '../components/process/story/';
 import releaseEvaluation from '../components/evaluation/';
+import collection from '../components/popup/collection/'
 
 Vue.use(Router);
 
@@ -147,6 +148,9 @@ export default new Router({
         {path: 'storyEvaluation', name: 'storyEvaluation', component: releaseEvaluation.storyEvaluation},
         {path: 'FoodDetail', name: 'FoodDetail', component: FoodDetail},
         {path: 'StoryDetail', name: 'StoryDetail', component: StoryDetail},
+        {path: 'FoodCollection', name: 'FoodCollection', component: collection.FoodCollection},
+        {path: 'HouseCollection', name: 'HouseCollection', component: collection.HouseCollection},
+        {path: 'StoryCollection', name: 'StoryCollection', component: collection.StoryCollection},
         {path: 'houseBook', component: houseBook,
           children: [
             {path: '', redirect: 'firstBook'},

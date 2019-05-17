@@ -90,7 +90,7 @@
     computed: {
       searchString() {
         const date = this.date;
-        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay()] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()===7?1:date.getDay() + 1] }`
+        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay() - 1] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()===7?1:date.getDay()] }`
       }
     },
     data() {

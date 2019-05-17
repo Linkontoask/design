@@ -5,9 +5,11 @@
         <div class="img-box" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="content">
           <h3>{{ item.name }}</h3>
-          <p class="desc">{{ item.desc }}</p>
+          <p class="desc">{{ item.detail }}</p>
           <div class="price">
-            <ve-tag v-for="obj in tag" :key="obj">{{ obj }}</ve-tag>
+            <div class="tag">
+              <ve-tag v-for="obj in tag" :key="obj">{{ obj }}</ve-tag>
+            </div>
             <p>人均：<span>￥{{ item.price }}</span></p>
           </div>
           <p class="position">
@@ -99,13 +101,28 @@
         text-overflow: ellipsis;
       }
       .price {
-        margin-top: 1.5rem;
+        margin-top: 0.5rem;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        @media screen and (max-width: 320px) {
+          & {
+            margin-top: 10px;
+          }
+          .tag {
+          }
+          > p {
+            display: none;
+          }
+        }
+        .tag {
+          flex-shrink: 0;
+        }
         > p {
           font-size: 14px;
           margin-left: auto;
+          width: 94px;
+          text-align: right;
           span {
             color: #DB3F1F;
           }
@@ -116,7 +133,7 @@
         justify-content: space-between;
         font-size: 12px;
         color: #8F9895;
-        margin-top: 16px;
+        margin-top: 12px;
       }
     }
   }

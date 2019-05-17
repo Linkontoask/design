@@ -13,7 +13,7 @@
       <hr>
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(item, index) in citys" :key="index">
-          <div>
+          <div @click="handleHouseCollection(item)">
             <img :src="require('../static/img/' + item.src)" alt="not find img">
           </div>
           <p class="sub">{{ item.len }} 个房源</p>
@@ -22,18 +22,20 @@
     </div>
     <div class="collection-food">
       <h1>美食</h1>
-      <img src="../static/img/food-1.png" alt="not find img">
+      <img src="../static/img/food-1.png" alt="not find img" @click="handleFoodCollection">
       <p class="sub">12 种美食</p>
     </div>
     <div class="collection-story">
       <h1>故事</h1>
-      <img src="../static/img/story-1.png" alt="not find img">
+      <img src="../static/img/story-1.png" alt="not find img" @click="handleStoryCollection">
       <p class="sub">1 则故事</p>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from "../utils/axios";
+
   export default {
     name: 'collection',
     data() {
@@ -61,14 +63,33 @@
       }
     },
     methods: {
+      handleHouseCollection(item) {
+        this.$router.push({
+          name: 'HouseCollection',
+        })
+      },
+      handleFoodCollection() {
+        this.$router.push({
+          name: 'FoodCollection',
+        })
+      },
+      handleStoryCollection() {
+        this.$router.push({
+          name: 'StoryCollection',
+        })
+      },
       handleNav(item, index) {
         this.$refs.city.swiper.slideTo(index, 300, false);
+      },
+      async getData() {
+        const data = await axios.get.call(this, '/hotel/get_user_collect/', {})
       }
     },
     mounted() {
 
     },
     activated() {
+      this.getData();
       console.log('collection', 'keep-alive');
     }
   }
