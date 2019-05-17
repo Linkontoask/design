@@ -282,7 +282,9 @@ def get_story_info(user=None, user_id=None, hotel_id=None, is_all=None, story_id
 
 
 def save_files_for_class(files, _class, obj_id):
+    print('333333333',files)
     for file in files:
+        print(type(file),file)
         img_params = {
             'belong_class': _class,
             'belong_id': obj_id,
