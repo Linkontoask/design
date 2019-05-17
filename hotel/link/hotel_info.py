@@ -83,6 +83,7 @@ def entering_user_appraise(data, files, avg_score, score_info, order_id):
     class_obj.score_info = score_info_str
     class_obj.save()
     appraise = UserAppraise.objects.create(**data)
+    print('555eee55', order_id)
     order_form_status(order_id)
     save_files_for_class(files, 'UserAppraise', appraise.id)
 
@@ -95,18 +96,20 @@ def is_appraise(user_id, belong_class, belong_id):
         return False
 
 
-def get_appraise_of_object(belong_class, belong_id, len=None):
+def get_appraise_of_object(belong_class, belong_id, len_max=None):
     appraise = UserAppraise.objects.filter(belong_class=belong_class, belong_id=belong_id)
     class_model = apps.get_model('link', belong_class)
     class_obj = class_model.objects.get(id=belong_id)
     user_list = [{
         'user_name': ap.user.username,
+        'user_info': get_user_info(ap.user.id),
         'appraise': ap.appraise,
         'about_time': ap.about_time.strftime('%Y-%m-%d'),
-        'img':get_img_for_obj(ap.id, 'UserAppraise'),
+        'img': get_img_for_obj(ap.id, 'UserAppraise'),
     } for ap in appraise]
     total_appraise = {'score_info': class_obj.score_info, 'total_score': class_obj.total_score}
-    result_data = {'user_list': user_list[1:len] if len else user_list, 'total_appraise': total_appraise}
+    result_data = {'user_list': user_list[0:len_max] if len_max else user_list, 'total_appraise': total_appraise,
+                   'appraise_num': len(user_list)}
     return result_data
 
 
@@ -171,7 +174,7 @@ def get_one_hotel_and_around(hotel_id, belong_user_id=None):
     result['around_list'] = around_list
     result['hotel_user'] = hotel_user
     result['similar_hotel'] = similar_hotel
-    result['hotel_Appraise'] = get_appraise_of_object('HotelRoom', hotel_id, len=1)
+    result['hotel_Appraise'] = get_appraise_of_object('HotelRoom', hotel_id, len_max=1)
 
     return result
 
@@ -326,7 +329,7 @@ def submit_order_form(user_id, hotel_id, submit_data):
 
 
 def get_order_form(order_id, user):
-    print('55555',order_id, user.id)
+    print('55555', order_id, user.id)
     if order_id:
         orders = OrderForm.objects.filter(id=order_id)
     else:
@@ -354,6 +357,7 @@ def pay_order(order_id, price, user_id):
         u.score = F('score') + int(price)
         u.property = F('property') - int(price)
         u.save()
+
 
 def order_form_status(order_id):
     OrderForm.objects.filter(id=order_id).update(order_status=3)

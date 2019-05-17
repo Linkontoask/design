@@ -171,11 +171,8 @@ def entering_user_appraise_view(request):
         'appraise': appraise,
         'detail': score_info,
     }
-    try:
-        entering_user_appraise(data, files, avg_score, score_info, order_id)
-    except Exception as e:
-        result = {'r': 1, 'e': str(e)}
-        print('entering_user_appraise_view e:', e)
+    entering_user_appraise(data, files, avg_score, score_info, order_id)
+
 
     return HttpResponse(json.dumps(result))
 
@@ -194,15 +191,12 @@ def is_appraise_view(request):
 
 
 def get_appraise_view(request):
-    result = {'r': 1, 'e': 'ok'}
+    result = {'r': 0, 'e': 'ok'}
     # 方法里有回传这两个key  现在带回来
-    belong_class = request.POST.get('obj_class')
-    belong_id = request.POST.get('belong_id')
-    try:
-        res = get_appraise_of_object(belong_class, belong_id)
-        result['data'] = res
-    except Exception as e:
-        result = {'r': 1, 'e': str(e)}
+    belong_class = request.GET.get('belong_class')
+    belong_id = request.GET.get('belong_id')
+    res = get_appraise_of_object(belong_class, belong_id)
+    result['data'] = res
 
     return HttpResponse(json.dumps(result))
 
@@ -253,13 +247,10 @@ def get_hotel_room_view(request):
 
 def get_one_hotel_room_view(request):
     result = {'r': 0, 'e': 'ok'}
-    hotel_id = request.GET.get('hotel_id', None)
+    hotel_id = int(request.GET.get('hotel_id', '0'))
     user = request.user
-    try:
-        re = get_one_hotel_and_around(hotel_id, user.id)
-        result['data'] = re
-    except Exception as e:
-        result = {'r': 1, 'e': str(e)}
+    re = get_one_hotel_and_around(hotel_id, user.id)
+    result['data'] = re
     return HttpResponse(json.dumps(result))
 
 
