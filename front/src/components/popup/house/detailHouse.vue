@@ -330,7 +330,8 @@
     }
     .detail-house-avatar {
       position: absolute;
-      bottom: 0;
+      top: 50%;
+      transform: translateY(-50%);
       right: 0;
       width: 52px;
       height: 52px;
@@ -341,7 +342,7 @@
     .detail-name {
       position: relative;
       margin-top: 34px;
-      height: 100px;
+      height: 70px;
       .clamp2 {
         font-size: 20px;
         font-weight: bold;
