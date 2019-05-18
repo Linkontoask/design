@@ -23,7 +23,7 @@
         },{
           src: 'avatar-2.png',
           name: '逸宿好友',
-          lastMsg: '您是不是落下您的贵重物品了，还有',
+          lastMsg: '您是不是落下您的贵重物品了，还有好多好多',
           unread: 3,
           uuid: 'xa2d54w3ad32143',
         },{

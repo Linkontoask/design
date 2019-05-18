@@ -19,7 +19,7 @@
                :src="require('../../../assets/' + (item ? 'start-fill' : 'start') + '.png')" alt="">
         </p>
       </div>
-      <div class="btn-go" @touchend="handleBook">立即预定</div>
+      <div class="btn-go" @touchend="handleBook"><span>立即预定</span><span ref="loading" class="ld ld-spin ld-ring"></span></div>
     </div>
   </div>
 </template>
@@ -59,7 +59,9 @@
         this.BOOK_HOUSE({
           tenant: this.user.filter(i => i.is)
         });
+        this.$refs.loading.style.display = 'inline';
         const data = await axios.post.call(this, '/hotel/order_form/', this.bookHouse);
+        this.$refs.loading.style.display = 'none';
         if (data.r === 0) {
           this.$router.push({
             path: '/success',
@@ -158,10 +160,18 @@
       text-decoration: line-through;
     }
     .btn-go {
+      position: relative;
       padding: 10px 40px;
       border-radius: 4px;
       background-color: #25A3A8;
       color: white;
+      display: flex;
+      align-items: center;
+      span:last-child {
+        display: none;
+        position: absolute;
+        right: 12px;
+      }
     }
   }
 }

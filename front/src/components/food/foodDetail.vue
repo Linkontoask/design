@@ -7,7 +7,7 @@
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
       </swiper>
-      <button ref="heartBox" class="icobutton--heart"><span ref="heart" class="heart fa fa-heart"></span></button>
+      <button ref="heartBox" class="icobutton--heart"><span ref="heart" :style="{color: food.is_collect[0] ? '#FF6767' : '#fff'}" class="heart fa fa-heart"></span></button>
     </div>
     <div class="food-content">
       <div class="food-name">
@@ -34,7 +34,9 @@
     name: "foodDetail",
     data() {
       return {
-        food: {},
+        food: {
+          is_collect: []
+        },
         swiperOption: {
           slidesPerView: 'auto',
           pagination: {

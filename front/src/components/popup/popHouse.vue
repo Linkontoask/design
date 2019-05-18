@@ -78,6 +78,7 @@
 
 <style scoped lang="less">
 .popHouse {
+  overflow-x: hidden;
   .pop-control {
     position: absolute;
     top: 14px;

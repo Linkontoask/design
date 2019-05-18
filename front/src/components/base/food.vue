@@ -105,7 +105,7 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        @media screen and (max-width: 320px) {
+        @media screen and (max-width: 375px) {
           & {
             margin-top: 10px;
           }

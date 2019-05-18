@@ -38,6 +38,7 @@
       }
     },
     mounted() {
+      document.querySelector('#loadingStart').style.display = 'none'; // 关闭加载动画
       this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)))
     },
     computed: {
@@ -56,10 +57,6 @@
   -moz-osx-font-smoothing: grayscale;
   color: #5F6564;
   font-size: 16px;
-}
-*{
-  margin: 0;
-  padding: 0
 }
 .action-enter-active, .action-leave-active {
   transition: bottom .3s;

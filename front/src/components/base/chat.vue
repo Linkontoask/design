@@ -36,7 +36,7 @@
         },
         txt: '',
         img: 'audio.png',
-        chatRecord: [{content: '你好', avatar: 'avatar-1.png'}, {content: '这是一款关于<strong>民宿服务类型</strong>的APP，每个用户都可以上传<span>美食</span>、<span>故事</span>以及<span>房源</span>，如果有人预定你发布的房源那么在 <a href="/#/user">“我”的界面中</a>会看到余额增加，如果你预定了其他人的房源并且支付成功那么你的积分也会有一定的增加。赶快去体验一下吧。有什么不合理的地方或体验不好的地方可在反馈界面进行反馈，祝您旅途愉快', avatar: 'avatar-1.png'}]
+        chatRecord: [{content: '你好', avatar: 'avatar-1.png'}, {content: '这是一款关于<strong>民宿服务类型</strong>的APP，每个用户都可以上传<span>美食</span>、<span>故事</span>以及<span>房源</span>，如果有人预定你发布的房源那么在 <a href="/front-hotel/#/user">“我”的界面中</a>会看到余额增加，如果你预定了其他人的房源并且支付成功那么你的积分也会有一定的增加。赶快去体验一下吧。有什么不合理的地方或体验不好的地方可在反馈界面进行反馈，祝您旅途愉快', avatar: 'avatar-1.png'}]
       }
     },
     methods: {

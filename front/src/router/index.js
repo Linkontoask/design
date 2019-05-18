@@ -145,7 +145,7 @@ export default new Router({
         {path: 'userPay', name: 'userPay', component: user.pay},
         {path: 'userSetting', name: 'userSetting', component: user.setting},
         {path: 'houseEvaluation', name: 'houseEvaluation', component: releaseEvaluation.houseEvaluation},
-        {path: 'storyEvaluation', name: 'storyEvaluation', component: releaseEvaluation.storyEvaluation},
+        {path: 'storyWriteEvaluation', name: 'storyWriteEvaluation', component: releaseEvaluation.storyEvaluation},
         {path: 'FoodDetail', name: 'FoodDetail', component: FoodDetail},
         {path: 'StoryDetail', name: 'StoryDetail', component: StoryDetail},
         {path: 'FoodCollection', name: 'FoodCollection', component: collection.FoodCollection},

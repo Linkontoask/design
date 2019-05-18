@@ -1,7 +1,7 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="msgBase" v-hammer:tap="handleTap" v-hammer:swipe.left.right="handleSwiper" :class="{hide: is_hide}">
     <div :class="{activeLeft: is_left}" class="list-box">
-      <div class="img-box" :style="{backgroundImage: `url(${require('../../static/img/' + data.src)})`}"></div>
+      <img class="img-box" :src="require('../../assets/' + data.src)" alt="">
       <notification v-if="data.unread !== 0">{{ data.unread }}</notification>
       <div class="msgBase-box">
         <h5>{{ data.name }}</h5>
@@ -86,16 +86,16 @@ div.hide {
     background: no-repeat center;
   }
   .msgBase-box {
-    margin-left: 16px;
+    margin-left: 24px;
     font-size: 14px;
-    flex: 1;
     max-width: 258px;
+    flex-shrink: 0;
     h5 {
       color: #606266;
       font-weight: 400;
     }
     p {
-      margin-top: 8px;
+      margin-top: 16px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

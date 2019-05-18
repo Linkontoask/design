@@ -364,6 +364,7 @@
         font-size: 20px;
         font-weight: bold;
         color: #2E3130;
+        width: 80%;
       }
       .tag {
         margin-top: 24px;

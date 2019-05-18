@@ -29,8 +29,8 @@
     data() {
       return {
         slides: ['banner-1.jpg', 'banner-2.jpg', 'banner-3.jpg'],
-        villa: ['house-1.jpg', 'house-2.jpg', 'house-3.jpg', 'food-3.png'],
-        residence: ['story-1.png', 'story-2.png', 'story-3.png'],
+        villa: ['house-1.jpg', 'house-2.jpg', 'house-3.jpg'],
+        residence: ['story-1.jpg', 'story-2.jpg', 'story-3.jpg'],
       }
     },
     methods: {

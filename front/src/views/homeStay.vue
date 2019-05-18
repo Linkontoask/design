@@ -6,7 +6,7 @@
         <div class="btn-search" @touchend="handleSearchGo">搜索</div>
       </div>
     </transition>
-    <div class="content" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
+    <div class="content" :style="{paddingBottom: bottom}" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
       <div class="homeStay-banner">
         <swiper :options="swiperOptionBanner" class="swiper">
           <swiper-slide v-for="(item, index) in slides" :key="index">
@@ -78,6 +78,7 @@
   import Story from 'components/base/story'
   import BScroll from 'better-scroll'
   import axios from "../utils/axios";
+  import browser from '../utils/browser'
   let y = 0;
   const Day =  ['一','二','三','四','五','六','日'];
   export default {
@@ -95,6 +96,7 @@
     },
     data() {
       return {
+        bottom: '118px',
         searchStr: '上海',
         opacity: 0.1,
         focus: false,
@@ -118,13 +120,13 @@
         },
         slides: ['static/img/banner-1.jpg', 'static/img/banner-2.jpg', 'static/img/banner-3.jpg'],
         foodSlider: [{
-          src: 'static/img/food-1.png',
+          src: 'static/img/food-1.jpg',
           desc: '亚参叻沙是叻沙的一种，是马来西亚槟城的代表食物之一Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙，Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙'
         }, {
-          src: 'static/img/food-2.png',
+          src: 'static/img/food-2.jpg',
           desc: '亚参叻沙是叻沙的一种，是马来西亚槟城的代表食物之一Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙'
         }, {
-          src: 'static/img/food-3.png',
+          src: 'static/img/food-3.jpg',
           desc: '亚参叻沙是叻沙的一种，是马来西亚槟城的代表食物之一Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙'
         }],
         foodViews: [],
@@ -194,6 +196,12 @@
       // this.getData();
     },
     async mounted() {
+      if (!browser.weChat && !browser.qq) {
+        this.bottom = '236px'
+      }
+      if (browser.uc) {
+        this.bottom = '118px'
+      }
       this.$nextTick(() => {
         this.scroll = new BScroll(this.$refs.homeStay, {
           scrollX: false,

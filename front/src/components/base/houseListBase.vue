@@ -4,9 +4,7 @@
       <li v-for="(item, index) in houseList" :key="index" @click="handleTap(item)">
         <swiper :options="swiperOption" ref="city" class="swiper-content">
           <swiper-slide v-for="(img, imgIndex) in item.imgs" :key="imgIndex">
-            <div>
-              <img :src="img" alt="not find img">
-            </div>
+            <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
           </swiper-slide>
           <div class="swiper-paginations" slot="pagination"></div>
         </swiper>
@@ -76,6 +74,15 @@
     }
     span {
       color: #EB0C0C;
+    }
+    .swiper-content {
+      height: 210px;
+      .img-content {
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
     }
   }
 }

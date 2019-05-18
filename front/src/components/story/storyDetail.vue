@@ -7,7 +7,7 @@
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
       </swiper>
-      <button ref="heartBox" class="icobutton--heart"><span ref="heart" class="heart fa fa-heart"></span></button>
+      <button ref="heartBox" class="icobutton--heart"><span ref="heart" :style="{color: story.is_collect ? '#FF6767' : '#fff'}" class="heart fa fa-heart"></span></button>
     </div>
     <div class="content">
       <div class="story-user">
@@ -23,8 +23,12 @@
     <div class="evaluation">
       <div class="top">
         <p>{{ evaluation.length }}条评价</p>
-        <p class="primary">写评论</p>
+        <p class="primary" @click="handleWriteEvaluation">写评论</p>
       </div>
+      <div class="evaluation-content">
+        <evaluationBase :evaluation="evaluation"></evaluationBase>
+      </div>
+      <div class="none" v-if="evaluation.length === 0">暂时还没有人对这条故事发表任何观点</div>
     </div>
   </div>
 </template>
@@ -33,13 +37,17 @@
   import Animocon from '../../animation/animation'
   import Storage from '../../utils/localStorage'
   import axios from '../../utils/axios'
+  import evaluationBase from '../base/evaluationBase'
   export default {
     name: "storyDetail",
+    components: {
+      evaluationBase
+    },
     data() {
       return {
         story: [],
         user: {},
-        evaluation: {},
+        evaluation: [],
         swiperOption: {
           slidesPerView: 'auto',
           pagination: {
@@ -49,11 +57,25 @@
       }
     },
     methods: {
+      handleWriteEvaluation() {
+        this.$router.push({
+          name: 'storyWriteEvaluation',
+          query: {
+            obj_class: this.story.obj_class,
+            belong_id: this.story.story_id
+          }
+        })
+      },
       async getUser() {
         const data = await axios.get.call(this, '/hotel/user_info/', {
           user_id: this.story.user_id
         });
         this.user = data.data;
+        const evaluation = await axios.get.call(this, '/hotel/get_appraise/', {
+          belong_class: this.story.obj_class,
+          belong_id: this.story.story_id
+        })
+        this.evaluation = evaluation.data.user_list
       },
       getStorage() {
         this.story = Storage.get('now_checked_story')
@@ -170,6 +192,14 @@
         font-size: 14px;
       }
     }
+    .evaluation-content {
+      margin-top: 24px;
+      padding-bottom: 36px;
+    }
+    .none {
+      color: #C5D1CD;
+      margin-top: 24px;
+    }
     .primary {
       font-size: 14px;
       color: #25A3A8;
@@ -203,7 +233,7 @@
     p {
       font-size: 14px;
       color: #8F9895;
-      margin-top: 12px;
+      margin-top: 16px;
     }
   }
   h1 {

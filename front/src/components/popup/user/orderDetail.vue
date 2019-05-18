@@ -13,7 +13,7 @@
       </ul>
       <div class="btn-group">
         <div class="btn fill" v-if="order.order_status === 1" @click="handlePay">立即支付</div>
-        <div class="btn" v-else @click="handleEvaluation">立即评价</div>
+        <div class="btn" v-if="order.order_status === 2" @click="handleEvaluation">立即评价</div>
         <div class="btn plain" v-if="order.order_status === 1" @click="handleChat">联系房东</div>
         <div class="btn" v-else @click="handleAgain">再次预定</div>
       </div>
