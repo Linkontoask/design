@@ -145,11 +145,6 @@
   .user-control {
     margin-top: 56px;
     ul {
-      li:first-child {
-        img {
-          width: 20px;
-        }
-      }
       li {
         display: flex;
         justify-content: space-between;

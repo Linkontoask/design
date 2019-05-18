@@ -1,5 +1,7 @@
 const path = require('path');
-
+function resolve(dir) {
+  return path.join(__dirname, '.', dir)
+}
 module.exports = {
   publicPath: './',
   outputDir: 'hotel',
@@ -21,6 +23,20 @@ module.exports = {
       },
     },
     host: "0.0.0.0"
+  },
+  chainWebpack: config => {
+    config.module.rules.delete("svg");
+    config.module
+      .rule('svg-sprite-loader')
+      .test(/\.svg$/)
+      .include
+      .add(resolve('src/static/svg')) //处理svg目录
+      .end()
+      .use('svg-sprite-loader')
+      .loader('svg-sprite-loader')
+      .options({
+        symbolId: 'icon-[name]'
+      })
   },
   transpileDependencies: ['v-easy-message'],
   configureWebpack: {

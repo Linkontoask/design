@@ -13,6 +13,7 @@
     "better-scroll": "^1.15.2",
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
+    "loaders.css": "^0.1.2",
     "ly-tab": "^2.1.2",
     "mo-js": "^0.288.2",
     "path": "^0.12.7",
@@ -38,6 +39,7 @@
     "eslint-plugin-vue": "^5.0.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "svg-sprite-loader": "^4.1.6",
     "vue-template-compiler": "^2.5.21"
   }
 }
