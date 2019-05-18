@@ -6,7 +6,7 @@
         <p>房源所在位置</p>
         <div @touchend="handleGetPosition">
           <img src="../../../assets/locat.png" alt="not find img">
-          <span>我的位置</span>
+          <span ref="btn">我的位置</span>
         </div>
       </div>
       <div class="box">
@@ -28,7 +28,12 @@
     name: 'newHouse',
     data() {
       return {
-        data: {}
+        data: {
+          g: '',
+          city: '',
+          position: '',
+          id: ''
+        }
       }
     },
     methods: {
@@ -41,17 +46,28 @@
         }
       },
       handleNext() {
-        const ref = this.$refs;
-        ref.g.mergeMesh('blur');
-        ref.city.mergeMesh('blur');
-        ref.position.mergeMesh('blur');
-        ref.id.mergeMesh('blur');
-        if (ref.g.error || ref.city.error || ref.position.error || ref.id.error) {
-          return this.$msg({
-            type: 'error',
-            message: '请填写完信息之后再下一步'
-          })
-        }
+        let ok = true;
+        Object.keys(this.data).forEach(item => {
+          if (!this.data[item]) {
+            ok = false;
+            this.$refs[item].error = true;
+            const node = this.$refs[item].$el.children[1];
+            const btn = this.$refs.btn;
+            node.classList.add('animated', 'bounce', 'faster');
+            btn.classList.add('animated', 'flash', 'faster');
+            function handleAnimationEnd() {
+              node.classList.remove('animated', 'bounce');
+              btn.classList.remove('animated', 'flash');
+              node.removeEventListener('animationend', handleAnimationEnd)
+              btn.removeEventListener('animationend', handleAnimationEnd)
+            }
+
+            node.addEventListener('animationend', handleAnimationEnd)
+            btn.addEventListener('animationend', handleAnimationEnd)
+          }
+        })
+        console.log(ok, this.data)
+        if (!ok) return;
         this.save();
         this.$router.push({
           path: '/pop/confirmHouse',

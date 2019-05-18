@@ -7,10 +7,7 @@
           <h4>{{ item.name }}</h4>
           <div class="desc clamp2">{{ item.content }}</div>
           <div class="comment">
-            <div v-if="item.comment">
-              <img v-for="obj in item.comment" :src="obj" alt="not find img">
-            </div>
-            <p v-if="item.extent">{{ item.extent }}条评论</p>
+            <p v-if="item.appraise.appraise_num !== 0">{{ item.appraise.appraise_num }}条评论</p>
             <p style="margin-left: 0" v-else>这个故事还没有人评论哦</p>
           </div>
         </div>
@@ -90,7 +87,6 @@
         p {
           font-size: 12px;
           color: #8F9895;
-          margin-left: 20px;
         }
         > div {
           display: inline-block;

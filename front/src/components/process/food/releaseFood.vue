@@ -2,7 +2,7 @@
   <div class="releaseFood">
     <h1>发布您觉得好吃的美食</h1>
     <div class="img-box-release">
-      <p>美食照片</p>
+      <p ref="img">美食照片</p>
       <upload ref="upload"
               @append="append"
               @change="handleFileListChange"></upload>
@@ -26,6 +26,7 @@
     <div class="control-next">
       <ve-button class="primary" @click="handleReleaseFood">发布</ve-button>
     </div>
+    <loading :vis="show"></loading>
   </div>
 </template>
 
@@ -45,27 +46,43 @@
           type: 1
         },
         fileList: [],
-        formDate: new FormData()
+        formDate: new FormData(),
+        show: false,
       }
     },
     methods: {
       append(file, name) {
         this.formDate.append('files', file, name);
       },
+      animation(name, isVueComponent, animat) {
+        let node = this.$refs[name];
+        if (isVueComponent) {
+          node = this.$refs[name].$el.children[1]
+        }
+        node.classList.add('animated', animat, 'faster', 'red');
+        function handleAnimationEnd() {
+          node.classList.remove('animated', animat, 'red');
+          node.removeEventListener('animationend', handleAnimationEnd)
+        }
+        node.addEventListener('animationend', handleAnimationEnd)
+      },
       async handleReleaseFood() {
-        this.$refs.name.mergeMesh('blur');
-        this.$refs.price.mergeMesh('blur');
-        if (this.$refs.name.error || this.$refs.price.error || this.releaseData.desc === '' || this.fileList.length === 0) {
-          this.$msg({
-            type: 'error',
-            message: '请填写相关信息后发布'
-          })
+        if (this.fileList.length === 0) {
+          this.animation('img', false, 'shake');
+        } else if (!this.releaseData.name) {
+          this.$refs.name.error = true;
+          this.animation('name', true, 'bounce');
+        } else if (!this.releaseData.price) {
+          this.$refs.price.error = true;
+          this.animation('price', true, 'bounce');
         } else {
           this.$refs.upload.$refs.upload.submit();
           for (let [key,value] of Object.entries(this.releaseData)) {
             this.formDate.append(key, value)
           }
+          this.show = true;
           const data = await axios.postFile.call(this, '/hotel/around_region/', this.formDate);
+          this.show = false;
           if (data.r === 0) {
             this.$msg({
               type: 'success',

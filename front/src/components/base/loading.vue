@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" v-if="vis">
     <div class="mask"></div>
     <div class="ball-spin-fade-loader">
       <div v-for="item in [0,1,2,3,4,5,6,7]" :key="item"></div>
@@ -9,7 +9,27 @@
 
 <script>
   export default {
-    name: "loading"
+    name: "loading",
+    props: {
+      vis: {
+        type: Boolean,
+        default: false
+      }
+    },
+    watch: {
+      vis(val) {
+        if (val) {
+          document.addEventListener('touchmove', this.preventDefault, {passive: false});
+        } else {
+          document.removeEventListener('touchmove', this.preventDefault, {passive: false});
+        }
+      }
+    },
+    methods: {
+      preventDefault(e) {
+        e.preventDefault();
+      },
+    }
   }
 </script>
 

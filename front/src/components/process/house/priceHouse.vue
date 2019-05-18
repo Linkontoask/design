@@ -2,7 +2,7 @@
   <div class="priceHouse">
     <h1>您的房源价格和图片</h1>
     <div class="img-box-release">
-      <p>房源图片</p>
+      <p ref="img">房源图片</p>
       <upload
               ref="upload"
               @append="append"
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="titleInput new-box">
-      <p>价格规则</p>
+      <p ref="rule">价格规则</p>
       <div class="simulation-input" @click="handleCheckType">
         <i v-if="!dataView.type">付款方式</i>
         <p v-else>{{ dataView.type }}</p>
@@ -26,6 +26,7 @@
       <ve-button class="primary" @click="handleRelease">发布</ve-button>
     </div>
     <list :data="dataView.lists" v-if="dataView.showList" @change="handleChange"></list>
+    <loading :vis="show"></loading>
   </div>
 </template>
 
@@ -52,7 +53,8 @@
         },
         releaseData: {},
         fileList: [],
-        formDate: new FormData()
+        formDate: new FormData(),
+        show: false,
       }
     },
     methods: {
@@ -76,30 +78,40 @@
       handleFileListChange(fileList) {
         this.fileList = fileList;
       },
+      animation(name, isVueComponent, animat) {
+        let node = this.$refs[name];
+        if (isVueComponent) {
+          node = this.$refs[name].$el.children[1]
+        }
+        node.classList.add('animated', animat, 'faster', 'red');
+        function handleAnimationEnd() {
+          node.classList.remove('animated', animat, 'red');
+          node.removeEventListener('animationend', handleAnimationEnd)
+        }
+        node.addEventListener('animationend', handleAnimationEnd)
+      },
       async handleRelease() {
-        this.$refs.price.mergeMesh('blur');
         if (this.fileList.length <= 0) {
-          this.$msg({
-            type: 'error',
-            message: '请上传房源图片'
-          })
-        } else if (this.dataView.type === '') {
-          this.$msg({
-            type: 'error',
-            message: '请选择付款方式'
-          })
+          this.animation('img', false, 'shake');
+        } else if (!this.data.price) {
+          this.$refs.price.error = true
+          this.animation('price', true, 'bounce');
         } else if (Number(this.data.price) >= 1000) {
           this.$msg({
             type: 'error',
             message: '房源的价格不能超过1000'
           })
+        } else if (this.dataView.type === '') {
+          this.animation('rule', false, 'shake');
         } else if (!this.$refs.price.error) {
           //TODO 发布房源，组装数据给后台
+          this.show = true;
           this.formDate = new FormData();
           this.$refs.upload.$refs.upload.submit(); // 子组件upload
           this.getReleaseData();
           this.formDate.append('other', JSON.stringify(this.releaseData));
           const data = await axios.postFile.call(this, '/hotel/hotel_room/', this.formDate);
+          this.show = false;
           if (data.r === 0) {
             this.handleSuccess()
           }

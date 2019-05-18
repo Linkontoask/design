@@ -3,14 +3,14 @@
     <h1>您的房源是什么样子的</h1>
     <div class="styleHouse-box new-box">
       <div class="titleInput">
-        <p>房源类型</p>
+        <p ref="buildType">房源类型</p>
         <div class="simulation-input" @click="handleCheckType(0)">
           <i v-if="!data.buildType">房源的建筑类型</i>
           <p v-else>{{ data.buildType }}</p>
         </div>
       </div>
       <div class="titleInput">
-        <p>房源的房型</p>
+        <p ref="houseType">房源的房型</p>
         <div class="simulation-input" @click="handleCheckType(1)">
           <i v-if="!data.houseType">整个房源、独立房间、合住房间</i>
           <p v-else>{{ data.houseType }}</p>
@@ -82,8 +82,23 @@
       }
     },
     methods: {
+      animation(name) {
+        const node = this.$refs[name];
+        node.classList.add('animated', 'shake', 'faster', 'red');
+        function handleAnimationEnd() {
+          node.classList.remove('animated', 'shake', 'red');
+          node.removeEventListener('animationend', handleAnimationEnd)
+        }
+        node.addEventListener('animationend', handleAnimationEnd)
+      },
       handleNext() {
         const d = this.data;
+        if (!d.buildType) {
+          this.animation('buildType')
+        }
+        if (!d.houseType) {
+          this.animation('houseType')
+        }
         if (d.buildType && d.houseType) {
           this.save();
           this.$router.push({
@@ -92,10 +107,7 @@
               direction: 'right',
             }
           })
-        } else return this.$msg({
-          type: 'error',
-          message: '请填写完信息之后再下一步'
-        })
+        }
       },
       handleChange(index) {
         this.showList = false;

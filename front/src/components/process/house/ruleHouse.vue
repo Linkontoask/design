@@ -2,7 +2,7 @@
   <div class="ruleHouse">
     <h1>入住规则</h1>
     <div class="titleInput new-box">
-      <p>房客入住和离开时间</p>
+      <p ref="rule">房客入住和离开时间</p>
       <div class="simulation-input" @click="handleCheckType(0)">
         <i v-if="!data.cTime">入住时间</i>
         <p v-else>{{ data.cTime }}</p>
@@ -58,10 +58,15 @@
               direction: 'right',
             }
           })
-        } else return this.$msg({
-          type: 'error',
-          message: '请填写完信息之后再下一步'
-        })
+        } else {
+          const node = this.$refs.rule;
+          node.classList.add('animated', 'shake', 'faster', 'red');
+          function handleAnimationEnd() {
+            node.classList.remove('animated', 'shake', 'red');
+            node.removeEventListener('animationend', handleAnimationEnd)
+          }
+          node.addEventListener('animationend', handleAnimationEnd)
+        }
       },
       handleCheck(value) {
         this.data.checked = value;

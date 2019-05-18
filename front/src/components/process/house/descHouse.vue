@@ -26,7 +26,6 @@
     },
     methods: {
       handleNext() {
-        this.$refs.name.mergeMesh('blur');
         const d = this.data;
         if (d.name) {
           this.save();
@@ -36,10 +35,17 @@
               direction: 'right',
             }
           })
-        } else return this.$msg({
-          type: 'error',
-          message: '请填写完信息之后再下一步'
-        })
+        } else {
+          this.$refs.name.error = true;
+          const node = this.$refs.name.$el.children[1];
+          node.classList.add('animated', 'bounce', 'faster');
+          function handleAnimationEnd() {
+            node.classList.remove('animated', 'bounce');
+            node.removeEventListener('animationend', handleAnimationEnd)
+          }
+
+          node.addEventListener('animationend', handleAnimationEnd)
+        }
       },
       save() {
         // TODO 存储到本地
