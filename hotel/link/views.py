@@ -30,11 +30,7 @@ def register_user(request):
     u_name = request.GET.get('username')
     u_pwd = request.GET.get('password')
     avatar = request.GET.get('avatar', '')
-    try:
-        Register.reg_user(u_name, u_pwd, avatar)
-    except Exception as e:
-        result['r'] = 1
-        result['e'] = str(e)
+    Register.reg_user(u_name, u_pwd, avatar)
 
     return HttpResponse(json.dumps(result, ensure_ascii=False))
 
@@ -160,7 +156,7 @@ def entering_user_appraise_view(request):
     # 平均分
     avg_score = request.POST.get('avg_score', 0)
     # 评价的细则，可以没有
-    score_info = request.POST.get('score_info', '')
+    score_info = request.POST.get('score_info', '0,0,0,0')
     # 订单号
     order_id = int(request.POST.get('order_id', 0))
 
@@ -211,12 +207,8 @@ def get_around_region_view(request):
     user = request.user
     user_id = request.GET.get('user_id', None)
     is_all = request.GET.get('is_all', None)
-    try:
-        result_info = get_around_region(user, user_id, is_all)
-        result['data'] = result_info
-    except Exception as e:
-        print(e)
-        result = {'r': 1, 'e': str(e)}
+    result_info = get_around_region(user=user, user_id=user_id, is_all=is_all,belong_user_id=user.id)
+    result['data'] = result_info
 
     return HttpResponse(json.dumps(result))
 
@@ -236,12 +228,9 @@ def get_hotel_room_view(request):
         user_id = request.user.id
     if seek_id:
         user_id = seek_id
-    try:
-        result_hotels = get_hotel_room_info(user_id=user_id, search=search)
-        result['data'] = result_hotels
-    except Exception as e:
-        result['r'] = 1
-        result['e'] = str(e)
+
+    result_hotels = get_hotel_room_info(user_id=user_id, search=search,belong_user_id=request.user.id)
+    result['data'] = result_hotels
     return HttpResponse(json.dumps(result))
 
 
@@ -291,12 +280,9 @@ def get_story_view(request):
     is_all = request.GET.get('is_all', 'yes') == 'yes'
     hotel_id = request.GET.get('hotel_id', None)
     user = request.user
-    try:
-        re_story = get_story_info(user, user_id, hotel_id, is_all)
-        result['data'] = re_story
-    except Exception as e:
-        result['r'] = 1
-        result['e'] = str(e)
+
+    re_story = get_story_info(user=user, user_id=user_id, hotel_id=hotel_id, is_all=is_all,belong_user_id=user.id)
+    result['data'] = re_story
 
     return HttpResponse(json.dumps(result))
 
@@ -346,11 +332,8 @@ def get_order_form_view(request):
     result = {'r': 0, 'e': 'ok'}
     order_id = request.GET.get('order_id')
     user = request.user
-    try:
-        re = get_order_form(order_id, user)
-        result['data'] = re
-    except Exception as e:
-        result = {'r': 1, 'e': str(e)}
+    re = get_order_form(order_id, user)
+    result['data'] = re
 
     return HttpResponse(json.dumps(result))
 
@@ -377,28 +360,24 @@ def submit_user_collect_view(request):
     user = request.user
     collect_class = web_data.get('belong_class')
     collect_id = web_data.get('belong_id')
-    try:
-        user_collect(collect_class, collect_id, user.id)
-    except Exception as e:
-        print(e)
-        result = {'r': 1, 'e': str(e)}
+    re = user_collect(collect_class, collect_id, user.id)
+    if not re:
+        result = {'r': 1, 'e': '已收藏'}
+
     return HttpResponse(json.dumps(result))
 
 
 def get_user_collect_view(request):
     result = {'r': 0, 'e': 'ok'}
     user = request.user
-    try:
-        get_user_collect(user.id)
-    except Exception as e:
-        print(e)
-        result = {'r': 1, 'e': str(e)}
+    re = get_user_collect(user.id)
+    result['data'] = re
     return HttpResponse(json.dumps(result))
 
 
 def del_collect_obj_view(request):
     user = request.user
-    web_data = request.POST
+    web_data = request.GET
     belong_class = web_data.get('belong_class')
     belong_id = web_data.get('belong_id')
     del_collect_obj(user.id, belong_class, belong_id)

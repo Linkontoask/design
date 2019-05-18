@@ -38,7 +38,7 @@ urlpatterns = [
                   # 录入订单
                   url(r'^hotel/order_form/$', views.submit_order_form_view),
                   # 录入收藏
-                  url(r'^hotel/user_collect/$', views.submit_user_collect_view),
+                  url(r'^hotel/user_collect/$', views.submit_user_collect_view), # 传入 belong_class  belong_id
 
                   # 得到头像集
                   url(r'^hotel/head_portrait/$', views.get_head_portrait),
