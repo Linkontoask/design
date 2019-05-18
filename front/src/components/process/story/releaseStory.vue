@@ -20,6 +20,7 @@
     <div class="control-next">
       <ve-button class="primary" @click="handleRelease">发布</ve-button>
     </div>
+    <loading v-if="show"></loading>
   </div>
 </template>
 
@@ -37,6 +38,7 @@
           content: '',
           name: '',
         },
+        show: false,
         fileList: [],
         formDate: new FormData()
       }
@@ -57,7 +59,9 @@
           for (let [key,value] of Object.entries(this.releaseData)) {
             this.formDate.append(key, value)
           }
+          this.show = true;
           const data = await axios.postFile.call(this, '/hotel/story_board/', this.formDate);
+          this.show = false;
           if (data.r === 0) {
             this.$msg({
               type: 'success',
