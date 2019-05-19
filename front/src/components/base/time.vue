@@ -65,6 +65,9 @@
       span {
         font-size: 18px;
         color: #25A3A8;
+        width: 74px;
+        flex-shrink: 0;
+        text-align: center;
       }
     }
   }

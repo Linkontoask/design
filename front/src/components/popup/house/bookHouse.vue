@@ -7,7 +7,7 @@
         <p>{{ house.hose_type }}</p>
       </div>
     </div>
-    <div style="overflow: auto;position:relative;height: 402px;">
+    <div style="overflow: auto;position:relative;height: 402px;padding-bottom: 36px;">
       <transition name="pop-right">
         <router-view />
       </transition>

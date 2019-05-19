@@ -46,7 +46,7 @@
         el.childNodes.forEach(item => {
           if (out && item.dataset.out) {
             this.animation(item, item.dataset.out)
-          } else if (item.dataset) {
+          } else if (item.dataset && item.dataset.in) {
             this.animation(item, item.dataset.in)
           }
           /*if (item.childNodes.length !== 0) {
