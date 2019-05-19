@@ -93,10 +93,10 @@
       async handleRelease() {
         if (this.fileList.length <= 0) {
           this.animation('img', false, 'shake');
-        } else if (!this.data.price) {
+        } else if (this.data.priceHouse === '') {
           this.$refs.price.error = true
           this.animation('price', true, 'bounce');
-        } else if (Number(this.data.price) >= 1000) {
+        } else if (Number(this.data.priceHouse) >= 1000) {
           this.$msg({
             type: 'error',
             message: '房源的价格不能超过1000'

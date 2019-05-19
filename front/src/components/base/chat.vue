@@ -4,12 +4,13 @@
       <div class="control close" @touchend="handleClose"><p></p><p></p></div>
       <h3>{{ user.name }}</h3>
     </div>
-    <div class="chat-content">
-      <ul>
+    <div class="chat-content" ref="contentBox">
+      <ul ref="content">
         <li v-for="(item, index, key) in chatRecord" :key="index" :class="item.own ? 'own' : 'other'">
-          <img class="avatar" :src="require('../../assets/'+item.avatar)" alt="">
+          <img v-if="item.avatar" class="avatar" :src="require('../../assets/'+item.avatar)" alt="">
           <div class="content" v-html="item.content"></div>
         </li>
+        <p ref="bottom"></p>
       </ul>
     </div>
     <div class="input">
@@ -20,13 +21,16 @@
         <input type="text" v-model="txt" @blur="handleBlur">
       </div>
       <div class="input-send">
-        <div class="btn">发送</div>
+        <div class="btn" @click="handleSend">发送</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from '../../utils/axios'
+  import Storage from '../../utils/localStorage'
+  import BScroll from 'better-scroll'
   export default {
     name: "chat",
     data() {
@@ -35,11 +39,32 @@
           name: 'Link'
         },
         txt: '',
+        scroll: null,
+        lastScrollY: 0,
         img: 'audio.png',
         chatRecord: [{content: '你好', avatar: 'avatar-1.png'}, {content: '这是一款关于<strong>民宿服务类型</strong>的APP，每个用户都可以上传<span>美食</span>、<span>故事</span>以及<span>房源</span>，如果有人预定你发布的房源那么在 <a href="/front-hotel/#/user">“我”的界面中</a>会看到余额增加，如果你预定了其他人的房源并且支付成功那么你的积分也会有一定的增加。赶快去体验一下吧。有什么不合理的地方或体验不好的地方可在反馈界面进行反馈，祝您旅途愉快', avatar: 'avatar-1.png'}]
       }
     },
     methods: {
+      handleSend() {
+        if (this.txt !== '') {
+          this.chatRecord.push({
+            own: true,
+            content: this.txt,
+            avatar: this.user.avatar
+          })
+          this.$nextTick(() => {
+            const _this = this;
+            let y = this.$refs.content.clientHeight - this.scroll.wrapperHeight;
+            if (y <= 0) {
+              return false;
+            }
+            this.scroll && this.scroll.refresh();
+            _this.scroll.scrollBy(0, -90, 200);
+          })
+          this.txt = ''
+        }
+      },
       handleBlur() {
 
       },
@@ -47,8 +72,21 @@
         this.$router.back()
       }
     },
-    beforeMount() {
-      this.user.name = this.$route.query.name
+    async beforeMount() {
+      this.user.name = this.$route.query.name;
+      const data = await axios.get.call(this, '/hotel/user_info/', {});
+      Storage.set('user_info_', data.data);
+      this.user.avatar = data.data.avatar;
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.scroll = new BScroll(this.$refs.contentBox, {
+          scrollX: false,
+          scrollY: true,
+          momentum: true,
+          bounce: true,
+        });
+      })
     }
 
   }
@@ -117,6 +155,7 @@
     }
   }
   .chat-content {
+    height: calc(100% - 126px);
     ul {
       padding: 24px 24px;
       li {
@@ -135,6 +174,7 @@
           background-color: white;
           border: 1px solid #E3E9E6;
           font-size: 14px;
+          word-break: break-all;
         }
         div.content::before, div.content::after {
           content: '';
@@ -181,6 +221,8 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #E4ECE8;
+    z-index: 9;
+    position: relative;
     h3 {
       flex: 1;
       text-align: center;
