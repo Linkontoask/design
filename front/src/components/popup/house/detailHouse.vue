@@ -1,15 +1,16 @@
 <template>
   <div class="detailHouse">
-    <div class="detail-house-img">
+    <div data-in="pulse" class="detail-house-img animated fast-time">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in house.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
       </swiper>
-      <button ref="heartBox" class="icobutton--heart"><span :style="{color: house.is_collect ? '#FF6767' : '#fff'}" ref="heart" class="heart fa fa-heart"></span></button>
+      <button ref="heartBox" class="icobutton--heart"><span :style="{color: house.is_collect ? '#FF6767' : '#fff'}"
+                                                            ref="heart" class="heart fa fa-heart"></span></button>
     </div>
-    <div class="p36">
+    <div data-in="bounceInUp" class="p36 animated fast-time">
       <div class="detail-name" @click="handlelandlord">
         <div class="clamp2">{{ house.name }}</div>
         <tag class="tag" v-for="(item, index) in tag" :key="index">{{item}}</tag>
@@ -57,7 +58,7 @@
         <div v-else>暂时还没有类似的房源，快去发布你的房源吧</div>
       </div>
     </div>
-    <div class="control">
+    <div data-in="fadeInRight" class="control">
       <div>
         <p><span class="price">{{ house.price }}</span><span class="line">{{ house.price - Math.floor(Math.random() * 100 + 10) }}</span>
           / 一晚</p>

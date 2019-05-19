@@ -1,7 +1,7 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="stay-house">
     <ul ref="houseBox">
-      <li v-for="(item, index) in data" :key="index" @touchend="handleView(index)" @touchmove="handleMove">
+      <li v-for="(item, index) in data" :key="index" v-hammer:tap="elm => handleView(elm, item, index)">
         <img :src="item.imgs[0]" alt="not find img">
         <div class="house-content">
           <p class="content-1">
@@ -26,7 +26,6 @@
     name: 'stayHouse',
     data() {
       return {
-        isMove: false,
       }
     },
     props: {
@@ -36,27 +35,20 @@
       }
     },
     methods: {
-      handleMove() {
-        this.isMove = true
-      },
-      handleView(index) {
-        if (this.isMove) {
-          this.isMove = false;
-          return false
-        }
+      handleView(elm, obj, index) {
         Storage.set('now_checked_house', this.data[index]);
         const box = document.createElement('div');
-        const node = document.createElement('img');
+        const node = document.createElement('div');
         const rect = this.$refs.houseBox.childNodes[index].childNodes[0].getBoundingClientRect()
+        node.setAttribute('style', `background-image: url(${this.data[index].imgs[0]})`);
         box.setAttribute('class', 'animation-form');
         box.setAttribute('data-id', new Date().getTime());
         box.setAttribute('style', `left: ${rect.left}px;top: ${rect.top}px;width: ${rect.width}px; height: ${rect.height}px`);
         box.appendChild(node);
-        node.src = this.data[index].imgs[0];
         document.body.appendChild(box);
         setTimeout(() => {
           document.body.removeChild(box);
-        }, 400)
+        }, 600)
         this.$router.push({
           path: '/PopHouse/houseDetail',
           query: {

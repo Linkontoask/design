@@ -40,22 +40,22 @@
         'BEFORE_URL'
       ]),
       handleBeforeEnter(el) {
-        console.log('handleBeforeEnter', el)
+        // console.log('handleBeforeEnter', el)
       },
       handleEnter(el) {
-        console.log('handleEnter', el)
+        // console.log('handleEnter', el)
       },
       handleAfterEnter(el) {
-        console.log('handleAfterEnter', el)
+        // console.log('handleAfterEnter', el)
       },
       handleBeforeLeave(el) {
-        console.log('handleBeforeLeave', el)
+        // console.log('handleBeforeLeave', el)
       },
       handleLeave(el) {
-        console.log('handleLeave', el)
+        // console.log('handleLeave', el)
       },
       handleAfterLeave(el) {
-        console.log('handleAfterLeave', el)
+        // console.log('handleAfterLeave', el)
       },
     },
     watch: {

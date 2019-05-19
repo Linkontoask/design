@@ -9,7 +9,7 @@
       </swiper>
       <button ref="heartBox" class="icobutton--heart"><span ref="heart" :style="{color: story.is_collect ? '#FF6767' : '#fff'}" class="heart fa fa-heart"></span></button>
     </div>
-    <div class="content">
+    <div class="content animated fast-time" data-in="slideInDown">
       <div class="story-user">
         <img v-if="user.avatar" :src="require('../../assets/'+user.avatar)" alt="">
         <div>
@@ -20,7 +20,7 @@
       <h1>{{ story.name }}</h1>
       <div class="story-content">{{ story.content }}</div>
     </div>
-    <div class="evaluation">
+    <div class="evaluation animated fast-time" data-in="slideInDown">
       <div class="top">
         <p>{{ evaluation.length }}条评价</p>
         <p class="primary" @click="handleWriteEvaluation">写评论</p>

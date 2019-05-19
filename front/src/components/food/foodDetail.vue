@@ -1,6 +1,6 @@
 <template>
   <div class="food-detail">
-    <div class="detail-food-img">
+    <div class="detail-food-img animated fast-time" data-in="pulse">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in food.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
@@ -9,7 +9,7 @@
       </swiper>
       <button ref="heartBox" class="icobutton--heart"><span ref="heart" :style="{color: food.is_collect[0] ? '#FF6767' : '#fff'}" class="heart fa fa-heart"></span></button>
     </div>
-    <div class="food-content">
+    <div class="food-content animated fast-time" data-in="bounceInRight">
       <div class="food-name">
         <h3>{{ food.name }}</h3>
         <p>{{ food.position }}</p>
@@ -18,7 +18,7 @@
         ￥{{ food.price }}
       </div>
     </div>
-    <div class="food-desc">
+    <div class="food-desc animated fast-time" data-in="bounceInUp">
       <h4>美食描述</h4>
       <div v-if="food.detail">{{ food.detail }}</div>
       <div v-else>没有这个美食的的描述哦</div>

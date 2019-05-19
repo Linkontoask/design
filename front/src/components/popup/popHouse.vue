@@ -21,6 +21,8 @@
 <script>
   import cookie from '../../utils/cookie'
   import Storage from '../../utils/localStorage'
+  const ClassIn = ['bounceInUp', 'pulse']
+  const ClassOut = ['bounceOutDown', 'bounceOutUp']
   export default {
     name: "popHouse",
     data() {
@@ -31,23 +33,44 @@
       }
     },
     methods: {
+      animation(elm, animat) {
+        let node = elm;
+        node.classList.add(animat, 'faster');
+        function handleAnimationEnd() {
+          node.classList.remove(animat);
+          node.removeEventListener('animationend', handleAnimationEnd)
+        }
+        node.addEventListener('animationend', handleAnimationEnd)
+      },
+      loopElm(el, out) {
+        el.childNodes.forEach(item => {
+          if (out && item.dataset.out) {
+            this.animation(item, item.dataset.out)
+          } else if (item.dataset) {
+            this.animation(item, item.dataset.in)
+          }
+          /*if (item.childNodes.length !== 0) {
+            this.loopElm(item)
+          }*/
+        })
+      },
       handleBeforeEnter(el) {
-        console.log('handleBeforeEnter', el)
+        this.loopElm(el, false)
       },
       handleEnter(el) {
-        console.log('handleEnter', el)
+        // console.log('handleEnter', el)
       },
       handleAfterEnter(el) {
-        console.log('handleAfterEnter', el)
+        // console.log('handleAfterEnter', el)
       },
       handleBeforeLeave(el) {
-        console.log('handleBeforeLeave', el)
+        this.loopElm(el, true)
       },
       handleLeave(el) {
-        console.log('handleLeave', el)
+        // console.log('handleLeave', el)
       },
       handleAfterLeave(el) {
-        console.log('handleAfterLeave', el)
+        // console.log('handleAfterLeave', el)
       },
       handleTap(ev, query = {}) {
         let url = Storage.get('before_url_house_');
