@@ -10,7 +10,13 @@
         <span v-if="showTopControl" v-hammer:tap="handleSave">保存并退出</span>
       </span>
     </div>
-    <transition appear :name="direction" mode="out-in">
+    <transition appear :name="direction" mode="out-in"
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnter"
+                @after-enter="handleAfterEnter"
+                @before-leave="handleBeforeLeave"
+                @leave="handleLeave"
+                @after-leave="handleAfterLeave">
       <router-view/>
     </transition>
   </div>
@@ -52,6 +58,24 @@
       }
     },
     methods: {
+      handleBeforeEnter(el) {
+        console.log('handleBeforeEnter', el)
+      },
+      handleEnter(el) {
+        console.log('handleEnter', el)
+      },
+      handleAfterEnter(el) {
+        console.log('handleAfterEnter', el)
+      },
+      handleBeforeLeave(el) {
+        console.log('handleBeforeLeave', el)
+      },
+      handleLeave(el) {
+        console.log('handleLeave', el)
+      },
+      handleAfterLeave(el) {
+        console.log('handleAfterLeave', el)
+      },
       handleSwiper(ev) {
         console.log(ev)
         if (ev.type === 'swiperight') {

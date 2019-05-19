@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<div id="loadingStart" class="square-spin">
+  <div class="link-loading"></div>
+</div>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,7 +60,7 @@
       height: 64px;
       margin: auto;
     }
-    .square-spin > div {
+    .square-spin > div.link-loading {
       -webkit-animation-fill-mode: both;
       animation-fill-mode: both;
       width: 50px;
@@ -69,9 +72,6 @@
   </style>
 </head>
 <body>
-<div id="loadingStart" class="square-spin">
-  <div></div>
-</div>
 <noscript>
   <strong>We're sorry but front doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 </noscript>

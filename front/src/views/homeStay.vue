@@ -196,9 +196,10 @@
       // this.getData();
     },
     async mounted() {
-      if (!browser.weChat && !browser.qq) {
+      /*alert(browser.qq)
+      if (!browser.weChat) {
         this.bottom = '236px'
-      }
+      }*/
       if (browser.uc) {
         this.bottom = '118px'
       }

@@ -282,3 +282,30 @@ span.swiper-pagination-bullet-active {
 .ly-tab-item:not(:first-child) {
   margin-left: 24px;
 }
+
+/* 转场动画，针对查看房源、故事、美食 详情界面 */
+@keyframes pos {
+  70% {
+    height: 280px;
+    top: 0;
+    left: -3px;
+  }
+  100% {
+    left: -3px;
+    top: 0;
+    width: 100vw;
+    height: 280px;
+  }
+}
+.animation-form {
+  position: fixed;
+  z-index: 9999;
+  overflow: hidden;
+  animation: pos .4s cubic-bezier(0.28, 0.32, 0.25, 0.83) forwards;
+  img {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}

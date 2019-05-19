@@ -1,6 +1,15 @@
 <template>
   <div id="homeStay">
-    <transition name="router-fade" mode="out-in">
+    <transition
+            name="router-fade"
+            mode="out-in"
+            @before-enter="handleBeforeEnter"
+            @enter="handleEnter"
+            @after-enter="handleAfterEnter"
+            @before-leave="handleBeforeLeave"
+            @leave="handleLeave"
+            @after-leave="handleAfterLeave"
+    >
       <keep-alive :include="['collection', 'homeStayContent', 'msg', 'release', 'user']">
         <router-view/>
       </keep-alive>
@@ -30,6 +39,24 @@
         'IS_SHOW_NATION',
         'BEFORE_URL'
       ]),
+      handleBeforeEnter(el) {
+        console.log('handleBeforeEnter', el)
+      },
+      handleEnter(el) {
+        console.log('handleEnter', el)
+      },
+      handleAfterEnter(el) {
+        console.log('handleAfterEnter', el)
+      },
+      handleBeforeLeave(el) {
+        console.log('handleBeforeLeave', el)
+      },
+      handleLeave(el) {
+        console.log('handleLeave', el)
+      },
+      handleAfterLeave(el) {
+        console.log('handleAfterLeave', el)
+      },
     },
     watch: {
       $route(to, form) {
@@ -89,9 +116,9 @@ li {
     white-space: nowrap;
   }
 .router-fade-enter-active, .router-fade-leave-active {
-  transition: opacity .3s;
+  /*transition: opacity .3s;*/
 }
 .router-fade-enter, .router-fade-leave-active {
-  opacity: 0;
+  /*opacity: 0;*/
 }
 </style>

@@ -4,7 +4,13 @@
       <p :style="{backgroundColor: bgColor}"></p>
       <p :style="{backgroundColor: bgColor}"></p>
     </div>
-    <transition appear :name="direction" mode="out-in">
+    <transition appear :name="direction" mode="out-in"
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnter"
+                @after-enter="handleAfterEnter"
+                @before-leave="handleBeforeLeave"
+                @leave="handleLeave"
+                @after-leave="handleAfterLeave">
       <keep-alive>
         <router-view :key="$route.fullPath" />
       </keep-alive>
@@ -19,12 +25,30 @@
     name: "popHouse",
     data() {
       return {
-        direction: 'pop-bottom',
+        direction: '',
         bgColor: '#2E312F',
         control: 'left'
       }
     },
     methods: {
+      handleBeforeEnter(el) {
+        console.log('handleBeforeEnter', el)
+      },
+      handleEnter(el) {
+        console.log('handleEnter', el)
+      },
+      handleAfterEnter(el) {
+        console.log('handleAfterEnter', el)
+      },
+      handleBeforeLeave(el) {
+        console.log('handleBeforeLeave', el)
+      },
+      handleLeave(el) {
+        console.log('handleLeave', el)
+      },
+      handleAfterLeave(el) {
+        console.log('handleAfterLeave', el)
+      },
       handleTap(ev, query = {}) {
         let url = Storage.get('before_url_house_');
         if (url) {

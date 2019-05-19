@@ -196,7 +196,7 @@
       color: white;
     }
     .swiper-content {
-      height: 234px;
+      height: 280px;
       .img-content {
         height: 100%;
         background-repeat: no-repeat;
