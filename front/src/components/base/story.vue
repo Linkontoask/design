@@ -2,7 +2,7 @@
   <div class="Stay-story">
     <ul ref="storyBox">
       <li v-for="(item, index) in data" :key="index" v-hammer:tap="elm => handleView(elm, item, index)">
-        <img :src="item.imgs[0]" alt="not find img">
+        <div class="img-content" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="content">
           <h4>{{ item.name }}</h4>
           <div class="desc clamp2">{{ item.content }}</div>
@@ -67,10 +67,18 @@
   }
   li {
     width: 48%;
+    height: 210px;
     margin-top: 24px;
     > img {
       width: 100%;
       height: 118px;
+      border-radius: 4px;
+    }
+    .img-content {
+      height: 118px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
       border-radius: 4px;
     }
     .content {

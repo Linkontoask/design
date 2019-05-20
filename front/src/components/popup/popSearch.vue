@@ -3,12 +3,12 @@
     <div class="close" @touchend="handleClose">取消</div>
     <div class="search-top" style="top: 64px;">
       <form @submit.prevent="formSubmit" action="javascript:return true">
-        <input type="search" @blur="handleBlur" v-model="str" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+        <input type="search" @blur="handleBlur" @keyup.enter="handleSearch" v-model="str" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
       </form>
       <div class="btn-search" @touchend="handleSearch">搜索</div>
     </div>
     <transition :name="direction">
-      <router-view />
+      <router-view :key="$route.fullPath" />
     </transition>
   </div>
 </template>
@@ -46,6 +46,9 @@
         return false;
       },
       handleSearch() {
+        if (this.str === '') {
+          return false;
+        }
         let searched_  = Storage.get('searched_');
         if (searched_) {
           searched_.push(this.searchString)

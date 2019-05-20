@@ -2,18 +2,20 @@
   <div class="resultSearch">
     <ul class="house">
       <h5>关于<span>{{ searchString }}</span>热门房源</h5>
-      <div>
-        <li v-for="(item, index) in result['house']" :key="index" @touchend="handleHouse(item.id)">{{ item.name }}</li>
+      <div v-if="result.hotel_list.length !== 0">
+        <li v-for="(item, index) in result['hotel_list']" :key="index" @touchend="handleHouse(item.hotel_id)">{{ item.name }}</li>
       </div>
+      <div style="margin-left: 10px" v-else>未发现关于 {{ searchString }}的房源</div>
     </ul>
     <ul class="food">
       <h5>关于<span>{{ searchString }}</span>热门美食</h5>
-      <div>
-        <li v-for="(item, index) in result['food']" :key="index" @touchend="handleFood(item.id)">
-          <img :src="item.src" alt="获取图片发生未知错误">
+      <div v-if="result.around_list.length !== 0">
+        <li v-for="(item, index) in result.around_list" :key="index" @touchend="handleFood(item.around_id)">
+          <img :src="item.imgs[0]" alt="获取图片发生未知错误">
           <p>{{ item.name }}</p>
         </li>
       </div>
+      <div style="margin-left: 10px" v-else>未发现关于 {{ searchString }}的美食</div>
     </ul>
   </div>
 </template>
@@ -26,26 +28,8 @@
     data() {
       return {
         result: {
-          house: [{
-            name: '一棵树景点房源',
-            id: 0
-          },{
-            name: '洪崖洞 | 解放碑',
-            id: 0
-          },],
-          food: [{
-            src: 'http://172.16.1.11/YUN/issues/uploads/4a686fcf5f3e1a205ddb528e244f557c/image.png',
-            name: '小龙虾',
-            id: 0
-          },{
-            src: 'http://172.16.1.11/YUN/issues/uploads/4a686fcf5f3e1a205ddb528e244f557c/image.png',
-            name: '青椒肉丝',
-            id: 0
-          },{
-            src: 'http://172.16.1.11/YUN/issues/uploads/4a686fcf5f3e1a205ddb528e244f557c/image.png',
-            name: '青椒肉丝',
-            id: 0
-          },]
+          hotel_list: [],
+          around_list: []
         }
       }
     },
@@ -64,14 +48,27 @@
         'SEARCH',
       ]),
       handleHouse(id) {
-
+        this.$router.push({
+          name: 'houseDetail',
+          query: {
+            bgColor: '#fff',
+            id
+          }
+        })
       },
       handleFood(id) {
 
       }
     },
+    async activated() {
+
+    },
     async mounted() {
       this.SEARCH(this.$route.query.params)
+      const data = await axios.get.call(this, '/hotel/search_for_all/', {
+        search: this.$route.query.params
+      });
+      this.result = data.data;
       /*const data = await axios.get.call(this, '/t', {});
       this.result = data.data;*/
     }

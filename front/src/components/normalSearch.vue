@@ -16,10 +16,11 @@
       </ly-tab>
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(item, index) in recommend" :key="index">
-          <div class="swiper-slide-content" v-for="(obj, i) in item['content']" :key="i">
+          <div class="swiper-slide-content" v-for="(obj, i) in item.content" :key="i" @click="handleView(obj, item.id)">
             <h5>{{ obj.name }}</h5>
             <div>
-              <p>{{ obj.pos }}</p>
+              <p v-if="item.id === 1">{{ obj.position }}</p>
+              <p v-if="item.id === 1 && obj.detail !== ''">{{ obj.detail }}</p>
               <p>{{ obj.price }}</p>
             </div>
           </div>
@@ -37,6 +38,7 @@
 
 <script>
   import Storage from '../utils/localStorage'
+  import axios from '../utils/axios'
   import { mapMutations } from 'vuex'
   export default {
     name: "normalSearch",
@@ -54,16 +56,8 @@
           },
         },
         recommend: [
-          {id: '', city: '热门民宿', content: [{
-              name: '民宿名称，可能很长', pos: '重庆', price: 235
-            },{
-              name: '重庆洪崖洞', pos: '重庆', price: 235
-            },{
-              name: '重庆一棵树，解放碑', pos: '重庆', price: 235
-            },]},
-          {id: '', city: '热门美食', content: [{
-              name: '美食名字', pos: '美食地点', price: 235
-            }]},
+          {id: 1, city: '热门民宿', content: []},
+          {id: 2, city: '热门美食', content: []},
         ],
         citys: ['北京', '重庆', '上海', '南京', '成都', '广州']
       }
@@ -72,6 +66,31 @@
       ...mapMutations([
         'SEARCH',
       ]),
+      handleView(item, id) {
+        if (id === 1) {
+          Storage.set('now_checked_house', item);
+          this.$router.push({
+            name: 'houseDetail',
+            query: {
+              bgColor: '#fff',
+              id: item.hotel_id,
+              back: this.$route.name
+            }
+          })
+        } else {
+          Storage.set('now_checked_food', item);
+          this.$router.push({
+            path: '/PopHouse/FoodDetail',
+            query: {
+              bgColor: '#fff',
+              direction: 'pop-bottom',
+              back: this.$route.name,
+              id: item.hotel_id
+            }
+          })
+        }
+
+      },
       handleOld(str) {
         this.$router.push({
           path: '/PopSearch/resultSearch',
@@ -90,8 +109,11 @@
         this.$refs.city.swiper.slideTo(index, 300, false);
       }
     },
-    mounted() {
-
+    async mounted() {
+      const food = await axios.get.call(this, '/hotel/get_around/', {is_all: 'yes'});
+      const house = await axios.get.call(this, '/hotel/get_hotel/', {is_all: 'yes'});
+      this.recommend[0].content = house.data.slice(0, 6);
+      this.recommend[1].content = food.data.slice(0, 4);
     }
   }
 </script>
@@ -140,8 +162,8 @@
             font-size: 12px;
             color: #909399;
           }
-          p + p {
-            margin-left: 20px;
+          p:first-child {
+            margin-right: 20px;
           }
         }
         & + .swiper-slide-content{

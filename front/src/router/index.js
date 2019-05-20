@@ -120,8 +120,8 @@ export default new Router({
       component: PopSearch,
       children: [
         {path: '', redirect: 'normalSearch'},
-        {path: 'normalSearch', component: normalSearch},
-        {path: 'resultSearch', component: resultSearch},
+        {path: 'normalSearch', name: 'normalSearch', component: normalSearch},
+        {path: 'resultSearch', name: 'resultSearch', component: resultSearch},
       ]
     },
     {

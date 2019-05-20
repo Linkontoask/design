@@ -2,7 +2,7 @@
   <div class="stay-house">
     <ul ref="houseBox">
       <li v-for="(item, index) in data" :key="index" v-hammer:tap="elm => handleView(elm, item, index)">
-        <img :src="item.imgs[0]" alt="not find img">
+        <div class="img-content" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="house-content">
           <p class="content-1">
             <span class="medium clamp1">{{ item.name }}</span>
@@ -69,6 +69,7 @@
       flex-wrap: wrap;
       li {
         width: 48%;
+        height: 216px;
         margin-top: 24px;
         > img {
           width: 100%;
@@ -77,8 +78,16 @@
         img.start {
           position: absolute;
         }
+        .img-content {
+          height: 120px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+          border-radius: 4px;
+        }
         .house-content {
           font-size: 14px;
+          margin-top: 12px;
           .content-1 {
             display: flex;
             align-items: center;

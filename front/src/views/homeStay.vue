@@ -22,7 +22,7 @@
             <li>
               <img src="../assets/city-fill.png" alt="city" class="t">
               <input type="text" @blur="handleSearchBlur" v-model="searchStr">
-              <div @touchend="searchStr = '重庆 - 邮电大学'">
+              <div @touchend="searchStr = '重庆'">
                 <span>我的附近</span>
                 <img src="../assets/locat.png" alt="locat" class="s">
               </div>
@@ -97,7 +97,7 @@
     data() {
       return {
         bottom: '118px',
-        searchStr: '上海',
+        searchStr: '北京',
         opacity: 0.1,
         focus: false,
         dir: 'down',
@@ -118,7 +118,7 @@
           slidesPerView: 'auto',
           spaceBetween: 30,
         },
-        slides: ['static/img/banner-1.jpg', 'static/img/banner-2.jpg', 'static/img/banner-3.jpg'],
+        slides: ['static/img/banner-1.jpg', 'static/img/banner-2.jpg', 'static/img/banner-3.jpg', 'static/img/banner-4.jpg'],
         foodSlider: [{
           src: 'static/img/food-1.jpg',
           desc: '亚参叻沙是叻沙的一种，是马来西亚槟城的代表食物之一Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙，Asam在马来语里面有“酸”的意思，顾名思义，亚参叻沙'

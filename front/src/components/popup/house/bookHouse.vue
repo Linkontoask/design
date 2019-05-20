@@ -48,7 +48,7 @@
 <style scoped lang="less">
 .book-house {
   position: relative;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 84px);
   .top {
     margin-top: 84px;
     padding: 0 36px 24px;

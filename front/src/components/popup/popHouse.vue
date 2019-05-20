@@ -74,6 +74,12 @@
       },
       handleTap(ev, query = {}) {
         let url = Storage.get('before_url_house_');
+        if (this.$route.query.back !== '') {
+          Storage.set('before_url_house_', []);
+          return this.$router.push({
+            name: this.$route.query.back,
+          });
+        }
         if (url) {
           this.$router.push({
             path: url[url.length === 1 ? 0 : (url.length - 1)],
