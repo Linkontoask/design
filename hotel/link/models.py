@@ -181,7 +181,7 @@ class StoryBoard(models.Model):
     # 总评分
     total_score = models.SmallIntegerField(default=0)
     # 说明
-    score_info = models.TextField(default='[]')
+    score_info = models.TextField(default='0,0,0,0')
 
 
 class OrderForm(models.Model):
