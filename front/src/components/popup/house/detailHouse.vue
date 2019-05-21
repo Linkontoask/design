@@ -13,6 +13,7 @@
     <div data-in="bounceInUp" class="p36 animated fast-time">
       <div class="detail-name" @click="handlelandlord">
         <div class="clamp2">{{ house.name }}</div>
+        <div style="color: #A8B2AF;font-size: 13px;margin-top: 8px">{{ house.position }}</div>
         <tag class="tag" v-for="(item, index) in tag" :key="index">{{item}}</tag>
         <div class="detail-house-avatar" v-if="hotel_user.avatar"
              :style="{backgroundImage: `url(${require('../../../assets/'+hotel_user.avatar)})`}"></div>
@@ -368,7 +369,7 @@
         width: 80%;
       }
       .tag {
-        margin-top: 24px;
+        margin-top: 16px;
       }
     }
     .house-offer {

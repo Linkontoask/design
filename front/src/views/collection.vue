@@ -102,28 +102,34 @@
             hotel: item
           })
         });
-        city.forEach((item, index) => {
+        console.log(city)
+        let hash = {};
+        city.some((item, index) => {
           if (index === 0) {
             citys.push({
               city: item.city,
               hotel: [item.hotel]
             })
           } else {
-            citys.forEach(o => {
-              if (o.city === item.city) {
-                o.hotel.push(item.hotel)
-              } else {
+            for (let i = 0; i < citys.length; i++) {
+              if (citys[i].city === item.city) {
+                citys[i].hotel.push(item.hotel)
+                break;
+              } else if (citys.every(obj => obj.city !== item.city)){
                 citys.push({
                   city: item.city,
                   hotel: [item.hotel]
                 })
+                break;
               }
-            })
+            }
           }
         });
-        this.citys = citys
-        this.food = food
-        this.story = story
+        console.log('hash', hash)
+        this.citys = citys;
+        this.food = food;
+        this.story = story;
+        console.log(citys)
       }
     },
     mounted() {
