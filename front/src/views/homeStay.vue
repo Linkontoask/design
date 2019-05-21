@@ -2,7 +2,7 @@
   <div class="homeStay-content" ref="homeStay">
     <transition name="show">
       <div class="search-top" :class="{focusTop: focus}" v-if="isStart">
-        <input type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+        <input style="background-color: white" type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
         <div class="btn-search" @touchend="handleSearchGo">搜索</div>
       </div>
     </transition>
@@ -63,7 +63,7 @@
       <div class="homeStay-house homeStay-food homeStay-story">
         <h2>精彩故事</h2>
         <Story :data="storyViews" style="margin-top: 12px"></Story>
-        <div class="line-primary">更多故事</div>
+        <!--<div class="line-primary">更多故事</div>-->
       </div>
     </div>
     <div class="bg-logo" v-show="!isStart" :style="{opacity}">
@@ -187,8 +187,8 @@
         const food = await axios.get.call(this, '/hotel/get_around/', {is_all: 'yes'});
         const house = await axios.get.call(this, '/hotel/get_hotel/', {is_all: 'yes'});
         const story = await axios.get.call(this, '/hotel/get_story/', {is_all: 'yes'});
-        this.storyViews = story.data.slice(0, 8);
-        this.foodViews = food.data.slice(0, 4);
+        this.storyViews = story.data;
+        this.foodViews = food.data;
         this.house = house.data.slice(0, 6);
       }
     },

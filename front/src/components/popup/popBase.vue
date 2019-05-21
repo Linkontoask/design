@@ -100,7 +100,7 @@
       handleTap() {
         if (this.$route.query.back) {
           return this.$router.push({
-            path: this.$route.query.back
+            name: this.$route.query.back
           })
         }
         const index = path.findIndex(i => this.$route.meta.name === i);

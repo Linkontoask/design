@@ -3,7 +3,7 @@
     <div class="close" @touchend="handleClose">取消</div>
     <div class="search-top" style="top: 64px;">
       <form @submit.prevent="formSubmit" action="javascript:return true">
-        <input type="search" @blur="handleBlur" @keyup.enter="handleSearch" v-model="str" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+        <input style="background-color: white" type="search" @blur="handleBlur" @keyup.enter="handleSearch" v-model="str" ref="input" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
       </form>
       <div class="btn-search" @touchend="handleSearch">搜索</div>
     </div>

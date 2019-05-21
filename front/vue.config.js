@@ -5,6 +5,18 @@ function resolve(dir) {
 module.exports = {
   publicPath: './',
   outputDir: 'hotel',
+  css: {
+    loaderOptions: {
+      postcss: {
+        plugins: [
+          require('postcss-pxtorem')({
+            selectorBlackList  : ['weui','mu'], // 忽略转换正则匹配项
+            propList   : ['*'],
+          }),
+        ]
+      }
+    }
+  },
   devServer: {
     proxy: {
       '/hotel': {

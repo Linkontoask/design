@@ -54,7 +54,7 @@
     icon: 'house-333.png'
   },{
     name: '联系客服',
-    path: '',
+    path: 'chat',
     icon: 'CustomerService.png'
   },{
     name: '设置',
@@ -80,7 +80,8 @@
         this.$router.push({
           name,
           query: {
-            back: this.$route.path
+            name: name === 'chat' ? '客服' : '',
+            back: this.$route.name
           }
         })
       },
