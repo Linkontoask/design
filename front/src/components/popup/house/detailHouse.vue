@@ -104,7 +104,8 @@
           slidesPerView: 'auto',
           pagination: {
             el: '.swiper-paginations'
-          }
+          },
+          lazyLoadingInPrevNextAmount: 2
         },
         foodList: [],
         similar_hotel: [],
@@ -292,6 +293,7 @@
   .detailHouse {
     position: relative;
     padding-bottom: 68px;
+    background-color: #F3F3F3;
     .detail-house-img {
       position: relative;
       height: 280px;
@@ -319,9 +321,13 @@
 
     }
     .p36 {
-      padding: 0 36px 48px;
+      padding: 0 0 48px;
       position: relative;
       z-index: 1;
+      > div {
+        padding: 20px 36px;
+        background-color: white;
+      }
       .act {
         display: flex;
         flex-wrap: wrap;
@@ -351,7 +357,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      right: 0;
+      right: 36px;
       width: 52px;
       height: 52px;
       border-radius: 50%;
@@ -360,8 +366,6 @@
     }
     .detail-name {
       position: relative;
-      margin-top: 34px;
-      height: 70px;
       .clamp2 {
         font-size: 20px;
         font-weight: bold;
@@ -373,14 +377,13 @@
       }
     }
     .house-offer {
-      margin-top: 46px;
+      margin-top: 16px;
       font-size: 14px;
-      padding: 18px 0;
       border-top: 1px solid #E4ECE8;
       border-bottom: 1px solid #E4ECE8;
     }
     .detail-box-t {
-      margin-top: 36px;
+      margin-top: 16px;
       padding-bottom: 24px;
       border-bottom: 1px solid #E4ECE8;
       .evaluation {
@@ -405,7 +408,7 @@
       }
     }
     .map {
-      margin-top: 36px;
+      margin-top: 16px;
       ul {
         padding-left: 20px;
         li {

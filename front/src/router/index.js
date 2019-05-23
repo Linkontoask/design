@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Base = () => import(/* webpackChunkName: "base" */ '../components/base');
+const Welcome = () => import(/* webpackChunkName: "Welcome" */ '../views/welcome');
 const Login = () => import(/* webpackChunkName: "login" */ '../components/login');
 const Signup = () => import(/* webpackChunkName: "registered" */ '../components/registered');
 const HomeStay = () => import(/* webpackChunkName: "registered" */ '../views/homeStay');
@@ -51,6 +51,11 @@ export default new Router({
     {
       path: '',
       redirect: '/homeStay'
+    },
+    {
+      path: '/welcome',
+      name: 'welcome',
+      component: Welcome
     },
     {
       path: '/homeStay',
