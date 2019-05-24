@@ -4,6 +4,7 @@ from django.db.models import Q, F
 from django.apps import apps
 from PIL import Image
 from io import BytesIO
+import numpy
 from django.db import transaction
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from link.models import HotelRoom, UsedImage, UserAppraise, AroundRegion, StoryBoard, UserProfile, OrderForm, UserFavorite
@@ -289,10 +290,21 @@ def get_story_info(user=None, user_id=None, hotel_id=None, is_all=None, story_id
 
 
 def save_files_for_class(files, _class, obj_id):
-    default_size = (450, 450)
+
 
     def to_compress(file_obj):
+        mode_to_bpp = {'1': 1, 'L': 8, 'P': 8, 'RGB': 24, 'RGBA': 32, 'CMYK': 32, 'YCbCr': 24, 'I': 32, 'F': 32}
         pil_img = Image.open(file_obj)
+
+        bpp = mode_to_bpp[pil_img.mode]
+
+        w,h = pil_img.size
+        compress_ratio = w/h
+
+        lh = 50*1024*8/bpp/compress_ratio
+        this_h = numpy.sqrt(lh)
+        this_w = this_h*compress_ratio
+        default_size = (int(this_w*2), int(this_h*2))
         p = pil_img.resize(default_size)
         pic_io = BytesIO()
         p.save(pic_io, pil_img.format)
@@ -307,8 +319,10 @@ def save_files_for_class(files, _class, obj_id):
         return return_img
 
     for file in files:
-        print(type(file), file)
-        # save_file = to_compress(file)
+        file_size = file.size
+        print(type(file), file,file_size)
+        if file_size/1024 > 50:
+            file = to_compress(file)
         img_params = {
             'belong_class': _class,
             'belong_id': obj_id,

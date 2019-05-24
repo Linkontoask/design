@@ -30,8 +30,11 @@ def register_user(request):
     u_name = request.GET.get('username')
     u_pwd = request.GET.get('password')
     avatar = request.GET.get('avatar', '')
-    Register.reg_user(u_name, u_pwd, avatar)
-
+    try:
+        Register.reg_user(u_name, u_pwd, avatar)
+    except Exception as e:
+        result['r'] = 1
+        result['e'] = str(e)
     return HttpResponse(json.dumps(result, ensure_ascii=False))
 
 
