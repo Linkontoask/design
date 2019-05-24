@@ -1,7 +1,7 @@
 <template>
   <div class="house-list-base">
     <ul v-if="houseList.length !== 0">
-      <li v-for="(item, index) in houseList" :key="index" @click="handleTap(item)">
+      <li v-for="(item, index) in houseList" :key="index" @click="handleTap(item)" class="animated bounceInUp fast-time" :class="'delay-'+ (index * 600) + 'ms'">
         <swiper :options="swiperOption" ref="city" class="swiper-content">
           <swiper-slide v-for="(img, imgIndex) in item.imgs" :key="imgIndex">
             <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>

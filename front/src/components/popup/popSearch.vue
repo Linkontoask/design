@@ -49,6 +49,7 @@
         if (this.str === '') {
           return false;
         }
+        this.$refs.input.blur();
         let searched_  = Storage.get('searched_');
         if (searched_) {
           searched_.push(this.searchString)

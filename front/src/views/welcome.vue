@@ -3,7 +3,7 @@
     <swiper :options="swiperOptionBanner" class="swiper" ref="swiper">
       <swiper-slide v-for="(item, index) in slides" :key="index">
         <img :src="require('../static/img/' + item.src)" alt="not find img">
-        <img class="title" :src="require('../static/img/' + item.name)" alt="not find img">
+        <img class="title" :src="require('../static/img/' + item.name)" alt="not find img" @click="next(index)">
       </swiper-slide>
     </swiper>
     <div class="slider-bottom">
@@ -31,9 +31,7 @@
               const swiper = this.$refs.swiper.swiper;
               console.log(swiper.swipeDirection, swiper.activeIndex)
               if (swiper.activeIndex === 2 && swiper.swipeDirection === 'next') {
-                this.$router.push({
-                  name: 'homeStay'
-                })
+                this.next()
               }
             }
           },
@@ -41,15 +39,21 @@
             el: '.swiper-paginations'
           }
         },
-        slides: [{name: 'welcome-text-2.png', src: 'welcome-1.png'},{name: 'welcome-text-1.png', src: 'welcome-2.png'},{name: 'welcome-text-3.png', src: 'welcome-3.png'},],
+        slides: [{name: 'welcome-text-2.png', src: 'welcome-1.jpg'},{name: 'welcome-text-1.png', src: 'welcome-2.jpg'},{name: 'welcome-text-3.png', src: 'welcome-3.jpg'},],
       }
     },
     methods: {
-
+      next(index = 2) {
+        if (index !== 2) return false;
+        cookie.set('first', true, 0);
+        Storage.set('first', true);
+        this.$router.push({
+          name: 'homeStay'
+        })
+      }
     },
     mounted() {
-      cookie.set('first', true, 0);
-      Storage.set('first', true);
+
     },
   }
 </script>
@@ -106,6 +110,8 @@
       .swiper-slide:nth-child(3) {
         .title {
           width: 164px;
+          border-bottom: 1px solid #fe6b6b;
+          padding-bottom: 10px;
         }
       }
       .title {

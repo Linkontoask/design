@@ -30,7 +30,6 @@ const lastBook = () => import(/* webpackChunkName: "lastBook" */ '../components/
 const firstBook = () => import(/* webpackChunkName: "firstBook" */ '../components/popup/house/bookFrist');
 
 const Success = () => import(/* webpackChunkName: "success" */ '../components/popup/house/success');
-const Chat = () => import(/* webpackChunkName: "Chat" */ '../components/base/chat');
 
 
 const FoodDetail = () => import(/* webpackChunkName: "FoodDetail" */ '../components/food/foodDetail');
@@ -96,11 +95,6 @@ export default new Router({
       path: '/success',
       name: 'success',
       component: Success
-    },
-    {
-      path: '/chat',
-      name: 'chat',
-      component: Chat
     },
     {
       path: '/pop',

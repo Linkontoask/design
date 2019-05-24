@@ -1,30 +1,32 @@
-<template>
-  <div class="chat">
-    <div class="top">
-      <div class="control close" @touchend="handleClose"><p></p><p></p></div>
-      <h3>{{ user.name }}</h3>
-    </div>
-    <div class="chat-content" ref="contentBox">
-      <ul ref="content">
-        <li v-for="(item, index, key) in chatRecord" :key="index" :class="item.own ? 'own' : 'other'">
-          <img v-if="item.avatar" class="avatar" :src="require('../../assets/'+item.avatar)" alt="">
-          <div class="content" v-html="item.content"></div>
-        </li>
-        <p ref="bottom"></p>
-      </ul>
-    </div>
-    <div class="input">
-      <div class="input-type">
-        <img :src="require('../../assets/' + img)" alt="">
+<template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
+  <transition name="right">
+    <div class="chat" ref="chat" v-show="showChat" v-hammer:swipe.right="handleSwiper">
+      <div class="top">
+        <div class="control close" @touchend="handleClose"><p></p><p></p></div>
+        <h3>{{ name }}</h3>
       </div>
-      <div class="input-style">
-        <input type="text" v-model="txt" @blur="handleBlur">
+      <div class="chat-content" ref="contentBox">
+        <ul ref="content">
+          <li v-for="(item, index, key) in chatRecord" :key="index" :class="item.own ? 'own' : 'other'">
+            <img v-if="item.avatar" class="avatar" :src="require('../../assets/'+item.avatar)" alt="">
+            <div class="content" v-html="item.content"></div>
+          </li>
+          <p ref="bottom"></p>
+        </ul>
       </div>
-      <div class="input-send">
-        <div class="btn" @click="handleSend">发送</div>
+      <div class="input">
+        <div class="input-type">
+          <img :src="require('../../assets/' + img)" alt="">
+        </div>
+        <div class="input-style">
+          <input type="text" v-model="txt" @blur="handleBlur">
+        </div>
+        <div class="input-send">
+          <div class="btn" @click="handleSend">发送</div>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -42,10 +44,29 @@
         scroll: null,
         lastScrollY: 0,
         img: 'audio.png',
-        chatRecord: [{content: '你好', avatar: 'avatar-1.png'}, {content: '这是一款关于<strong>民宿服务类型</strong>的APP，每个用户都可以上传<span>美食</span>、<span>故事</span>以及<span>房源</span>，如果有人预定你发布的房源那么在 <a href="/front-hotel/#/user">“我”的界面中</a>会看到余额增加，如果你预定了其他人的房源并且支付成功那么你的积分也会有一定的增加。赶快去体验一下吧。有什么不合理的地方或体验不好的地方可在反馈界面进行反馈，祝您旅途愉快', avatar: 'avatar-1.png'}]
+        chatRecord: [{content: '您好', avatar: 'avatar-1.png'}, {content: '这是一款关于<strong>民宿服务类型</strong>的APP，每个用户都可以上传<span>美食</span>、<span>故事</span>以及<span>房源</span>，如果有人预定你发布的房源那么在 <a href="/front-hotel/#/user">“我”的界面中</a>会看到余额增加，如果你预定了其他人的房源并且支付成功那么你的积分也会有一定的增加。赶快去体验一下吧。有什么不合理的地方或体验不好的地方可在反馈界面进行反馈，祝您旅途愉快', avatar: 'avatar-1.png'}]
+      }
+    },
+    props: {
+      name: {
+        type: String,
+      },
+      showChat: {
+        type: Boolean,
+        default: false
+      }
+    },
+    watch: {
+      showChat(val) {
+        if (val && !this.scroll) {
+          this.init()
+        }
       }
     },
     methods: {
+      handleSwiper() {
+        this.$emit('close')
+      },
       handleSend() {
         if (this.txt !== '') {
           this.chatRecord.push({
@@ -69,23 +90,34 @@
 
       },
       handleClose() {
-        this.$router.back()
+        this.$emit('close')
+      },
+      init() {
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$refs.contentBox, {
+            scrollX: false,
+            scrollY: true,
+            momentum: true,
+            bounce: true,
+          });
+        })
       }
     },
     async beforeMount() {
-      this.user.name = this.$route.query.name;
-      const data = await axios.get.call(this, '/hotel/user_info/', {});
-      Storage.set('user_info_', data.data);
-      this.user.avatar = data.data.avatar;
+
     },
-    mounted() {
+    async mounted() {
+      if (Storage.get('user_info_')) {
+        this.user.avatar = Storage.get('user_info_').avatar;
+      } else {
+        const data = await axios.get.call(this, '/hotel/user_info/', {});
+        Storage.set('user_info_', data.data);
+        this.user.avatar = data.data.avatar;
+      }
+
       this.$nextTick(() => {
-        this.scroll = new BScroll(this.$refs.contentBox, {
-          scrollX: false,
-          scrollY: true,
-          momentum: true,
-          bounce: true,
-        });
+        if (!this.showChat) return;
+        this.init()
       })
     }
 
@@ -102,11 +134,27 @@
 </style>
 <style scoped lang="less">
   @h: 42px;
+  .right-enter-active {
+    left: 100% !important;
+  }
+  .right-enter-to {
+    left: 0 !important;
+  }
+  .right-leave-active {
+    left: 0 !important;
+  }
+  .right-leave-to {
+    left: 100% !important;
+  }
 .chat {
   width: 100%;
   height: 100vh;
   overflow: auto;
   background-color: #F5F5F5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: left .3s;
   .input {
     position: fixed;
     bottom: 0;

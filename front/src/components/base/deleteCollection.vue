@@ -1,6 +1,6 @@
 <template>
   <div class="delete-collection" v-if="vis">
-    <div class="mask"></div>
+    <div class="mask" @click.stop="handleCancel"></div>
     <transition appear name="bottom">
       <ul>
         <li @click="handleDelete">删除收藏</li>

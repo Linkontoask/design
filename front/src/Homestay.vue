@@ -1,6 +1,6 @@
 <template>
   <div id="homeStay">
-    <transition
+    <!--<transition
             name="router-fade"
             mode="out-in"
             @before-enter="handleBeforeEnter"
@@ -9,11 +9,11 @@
             @before-leave="handleBeforeLeave"
             @leave="handleLeave"
             @after-leave="handleAfterLeave"
-    >
+    >-->
       <keep-alive :include="['collection', 'homeStayContent', 'msg', 'release', 'user']">
         <router-view/>
       </keep-alive>
-    </transition>
+    <!--</transition>-->
     <div style="height: 118px" v-if="showActionBar"></div>
     <transition name="action">
       <Action v-if="showActionBar"></Action>
@@ -115,10 +115,4 @@ li {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-.router-fade-enter-active, .router-fade-leave-active {
-  /*transition: opacity .3s;*/
-}
-.router-fade-enter, .router-fade-leave-active {
-  /*opacity: 0;*/
-}
 </style>

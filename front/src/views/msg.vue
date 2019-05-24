@@ -5,15 +5,20 @@
       <msgBase v-for="(item, index) in infos" :key="item.uuid" @tap="tap" @left="onSwipe" @delete="handleDelete" :data="item"></msgBase>
       <div v-if="!infos.length" class="none-list">您还没有聊天记录，或者已经被删除了。<strong>注：手动删除不能恢复</strong></div>
     </div>
+    <Chat :showChat="showChat" :name="name" @close="close"></Chat>
   </div>
 </template>
 
 <script>
   import msgBase from 'components/base/msgBase'
+  import Chat from '../components/base/chat'
+  import { mapMutations} from 'vuex'
   export default {
     name: "msg",
     data() {
       return {
+        showChat: false,
+        name: '',
         infos: [{
           src: 'avatar-1.png',
           name: '逸宿好友',
@@ -36,19 +41,26 @@
       }
     },
     components: {
-      msgBase
+      msgBase,
+      Chat
     },
     methods: {
+      ...mapMutations([
+        'IS_SHOW_NATION',
+      ]),
+      close() {
+        this.showChat = false;
+        this.IS_SHOW_NATION(true);
+      },
       onSwipe(ev, item) {
         // console.log(ev.type, item)
       },
       tap(item) {
-        this.$router.push({
-          name: 'chat',
-          query: {
-            name: item.name,
-            uuid_: item.uuid
-          }
+        this.showChat = true;
+        this.IS_SHOW_NATION(false);
+        // IS_SHOW_NATION
+        this.$nextTick(() => {
+          this.name = item.name;
         })
       },
       handleDelete(uuid) {

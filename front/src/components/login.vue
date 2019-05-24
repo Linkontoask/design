@@ -73,8 +73,14 @@
 
 <style lang="less" scoped>
   @import "../style/global";
+  @keyframes bounceInLeft {
+    0% {left: 100%}
+    100% {left: 0}
+  }
   .login {
+    position: relative;
     padding-bottom: 36px;
+    animation: bounceInLeft .3s ease-out forwards;
     .logo {
       display: block;
       margin: calc(6.625rem - @topIndicator) auto 0;
@@ -99,6 +105,9 @@
           font-size: 14px;
           color: #25A3A8;
           margin-right: 20px;
+          display: inline-block;
+          height: 36px;
+          line-height: 56px;
         }
       }
     }

@@ -29,6 +29,7 @@
         </li>
       </ul>
     </div>
+    <Chat :showChat="showChat" name="客服" @close="close"></Chat>
   </div>
 </template>
 
@@ -36,6 +37,8 @@
   import cookie from 'utils/cookie';
   import axios from 'utils/axios';
   import Storage from '../utils/localStorage'
+  import Chat from '../components/base/chat'
+  import { mapMutations} from 'vuex'
   const control = [{
     name: '全部订单',
     path: 'userOrderList',
@@ -69,21 +72,36 @@
     name: "user",
     data() {
       return {
+        showChat: false,
         user: {
           signature: '我的个性签名',
         },
         control: control
       }
     },
+    components: {
+      Chat
+    },
     methods: {
+      ...mapMutations([
+        'IS_SHOW_NATION',
+      ]),
+      close() {
+        this.showChat = false;
+        this.IS_SHOW_NATION(true);
+      },
       handleClick(name) {
-        this.$router.push({
-          name,
-          query: {
-            name: name === 'chat' ? '客服' : '',
-            back: this.$route.name
-          }
-        })
+        if (name === 'chat') {
+          this.IS_SHOW_NATION(false);
+          this.showChat = true;
+        } else {
+          this.$router.push({
+            name,
+            query: {
+              back: this.$route.name
+            }
+          })
+        }
       },
       handleViewUserInformation() {
         this.$router.push({

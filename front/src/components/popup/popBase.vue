@@ -1,5 +1,5 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
-  <div class="popBase">
+  <div class="popBase" ref="popBase">
     <div :class="controlStyle">
       <div class="pop-control" v-hammer:tap="handleTap">
         <p></p>
@@ -54,27 +54,26 @@
       $route(to, from) {
         this.direction = 'pop-' + (to.query.direction || 'bottom');
         this.controlStyle = to.path.includes('/type') ? 'close' : 'left'
-        console.log(this.direction)
       }
     },
     methods: {
       handleBeforeEnter(el) {
-        console.log('handleBeforeEnter', el)
+        // console.log('handleBeforeEnter', el)
       },
       handleEnter(el) {
-        console.log('handleEnter', el)
+        // console.log('handleEnter', el)
       },
       handleAfterEnter(el) {
-        console.log('handleAfterEnter', el)
+        // console.log('handleAfterEnter', el)
       },
       handleBeforeLeave(el) {
-        console.log('handleBeforeLeave', el)
+        // console.log('handleBeforeLeave', el)
       },
       handleLeave(el) {
-        console.log('handleLeave', el)
+        // console.log('handleLeave', el)
       },
       handleAfterLeave(el) {
-        console.log('handleAfterLeave', el)
+        // console.log('handleAfterLeave', el)
       },
       handleSwiper(ev) {
         console.log(ev)
@@ -105,9 +104,18 @@
         }
         const index = path.findIndex(i => this.$route.meta.name === i);
         if (index === 0) {
-          this.$router.push({
-            path: '/release'
-          });
+          const node = this.$refs.popBase,
+          vm = this;
+          node.classList.add('UpBottom');
+          function handleAnimationEnd() {
+            node.classList.remove('UpBottom');
+            vm.$router.push({
+              path: '/release'
+            });
+            node.removeEventListener('animationend', handleAnimationEnd)
+          }
+
+          node.addEventListener('animationend', handleAnimationEnd)
         } else if (this.$route.meta.name === 'releaseFood' || this.$route.meta.name === 'releaseStory') {
           this.$router.push({
             path: '/pop/type',
@@ -137,6 +145,13 @@
 </script>
 
 <style scoped lang="less">
+  @keyframes UpBottom {
+    0% {margin-top: 0;}
+    100% {margin-top: 100vh;}
+  }
+  div.UpBottom {
+    animation: UpBottom .3s ease-out forwards;
+  }
   .popBase {
     position: relative;
     width: 100%;
