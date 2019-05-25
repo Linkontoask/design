@@ -1,5 +1,5 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
-  <div class="popHouse">
+  <div class="popHouse" :class="{dropOut: dropOut}" ref="popHouse">
     <div class="pop-control" :class="control" v-hammer:tap="handleTap">
       <p :style="{backgroundColor: bgColor}"></p>
       <p :style="{backgroundColor: bgColor}"></p>
@@ -27,9 +27,10 @@
     name: "popHouse",
     data() {
       return {
-        direction: '',
+        direction: 'pop-bottom',
         bgColor: '#2E312F',
-        control: 'left'
+        control: 'left',
+        dropOut: false,
       }
     },
     methods: {
@@ -76,9 +77,18 @@
         let url = Storage.get('before_url_house_');
         if (this.$route.query.back) {
           Storage.set('before_url_house_', []);
-          return this.$router.push({
-            name: this.$route.query.back,
-          });
+          this.dropOut = true;
+          const node = this.$refs.popHouse,
+          vm = this;
+          function handleAnimationEnd() {
+            vm.dropOut = false;
+            node.removeEventListener('transitionend', handleAnimationEnd);
+            vm.$router.push({
+              name: vm.$route.query.back,
+            });
+          }
+          node.addEventListener('transitionend', handleAnimationEnd);
+          return
         }
         if (url) {
           this.$router.push({
@@ -91,12 +101,21 @@
           });
         }
         if (!url || (url && url.length === 0)) {
-          this.$router.push({
-            path: Storage.get('popHouse_before') || '',
-            query: {
-              direction: 'pop-bottom'
-            }
-          })
+          this.dropOut = true;
+          const node = this.$refs.popHouse,
+            vm = this;
+          function transitionendEnd() {
+            vm.dropOut = false;
+            node.removeEventListener('transitionend', transitionendEnd);
+            vm.$router.push({
+              path: Storage.get('popHouse_before') || '',
+              query: {
+                direction: 'pop-bottom'
+              }
+            })
+          }
+          node.addEventListener('transitionend', transitionendEnd);
+
         }
       },
       normalVal(to) {
@@ -130,8 +149,14 @@
 </script>
 
 <style scoped lang="less">
+.popHouse.dropOut {
+  position: relative;
+  top: 100vh;
+}
 .popHouse {
+  transition: top .3s;
   overflow-x: hidden;
+  top: 0;
   .pop-control {
     position: absolute;
     top: 14px;

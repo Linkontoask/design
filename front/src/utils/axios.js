@@ -23,10 +23,9 @@ export default {
         }
       })
     } catch (err) {
-      console.log(err.response)
       this.$msg({
         type: 'error',
-        message: `服务器错误`
+        message: `服务器错误，请刷新页面`
       });
     }
   },

@@ -56,6 +56,7 @@
           path: '/PopHouse/FoodDetail',
           query: {
             bgColor: '#fff',
+            control: 'close',
             direction: 'pop-bottom',
             id: this.data[index].hotel_id
           }

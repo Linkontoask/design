@@ -1,16 +1,18 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="homeStay-content" ref="homeStay">
     <transition name="show">
-      <div class="search-top" :class="{focusTop: focus}" v-if="isStart">
-        <input style="background-color: white" type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
-        <div class="btn-search" @touchend="handleSearchGo">搜索</div>
+      <div class="search-top-box" v-if="isStart" :class="{focusHeight: focus}">
+        <div class="search-top" :class="{focusTop: focus}">
+          <input style="background-color: white" type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+          <div class="btn-search" @touchend="handleSearchGo">搜索</div>
+        </div>
       </div>
     </transition>
     <div class="content" :style="{paddingBottom: bottom}" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
       <div class="homeStay-banner">
         <swiper :options="swiperOptionBanner" class="swiper">
           <swiper-slide v-for="(item, index) in slides" :key="index">
-            <img :src="require('../' + item)" alt="not find img">
+            <div class="img-content" :style="{backgroundImage: `url(${require('../' + item)})`}"></div>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -96,7 +98,7 @@
     },
     data() {
       return {
-        bottom: '118px',
+        bottom: '64px',
         searchStr: '北京',
         opacity: 0.1,
         focus: false,
@@ -260,20 +262,20 @@
     padding: 24px 40px !important;
     opacity: 1;
   }
-  .show-enter-active {
-    width: 0 !important;
+  div.show-enter-active {
+    width: 0;
     opacity: 0
   }
-  .show-leave-active {
-    width: 80% !important;
+  div.show-leave-active {
+    width: 100%;
     opacity: 1;
   }
-  .show-leave-to {
-    width: 0 !important;
+  div.show-leave-to {
+    width: 0;
     opacity: 0;
   }
-  .show-enter-to {
-    width: 80% !important;
+  div.show-enter-to {
+    width: 100%;
     opacity: 1;
   }
   .homeStay-content {
@@ -296,8 +298,11 @@
       position: relative;
       .swiper {
         height: 20.125rem;
-        img {
+        .img-content {
           height: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
         }
       }
       .city {
@@ -316,6 +321,9 @@
     }
     div.focusTop {
       top: 64px;
+    }
+    div.focusHeight {
+      height: 8rem;
     }
     .homeStay-search {
       position: relative;

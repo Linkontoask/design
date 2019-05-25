@@ -2,13 +2,13 @@
   <div class="login">
     <img src="../assets/logo.png" alt="LOGO" class="logo">
     <div class="login-box">
-      <h4>用户名</h4>
-      <ve-plain-input ref="user" v-model.trim="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[0-9a-zA-Z]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
-      <h4 style="padding-top: 6px">密码</h4>
-      <ve-plain-input ref="password" v-model.trim="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
-      <h4 style="padding-top: 6px">确认密码</h4>
+      <h4 @click="$refs.user.$el.children[0].focus()">用户名</h4>
+      <ve-plain-input ref="user" @focus="getInputFocusScrollY" @blur="setWindowScrollY" v-model.trim="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[0-9a-zA-Z]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <h4 @click="$refs.password.$el.children[0].focus()" style="padding-top: 6px">密码</h4>
+      <ve-plain-input ref="password" @focus="getInputFocusScrollY" @blur="setWindowScrollY" v-model.trim="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
+      <h4 @click="$refs.checkpass.$el.children[0].focus()" style="padding-top: 6px">确认密码</h4>
       <form @submit.prevent="formSubmit" action="javascript:return true">
-        <ve-plain-input name="done" ref="checkpass" @keyup.enter.native="registered" v-model.trim="data.checkPassword" message="两次密码输入不一致" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password" @blur="handleBlur"></ve-plain-input>
+        <ve-plain-input name="done" ref="checkpass" @keyup.enter.native="registered" @focus="getInputFocusScrollY" v-model.trim="data.checkPassword" message="两次密码输入不一致" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password" @blur="handleBlur"></ve-plain-input>
       </form>
       <div class="login-control">
         <span v-hammer:tap="login">已有账号？直接登录</span>
@@ -50,6 +50,7 @@
         }
       },
       handleBlur(ev) {
+        this.setWindowScrollY();
         this.$refs.checkpass.error = this.data.checkPassword !== this.data.password;
         if (!this.data.checkPassword) {
           this.$refs.checkpass.error = true;

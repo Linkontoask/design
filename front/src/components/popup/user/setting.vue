@@ -77,7 +77,7 @@
 <style scoped lang="less">
 .setting {
   position: relative;
-  padding: 86px 36px 24px;
+  padding: 86px 24px 24px;
   h1 {
     font-size: 20px;
     color: #2E312F;

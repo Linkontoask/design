@@ -18,9 +18,12 @@ import '../style/animation.less'
 import 'animate.css'
 import '../style/loading.css'
 import 'loaders.css'
+import '../static/icon'
 import loading from '../components/base/loading'
+import icon from '../components/base/svg'
 import weChat from '../utils/weChat';
 Vue.component('loading', loading);
+Vue.component('icon', icon);
 
 Vue.use(weChat);
 Vue.use(vueLazyload);

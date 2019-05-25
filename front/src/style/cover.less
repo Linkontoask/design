@@ -135,10 +135,22 @@ input, textarea {
   }
 }
 
+.search-top-box {
+  position: fixed;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 6rem;
+  border-bottom: 1px solid #E3E9E6;
+  background-color: white;
+  z-index: 9;
+  overflow: hidden;
+  transition: height .3s ease-in-out;
+}
 .search-top {
   display: flex;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 24px;
   left: 50%;
   transform: translateX(-50%);
@@ -148,7 +160,6 @@ input, textarea {
   padding: 10px 20px;
   border-radius: 4px;
   background-color: white;
-  z-index: 9;
   transition: top .3s ease-in-out;
   form {
     width: 100%;

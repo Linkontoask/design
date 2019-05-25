@@ -1,15 +1,17 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
-  <div class="msgBase" v-hammer:tap="handleTap" v-hammer:swipe.left.right="handleSwiper" :class="{hide: is_hide}">
-    <div :class="{activeLeft: is_left}" class="list-box">
-      <img class="img-box" :src="require('../../assets/' + data.src)" alt="">
-      <notification v-if="data.unread !== 0">{{ data.unread }}</notification>
-      <div class="msgBase-box">
-        <h5>{{ data.name }}</h5>
-        <p>{{ data.lastMsg }}</p>
+  <li>
+    <div class="msgBase" v-hammer:tap="handleTap" v-hammer:swipe.left.right="handleSwiper" :class="{hide: is_hide}">
+      <div :class="{activeLeft: left}" class="list-box">
+        <img class="img-box" :src="require('../../assets/' + data.src)" alt="">
+        <notification v-if="data.unread !== 0">{{ data.unread }}</notification>
+        <div class="msgBase-box">
+          <h5>{{ data.name }}</h5>
+          <p>{{ data.lastMsg }}</p>
+        </div>
+        <div class="delete" v-hammer:tap="handleDelete">删除</div>
       </div>
-      <div class="delete" v-hammer:tap="handleDelete">删除</div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script>
@@ -23,7 +25,10 @@
       data: {
         type: Object,
         default: () => {{}}
-      }
+      },
+      left: {
+        type: Boolean
+      },
     },
     data() {
       return {
@@ -33,7 +38,11 @@
     },
     methods: {
       handleTap(ev) {
-        if (ev.target.className === 'delete') {
+        if (ev.target.className === 'delete' || this.is_left) {
+          if (this.is_left) {
+            this.is_left = false;
+            this.$emit('left', this.is_left);
+          }
           return false;
         }
         this.is_left = false;
@@ -41,7 +50,7 @@
       },
       handleSwiper(ev) {
         this.is_left = ev.type === 'swipeleft';
-        this.$emit('left', ev, this.data)
+        this.$emit('left', this.is_left)
       },
       handleDelete() {
         this.is_hide = true;
@@ -64,31 +73,29 @@ div.hide {
 }
 .msgBase {
   width: 100%;
-  height: 69px;
-  padding: 24px 0 0;
+  height: 80px;
   overflow: hidden;
   transition: height .3s, padding .3s;
+  display: flex;
+  align-items: center;
   > .list-box {
     position: relative;
     display: flex;
     align-items: stretch;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #E4ECE8;
+    width: 100%;
     transition: transform .3s ease-out;
     > * {
       flex-shrink: 0;
     }
   }
   .img-box {
-    width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: no-repeat center;
   }
   .msgBase-box {
     margin-left: 24px;
     font-size: 14px;
-    max-width: 258px;
+    max-width: calc(100% - 86px);
     flex-shrink: 0;
     h5 {
       color: #606266;
@@ -102,16 +109,14 @@ div.hide {
     }
   }
   .delete {
-    position: absolute;
-    right: -@delete;
-    top: 0;
     width: @delete;
-    height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-around;
     background: #FE5656;
     color: white;
+    margin-left: auto;
+    margin-right: -100px;
   }
 }
 </style>

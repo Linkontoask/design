@@ -59,7 +59,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 1rem 0;
+    padding: 6px 0;
     .active {
       color: #25A3A8;
     }
@@ -68,7 +68,7 @@
     }
     h5 {
       text-align: center;
-      margin-top: 0.5rem;
+      margin-top: 4px;
       font-size: 0.75rem;
       font-weight: 400;
       width: 100%;

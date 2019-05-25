@@ -2,9 +2,9 @@
   <div class="login">
     <img src="../assets/logo.png" alt="LOGO" class="logo">
     <div class="login-box">
-      <h4>用户名</h4>
+      <h4 @click="$refs.user.$el.children[0].focus()">用户名</h4>
       <ve-plain-input ref="user" @focus="getInputFocusScrollY" @blur="setWindowScrollY" v-model.trim="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[a-zA-Z]|[0-9]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
-      <h4 style="padding-top: 6px">密码</h4>
+      <h4 style="padding-top: 6px" @click="$refs.password.$el.children[0].focus()">密码</h4>
       <form @submit.prevent="formSubmit" action="javascript:return true">
         <ve-plain-input name="done" ref="password" @focus="getInputFocusScrollY" @blur="setWindowScrollY" @keyup.enter.native="login" v-model.trim="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
       </form>

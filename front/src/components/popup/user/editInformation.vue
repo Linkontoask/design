@@ -69,7 +69,7 @@
 <style scoped lang="less">
 .edit-information {
   position: relative;
-  padding: 108px 36px 0;
+  padding: 108px 24px 0;
   .save {
     position: fixed;
     top: 23px;

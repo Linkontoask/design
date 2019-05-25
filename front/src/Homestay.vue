@@ -1,5 +1,6 @@
 <template>
   <div id="homeStay">
+    <!--<icon svg="icon-chef"></icon>-->
     <!--<transition
             name="router-fade"
             mode="out-in"

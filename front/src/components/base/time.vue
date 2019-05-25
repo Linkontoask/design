@@ -31,7 +31,7 @@
 <style scoped lang="less">
   .time {
     margin-top: 36px;
-    padding: 0 36px;
+    padding: 0 24px;
     > div {
       display: flex;
       align-items: center;

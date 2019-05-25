@@ -124,7 +124,7 @@
   width: calc(80% + 40px);
   margin: 0 auto;
   .searched {
-    margin-top: 110px;
+    margin-top: 140px;
     overflow: hidden;
     ul {
       display: flex;
@@ -143,9 +143,9 @@
     }
   }
   .search-content {
-    margin-top: 36px;
+    margin-top: 24px;
     .swiper-content {
-      margin-top: 36px;
+      margin-top: 24px;
       .swiper-slide-content {
         padding-bottom: 8px;
         border-bottom: 1px solid #E4E7ED;
@@ -173,7 +173,8 @@
     }
   }
   .city {
-    margin-top: 36px;
+    margin-top: 24px;
+    padding-bottom: 36px;
     h3 {
       color: #5D5D5D;
       font-size: 16px;

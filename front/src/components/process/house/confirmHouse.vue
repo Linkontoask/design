@@ -45,7 +45,7 @@
     left: 0;
     top: 72px;
     width: 100%;
-    height: calc(100vh - 178px);
+    height: calc(100vh - 8.8rem);
     overflow: auto;
   }
 </style>

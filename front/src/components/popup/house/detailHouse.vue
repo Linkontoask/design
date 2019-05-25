@@ -311,7 +311,7 @@
       .icobutton--heart {
         position: absolute;
         right: 36px;
-        top: 18px;
+        top: 1.625rem;
         border: none;
         background: transparent;
         z-index: 3;
@@ -336,7 +336,7 @@
       position: relative;
       z-index: 1;
       > div {
-        padding: 20px 36px;
+        padding: 20px 24px;
         background-color: white;
       }
       .act {

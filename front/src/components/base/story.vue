@@ -49,6 +49,7 @@
           path: '/PopHouse/StoryDetail',
           query: {
             bgColor: '#fff',
+            control: 'close',
             direction: 'pop-bottom',
             id: this.data[index].story_id
           }

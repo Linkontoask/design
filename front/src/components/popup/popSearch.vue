@@ -83,11 +83,12 @@
 <style scoped lang="less">
   .popSearch {
     .close {
+      position: fixed;
+      top: 16px;
+      right: 6%;
       text-align: right;
-      margin-right: 6%;
       height: 32px;
       line-height: 32px;
-      margin-top: 16px;
       font-size: 14px;
     }
   }

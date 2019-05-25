@@ -242,7 +242,7 @@
     }
   }
   .order-information {
-    padding: 36px;
+    padding: 24px;
     font-size: 14px;
     h3 {
       color: #2E3130;
@@ -297,7 +297,7 @@
     }
   }
   .price {
-    padding: 24px 36px;
+    padding: 24px 24px;
     strong {
       color: #EB0C0C;
     }

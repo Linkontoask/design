@@ -98,7 +98,9 @@
           this.$router.push({
             name,
             query: {
-              back: this.$route.name
+              back: this.$route.name,
+              control: 'close',
+              direction: 'pop-bottom'
             }
           })
         }
@@ -124,7 +126,7 @@
 <style scoped lang="less">
   @import "../style/global";
 .user {
-  padding: 0 36px;
+  padding: 0 24px;
   .user-info {
     margin-top: 98px - @topIndicator;
     display: flex;

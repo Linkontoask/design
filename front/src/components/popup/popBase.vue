@@ -1,7 +1,7 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
   <div class="popBase" ref="popBase">
-    <div :class="controlStyle">
-      <div class="pop-control" v-hammer:tap="handleTap">
+    <div class="pop-base-control">
+      <div class="pop-control" :class="controlStyle" v-hammer:tap="handleTap">
         <p></p>
         <p></p>
       </div>
@@ -98,9 +98,18 @@
       },
       handleTap() {
         if (this.$route.query.back) {
-          return this.$router.push({
-            name: this.$route.query.back
-          })
+          const node = this.$refs.popBase,
+            vm = this;
+          node.classList.add('UpBottom');
+          function transitionend() {
+            node.classList.remove('UpBottom');
+            node.removeEventListener('animationend', transitionend);
+            vm.$router.push({
+              name: vm.$route.query.back,
+            });
+          }
+          node.addEventListener('animationend', transitionend);
+          return
         }
         const index = path.findIndex(i => this.$route.meta.name === i);
         if (index === 0) {
@@ -156,11 +165,28 @@
     position: relative;
     width: 100%;
     height: calc(100vh - 14px);
+    .pop-base-control {
+      display: flex;
+      align-items: center;
+      height: 68px;
+      justify-content: space-between;
+      span {
+        margin-left: auto;
+        font-size: 12px;
+      }
+      span + span {
+        margin-right: 24px;
+      }
+    }
+    & > div:last-child {
+      padding-top: 32px;
+    }
     .pop-control {
-      position: relative;
-      height: 56px;
+      position: absolute;
+      top: 14px;
+      left: 8px;
+      height: 36px;
       width: 46px;
-      top: 18px;
     }
     .pop-box {
     }
@@ -173,19 +199,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 36px;
-      span {
-        font-size: 12px;
-        color: #5F6564;
-      }
+      z-index: 9;
       p {
         position: absolute;
-        top: 8px;
-        width: 16px;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        width: 22px;
         height: 2px;
-        background-color: #2E312F;
         transition: transform .2s;
         transform: rotate(45deg);
+        background-color: #333;
       }
       p + p {
         transform: rotate(-45deg);

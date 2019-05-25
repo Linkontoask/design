@@ -85,7 +85,7 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 24px;
-    width: calc(100% - 72px);
+    width: calc(100% - 48px);
     margin: 108px auto 0;
     border-bottom: 1px solid #E3E9E6;
     .user-info-text {
@@ -107,7 +107,7 @@
     }
   }
   .box {
-    padding: 0 36px;
+    padding: 0 24px;
     margin-top: 32px;
     .info {
       margin-top: 24px;

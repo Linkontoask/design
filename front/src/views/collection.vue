@@ -163,7 +163,7 @@
       margin-bottom: 24px;
     }
     .collection-stay {
-      padding: 0 36px;
+      padding: 0 24px;
       margin-top: 24px;
       overflow: hidden;
       h1 {

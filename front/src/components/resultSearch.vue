@@ -79,7 +79,7 @@
 .resultSearch {
   position: relative;
   width: calc(80% + 40px);
-  margin: 110px auto 0;
+  margin: 140px auto 0;
   .house, .food {
     color: #8F9895;
     > div {

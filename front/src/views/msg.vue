@@ -2,7 +2,12 @@
   <div class="msg">
     <h1>信息</h1>
     <div class="msg-content">
-      <msgBase v-for="(item, index) in infos" :key="item.uuid" @tap="tap" @left="onSwipe" @delete="handleDelete" :data="item"></msgBase>
+      <msgBase v-for="(item, index) in infos" :key="item.uuid"
+               @tap="value => tap(value, index)"
+               @left="value => onSwipe(value, index)"
+               @delete="handleDelete"
+               :left="haveLeft[index]"
+               :data="item"></msgBase>
       <div v-if="!infos.length" class="none-list">您还没有聊天记录，或者已经被删除了。<strong>注：手动删除不能恢复</strong></div>
     </div>
     <Chat :showChat="showChat" :name="name" @close="close"></Chat>
@@ -12,6 +17,7 @@
 <script>
   import msgBase from 'components/base/msgBase'
   import Chat from '../components/base/chat'
+  import list from '../static/chatList'
   import { mapMutations} from 'vuex'
   export default {
     name: "msg",
@@ -19,25 +25,9 @@
       return {
         showChat: false,
         name: '',
-        infos: [{
-          src: 'avatar-1.png',
-          name: '逸宿好友',
-          lastMsg: '昨天发现一个有趣的地方',
-          unread: 0,
-          uuid: 'xa2d54w3ad343',
-        },{
-          src: 'avatar-2.png',
-          name: '逸宿好友',
-          lastMsg: '您是不是落下您的贵重物品了，还有好多好多',
-          unread: 3,
-          uuid: 'xa2d54w3ad32143',
-        },{
-          src: 'infomation.png',
-          name: '系统提示',
-          lastMsg: '系统提示',
-          unread: 1,
-          uuid: 'xa2d54w332ad343',
-        },]
+        haveLeft: [false, false, false],
+        activeIndex: 0,
+        infos: list
       }
     },
     components: {
@@ -52,12 +42,14 @@
         this.showChat = false;
         this.IS_SHOW_NATION(true);
       },
-      onSwipe(ev, item) {
-        // console.log(ev.type, item)
+      onSwipe(is_left, index) {
+        this.haveLeft = [false, false, false];
+        this.$set(this.haveLeft, index, is_left)
       },
-      tap(item) {
+      tap(item ,index) {
         this.showChat = true;
         this.IS_SHOW_NATION(false);
+        this.infos[index].unread = 0;
         // IS_SHOW_NATION
         this.$nextTick(() => {
           this.name = item.name;
@@ -81,7 +73,7 @@
 <style scoped lang="less">
   @import "../style/global";
 .msg {
-  padding: 0 36px;
+  padding: 0 24px;
   h1 {
     font-size: 22px;
     font-weight: 400;
@@ -90,7 +82,7 @@
     margin-top: 66px - @topIndicator;
   }
   .msg-content {
-    margin-top: -24px;
+    max-height: calc(100% - 42px);
     .none-list {
       color: #C5D1CD;
       margin-top: 310px;

@@ -68,7 +68,7 @@
 <style scoped lang="less">
   @import "../style/global";
 .release {
-  padding: 0 36px;
+  padding: 0 24px;
   h1 {
     font-size: 22px;
     font-weight: 400;

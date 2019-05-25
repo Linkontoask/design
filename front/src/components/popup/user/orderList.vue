@@ -166,7 +166,7 @@
 <style scoped lang="less">
 .order-list {
   position: relative;
-  padding: 86px 36px 0;
+  padding: 86px 24px 0;
   .order-content {
     ul {
       li {

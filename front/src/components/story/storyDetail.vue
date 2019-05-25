@@ -258,7 +258,7 @@
     .icobutton--heart {
       position: absolute;
       right: 36px;
-      top: 18px;
+      top: 1.625rem;
       border: none;
       background: transparent;
       z-index: 3;
