@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-    <textarea v-model="value" name="" id="" cols="30" rows="10" placeholder="留下你的笔记让其他人参考"></textarea>
+    <textarea v-model="value" @focus="getInputFocusScrollY" @blur="setWindowScrollY" name="" id="" cols="30" rows="10" placeholder="留下你的笔记让其他人参考"></textarea>
     <upload class="upload" ref="upload"
             @append="append"
             @change="handleFileListChange"></upload>

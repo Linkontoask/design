@@ -101,7 +101,7 @@
       },
       normalVal(to) {
         this.bgColor = to.query.bgColor || '#2E312F';
-        this.direction = to.query.direction || 'pop-right';
+        this.direction = to.name === 'houseDetail' || to.name === 'StoryDetail' ? '' : (to.query.direction || 'pop-right');
         this.control = to.query.control || 'left';
       },
     },

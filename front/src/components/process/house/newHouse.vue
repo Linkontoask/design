@@ -10,10 +10,10 @@
         </div>
       </div>
       <div class="box">
-        <ve-plain-input ref="g" :target="['modify', 'blur']" placeholder="地区" type="reg" inspect="^.+$" message="请输入正确的地区" v-model="data.g" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
-        <ve-plain-input ref="city" :target="['modify', 'blur']" placeholder="城市" type="reg" inspect="^.+$" message="请输入正确的城市" v-model="data.city" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
-        <ve-plain-input ref="position" :target="['modify', 'blur']" placeholder="地址" type="reg" inspect="^.+$" message="请输入正确的地址" v-model="data.position" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
-        <ve-plain-input ref="id" :target="['modify', 'blur']" placeholder="门牌号" type="reg" inspect="^.+$" message="请输入正确的门牌号" v-model="data.id" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="g" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="地区" type="reg" inspect="^.+$" message="请输入正确的地区" v-model="data.g" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="city" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="城市" type="reg" inspect="^.+$" message="请输入正确的城市" v-model="data.city" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="position" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="地址" type="reg" inspect="^.+$" message="请输入正确的地址" v-model="data.position" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="id" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="门牌号" type="reg" inspect="^.+$" message="请输入正确的门牌号" v-model="data.id" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="control-next">

@@ -1,6 +1,6 @@
 <template>
   <div class="bottom-action-bar">
-    <ul class="flex">
+    <ul class="flex" :class="{qq: isQQ}">
       <li v-for="(item, index) in action" :key="index" :class="{active: $route.path.includes(item.index)}" @click="handleJump(item)">
         <img :src="require('../assets/' + ($route.path.includes(item.index) ? item.focusIcon : item.icon))" :alt="item.index">
         <h5>{{ item.title }}</h5>
@@ -11,12 +11,13 @@
 
 <script>
   import action from '../static/BactionBar'
-
+  import browser from '../utils/browser'
   export default {
     name: 'action',
     data() {
       return {
-        action: action
+        action: action,
+        isQQ: false
       }
     },
     watch: {
@@ -33,7 +34,7 @@
 
     },
     mounted() {
-
+      this.isQQ = !!(browser.ios && browser.qq && (screen.width === 414 || screen.width === 375) && (screen.height === 896 || screen.height === 812));
     },
     beforeCreate() {
 
@@ -51,9 +52,11 @@
   border-top: 1px solid #E3E9E6;
   z-index: 9;
   background-color: white;
+  .flex.qq {
+    padding-bottom: 34px;
+  }
   .flex {
     display: flex;
-    height: 6.25rem - @topIndicator;
     justify-content: space-between;
     align-items: flex-start;
     padding: 1rem 0;

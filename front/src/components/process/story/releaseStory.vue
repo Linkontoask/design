@@ -10,12 +10,12 @@
     <div class="titleInput new-box">
       <p>故事标题</p>
       <div class="box">
-        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入故事标题" type="reg" inspect="^.+$" message="请输入故事的标题" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="name" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="请输入故事标题" type="reg" inspect="^.+$" message="请输入故事的标题" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">
       <p ref="content">故事内容</p>
-      <textarea class="textarea" v-model="releaseData.content" name="" id="" cols="30" rows="10" placeholder="分享让您印象深刻的旅行故事，比如有趣的瞬间，新奇的发现。"></textarea>
+      <textarea class="textarea" @focus="getInputFocusScrollY" @blur="setWindowScrollY" v-model="releaseData.content" name="" id="" cols="30" rows="10" placeholder="分享让您印象深刻的旅行故事，比如有趣的瞬间，新奇的发现。"></textarea>
     </div>
     <div class="control-next">
       <ve-button class="primary" @click="handleRelease">发布</ve-button>

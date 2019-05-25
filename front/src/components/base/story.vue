@@ -67,8 +67,8 @@
   }
   li {
     width: 48%;
-    height: 210px;
     margin-top: 24px;
+    box-shadow: 0 0.0625rem 0.125rem #cbdad8;
     > img {
       width: 100%;
       height: 118px;
@@ -82,6 +82,7 @@
       border-radius: 4px;
     }
     .content {
+      padding: 0 4px 4px;
       h4 {
         margin-top: 8px;
         color: #8A7524;

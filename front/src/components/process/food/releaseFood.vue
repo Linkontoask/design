@@ -10,13 +10,13 @@
     <div class="titleInput new-box">
       <p>美食名字</p>
       <div class="box">
-        <ve-plain-input ref="name" :target="['modify', 'blur']" placeholder="请输入美食名字" type="reg" inspect="^.+$" message="请输入美食名字" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="name" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="请输入美食名字" type="reg" inspect="^.+$" message="请输入美食名字" v-model="releaseData.name" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">
       <p>美食价格</p>
       <div class="box">
-        <ve-plain-input ref="price" :target="['modify', 'blur']" placeholder="请输入美食价格" type="reg" inspect="^\d+$" message="请输入美食价格" v-model="releaseData.price" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+        <ve-plain-input ref="price" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" placeholder="请输入美食价格" type="reg" inspect="^\d+$" message="请输入美食价格" v-model.number="releaseData.price" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       </div>
     </div>
     <div class="titleInput new-box">

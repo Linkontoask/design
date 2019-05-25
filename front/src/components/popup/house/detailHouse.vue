@@ -1,6 +1,6 @@
 <template>
   <div class="detailHouse">
-    <div data-in="pulse" class="detail-house-img animated fast-time">
+    <div data-in="pulse" class="detail-house-img animated fast-time" :class="{show: isShowOpacity}">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in house.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
@@ -95,6 +95,7 @@
     },
     data() {
       return {
+        isShowOpacity: false,
         house: {},
         hotel_user: {},
         hotel_Appraise: {},
@@ -281,7 +282,13 @@
       this.heartAnimation()
     },
     async activated() {
-      this.getData()
+      this.getData();
+      setTimeout(() => {
+        this.isShowOpacity = true
+      }, 300)
+    },
+    beforeDestroy() {
+      this.isShowOpacity = false
     },
     async beforeMount() {
       // this.getData()
@@ -294,9 +301,13 @@
     position: relative;
     padding-bottom: 68px;
     background-color: #F3F3F3;
+    div.show {
+      opacity: 1;
+    }
     .detail-house-img {
       position: relative;
       height: 280px;
+      opacity: 0;
       .icobutton--heart {
         position: absolute;
         right: 36px;
@@ -377,13 +388,13 @@
       }
     }
     .house-offer {
-      margin-top: 16px;
+      margin-top: 8px;
       font-size: 14px;
       border-top: 1px solid #E4ECE8;
       border-bottom: 1px solid #E4ECE8;
     }
     .detail-box-t {
-      margin-top: 16px;
+      margin-top: 8px;
       padding-bottom: 24px;
       border-bottom: 1px solid #E4ECE8;
       .evaluation {
@@ -408,7 +419,7 @@
       }
     }
     .map {
-      margin-top: 16px;
+      margin-top: 8px;
       ul {
         padding-left: 20px;
         li {

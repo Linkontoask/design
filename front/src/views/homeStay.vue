@@ -21,7 +21,7 @@
           <ul>
             <li>
               <img src="../assets/city-fill.png" alt="city" class="t">
-              <input type="text" @blur="handleSearchBlur" v-model="searchStr">
+              <input type="text" @focus="getInputFocusScrollY" @blur="handleSearchBlur" v-model="searchStr">
               <div @touchend="searchStr = '重庆'">
                 <span>我的附近</span>
                 <img src="../assets/locat.png" alt="locat" class="s">
@@ -136,7 +136,7 @@
     },
     methods: {
       handleSearchBlur() {
-        this.scroll && this.scroll.refresh();
+        this.setWindowScrollY(0, true);
       },
       handleMoreHouse() {
         this.$router.push({

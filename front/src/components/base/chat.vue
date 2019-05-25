@@ -19,7 +19,9 @@
           <img :src="require('../../assets/' + img)" alt="">
         </div>
         <div class="input-style">
-          <input type="text" v-model="txt" @blur="handleBlur">
+          <form @submit.prevent="formSubmit" action="javascript:return true">
+            <input name="done" v-model="txt" @focus="getInputFocusScrollY" @keyup.enter="handleSend" @blur="setWindowScrollY">
+          </form>
         </div>
         <div class="input-send">
           <div class="btn" @click="handleSend">发送</div>
@@ -64,6 +66,9 @@
       }
     },
     methods: {
+      formSubmit() {
+        return false;
+      },
       handleSwiper() {
         this.$emit('close')
       },
@@ -85,9 +90,6 @@
           })
           this.txt = ''
         }
-      },
-      handleBlur() {
-
       },
       handleClose() {
         this.$emit('close')
@@ -223,6 +225,7 @@
           border: 1px solid #E3E9E6;
           font-size: 14px;
           word-break: break-all;
+          direction: ltr;
         }
         div.content::before, div.content::after {
           content: '';

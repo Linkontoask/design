@@ -14,7 +14,7 @@ const browser = () => {
     webApp: u.indexOf('Safari') === -1, //是否web应该程序，没有头部与底部
     weChat: u.indexOf('MicroMessenger') > -1, //是否微信 （2015-01-22新增）
     uc: u.indexOf('UCBrowser') > -1,
-    qq: u.indexOf('MQQBrowser') !== -1 //是否QQ
+    qq: u.indexOf('QQ') !== -1 //是否QQ
   };
 };
 

@@ -19,8 +19,10 @@ import 'animate.css'
 import '../style/loading.css'
 import 'loaders.css'
 import loading from '../components/base/loading'
+import weChat from '../utils/weChat';
 Vue.component('loading', loading);
 
+Vue.use(weChat);
 Vue.use(vueLazyload);
 Vue.use(VueHammer);
 Vue.use(LyTab);

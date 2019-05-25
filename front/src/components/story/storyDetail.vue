@@ -1,6 +1,6 @@
 <template>
   <div class="story-detail">
-    <div class="detail-story-img">
+    <div class="detail-story-img" :class="{show: isShowOpacity}">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in story.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
@@ -45,6 +45,7 @@
     },
     data() {
       return {
+        isShowOpacity: false,
         story: [],
         user: {},
         evaluation: [],
@@ -167,7 +168,13 @@
     activated() {
       this.heartAnimation();
       this.getStorage();
-      this.getUser()
+      this.getUser();
+      setTimeout(() => {
+        this.isShowOpacity = true
+      }, 300)
+    },
+    beforeDestroy() {
+      this.isShowOpacity = false
     },
     mounted() {
       /*this.heartAnimation();
@@ -242,8 +249,12 @@
     font-size: 20px;
     color: #2E3130;
   }
+  div.show {
+    opacity: 1;
+  }
   .detail-story-img {
     position: relative;
+    opacity: 0;
     .icobutton--heart {
       position: absolute;
       right: 36px;

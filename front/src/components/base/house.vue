@@ -5,13 +5,13 @@
         <div class="img-content" :style="{backgroundImage: `url(${item.imgs[0]})`}"></div>
         <div class="house-content">
           <p class="content-1">
-            <span class="medium clamp1">{{ item.name }}</span>
-            <span>{{ item.position.slice(0, 2) }}</span>
+            <span class="medium clamp2">{{ item.name }}</span>
           </p>
-          <div class="content-2 clamp2">{{ item.host_desc ? item.host_desc : '没有此房源的描述信息' }}</div>
+          <div class="content-2 clamp1">{{ item.host_desc ? item.host_desc : '没有此房源的描述信息' }}</div>
           <div class="content-3">
             <strong>{{ item.price }}</strong>
             <p>{{ item.price + Math.floor(Math.random() * 100 + 20) }}</p>
+            <span>{{ item.position.slice(0, 2) }}</span>
           </div>
         </div>
       </li>
@@ -69,11 +69,11 @@
       flex-wrap: wrap;
       li {
         width: 48%;
-        height: 216px;
-        margin-top: 24px;
+        height: 224px;
+        margin-top: 12px;
+        box-shadow: 0 1px 2px #cbdad8;
         > img {
           width: 100%;
-          border-radius: 4px;
         }
         img.start {
           position: absolute;
@@ -83,21 +83,22 @@
           background-repeat: no-repeat;
           background-position: center;
           background-size: cover;
-          border-radius: 4px;
+          border-top-left-radius: 4px;
+          border-top-right-radius: 4px;
         }
         .house-content {
           font-size: 14px;
           margin-top: 12px;
+          padding: 0 4px 4px;
           .content-1 {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            height: 38px;
+          }
+          .content-3 {
             span:last-child {
               color: #8F9895;
               font-size: 12px;
-              width: 24px;
-              display: block;
               flex-shrink: 0;
+              margin-left: auto;
             }
           }
           .content-2 {

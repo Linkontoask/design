@@ -8,7 +8,7 @@
     </div>
     <div class="titleInput new-box">
       <p>个性签名</p>
-      <ve-plain-input ref="show_name" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="描述您的心情或心灵感触" v-model="user.signature" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <ve-plain-input ref="show_name" @focus="getInputFocusScrollY" @blur="setWindowScrollY" :target="['modify', 'blur']" type="reg" inspect="^.+$" message="描述您的心情或心灵感触" v-model="user.signature" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
     </div>
   </div>
 </template>

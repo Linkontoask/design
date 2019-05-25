@@ -1,6 +1,6 @@
 <template>
   <div class="food-detail">
-    <div class="detail-food-img animated fast-time" data-in="pulse">
+    <div class="detail-food-img animated fast-time" data-in="pulse" :class="{show: isShowOpacity}">
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in food.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
@@ -34,6 +34,7 @@
     name: "foodDetail",
     data() {
       return {
+        isShowOpacity: false,
         food: {
           is_collect: []
         },
@@ -135,7 +136,13 @@
     },
     activated() {
       this.heartAnimation();
-      this.getStorage()
+      this.getStorage();
+      setTimeout(() => {
+        this.isShowOpacity = true
+      }, 300)
+    },
+    beforeDestroy() {
+      this.isShowOpacity = false
     },
     mounted() {
       /*this.heartAnimation()
@@ -181,8 +188,12 @@
       color: #EB0C0C;
     }
   }
+  div.show {
+    opacity: 1;
+  }
   .detail-food-img {
     position: relative;
+    opacity: 0;
     .icobutton--heart {
       position: absolute;
       right: 36px;

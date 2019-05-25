@@ -3,9 +3,11 @@
     <img src="../assets/logo.png" alt="LOGO" class="logo">
     <div class="login-box">
       <h4>用户名</h4>
-      <ve-plain-input ref="user" v-model="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[a-zA-Z]|[0-9]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
+      <ve-plain-input ref="user" @focus="getInputFocusScrollY" @blur="setWindowScrollY" v-model.trim="data.username" message="请输入正确的用户名，只能是数字或者字母组合" type="reg" inspect="^[a-zA-Z]|[0-9]{2,6}$" class="input" :errorOptions="{position: 'absolute'}"></ve-plain-input>
       <h4 style="padding-top: 6px">密码</h4>
-      <ve-plain-input ref="password" v-model="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
+      <form @submit.prevent="formSubmit" action="javascript:return true">
+        <ve-plain-input name="done" ref="password" @focus="getInputFocusScrollY" @blur="setWindowScrollY" @keyup.enter.native="login" v-model.trim="data.password" message="请输入正确的密码" :options="{min: 6, max: 12}" class="input password" :errorOptions="{position: 'absolute'}" typeInput="password"></ve-plain-input>
+      </form>
       <div class="login-control">
         <div>
           <span v-hammer:tap="signup">注册</span>
@@ -26,11 +28,15 @@
     },
     data() {
       return {
-        data: {}
+        data: {},
       }
     },
     methods: {
+      formSubmit() {
+        return false;
+      },
       async login() {
+        this.$refs.password.$el.children[0].blur();
         this.$refs.user.mergeMesh('blur');
         this.$refs.password.mergeMesh('blur');
         if (!this.$refs.user.error && !this.$refs.password.error) {

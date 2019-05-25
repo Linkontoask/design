@@ -23,7 +23,11 @@ export default {
         }
       })
     } catch (err) {
-      console.log(err)
+      console.log(err.response)
+      this.$msg({
+        type: 'error',
+        message: `服务器错误`
+      });
     }
   },
   async post (url, data, config = {}) {
