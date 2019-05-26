@@ -1,6 +1,6 @@
 <template>
   <div class="first-book">
-    <Time :time="bTime" :day="p"></Time>
+    <Time :time="bTime" @change="handleChange"></Time>
     <div class="price">
       <strong>费用明细</strong>
       <ul>
@@ -28,25 +28,26 @@
       Time
     },
     data() {
+      const time = {
+        m: date.getMonth() + 1,
+        d: date.getDate()
+      };
       return {
-        p: 1,
-        time: {
-          m: date.getMonth() + 1,
-          d: date.getDate()
-        },
+        bTime: [time.m + '月' + time.d + '日', time.m + '月' + (time.d + 1) + '日'],
         priceAll: '',
         price: [{name: '房源费用', price: 212},{name: '清洁费', price: 30},{name: '服务费', price: 20},],
       }
     },
     computed: {
-      bTime() {
-        return [this.time.m + '月' + this.time.d + '日', this.time.m + '月' + (this.time.d + this.p) + '日']
-      }
     },
     methods: {
       ...mapMutations([
         'BOOK_HOUSE'
       ]),
+      handleChange(time, current) {
+        this.bTime = time;
+        console.log(Number(current.match(/\d+/)[0]))
+      },
       handleGo() {
         this.BOOK_HOUSE({
           time: this.bTime
@@ -77,7 +78,7 @@
 .first-book {
   position: relative;
   .price {
-    padding: 36px 36px 0;
+    padding: 36px 24px 0;
     > div {
       margin-top: 16px;
       display: flex;

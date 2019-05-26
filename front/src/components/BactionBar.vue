@@ -34,7 +34,7 @@
 
     },
     mounted() {
-      this.isQQ = !!(browser.ios && browser.qq && (screen.width === 414 || screen.width === 375) && (screen.height === 896 || screen.height === 812));
+      this.isQQ = !!(browser.ios && browser.qq && browser.iPhoneX);
     },
     beforeCreate() {
 

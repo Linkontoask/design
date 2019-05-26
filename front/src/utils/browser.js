@@ -8,6 +8,7 @@ const browser = () => {
     gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1,//火狐内核
     mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
     ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+    iPhoneX: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) && (screen.width === 414 || screen.width === 375) && (screen.height === 896 || screen.height === 812),
     android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, //android终端
     iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
     iPad: u.indexOf('iPad') > -1, //是否iPad

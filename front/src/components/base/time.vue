@@ -1,5 +1,5 @@
 <template>
-  <div class="time">
+  <div class="time" @click="handleDate">
     <div class="info">
       <span>入住时间</span>
       <span>离开时间</span>
@@ -9,21 +9,54 @@
       <div><p>共{{ day }}晚</p><div class="line"></div></div>
       <span>{{ time[1] }}</span>
     </div>
+    <Dialog :vis="visDialog" @close="dialogClose">
+      <datePicker :showAmount="5" @complete="dateComplete"></datePicker>
+    </Dialog>
   </div>
 </template>
 
 <script>
+  import Dialog from '../dialog'
+  import datePicker from './datePicker'
+
   export default {
     name: "Time",
+    components: {
+      Dialog,
+      datePicker
+    },
     props: {
       time: {
         type: Array,
         default: () => []
       },
-      day: {
-        type: [String, Number],
-        default: 1
+    },
+    data() {
+      return {
+        visDialog: false,
+        isX: false,
+        day: 1
       }
+    },
+    watch: {
+    },
+    methods: {
+      handleDate(el) {
+        console.log(el.path.some(item => item.id === 'dialog'))
+        !this.$route.path.includes('/userOrderDetail') &&
+        !el.path.some(item => item.id === 'dialog') && (this.visDialog = true)
+      },
+      dateComplete(start, end, format, current) {
+        this.dialogClose();
+        this.day = Number(current.match(/\d+/)[0]);
+        this.$emit('change', [start, end], current)
+      },
+      dialogClose() {
+        this.visDialog = false;
+      },
+    },
+    mounted() {
+
     }
   }
 </script>
@@ -65,7 +98,7 @@
       span {
         font-size: 18px;
         color: #25A3A8;
-        width: 74px;
+        width: 4.9rem;
         flex-shrink: 0;
         text-align: center;
       }

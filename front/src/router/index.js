@@ -14,9 +14,9 @@ const Pop = () => import(/* webpackChunkName: "pop" */ '../components/popup/popB
 const PopSearch = () => import(/* webpackChunkName: "PopSearch" */ '../components/popup/popSearch');
 const popHouse = () => import(/* webpackChunkName: "popHouse" */ '../components/popup/popHouse');
 
-
 const normalSearch = () => import(/* webpackChunkName: "normalSearch" */ '../components/normalSearch');
 const resultSearch = () => import(/* webpackChunkName: "resultSearch" */ '../components/resultSearch');
+
 const houseList = () => import(/* webpackChunkName: "houseList" */ '../components/popup/house/houseList');
 const houseDetail = () => import(/* webpackChunkName: "houseDetail" */ '../components/popup/house/detailHouse');
 const houseDesc = () => import(/* webpackChunkName: "houseDesc" */ '../components/popup/house/descHouse');
@@ -28,6 +28,7 @@ const landlord = () => import(/* webpackChunkName: "landlord" */ '../components/
 const houseBook = () => import(/* webpackChunkName: "houseBook" */ '../components/popup/house/bookHouse');
 const lastBook = () => import(/* webpackChunkName: "lastBook" */ '../components/popup/house/lastBook');
 const firstBook = () => import(/* webpackChunkName: "firstBook" */ '../components/popup/house/bookFrist');
+const datePicker = () => import(/* webpackChunkName: "datePicker" */ '../components/base/datePicker');
 
 const Success = () => import(/* webpackChunkName: "success" */ '../components/popup/house/success');
 
@@ -150,6 +151,7 @@ export default new Router({
         {path: 'FoodCollection', name: 'FoodCollection', component: collection.FoodCollection},
         {path: 'HouseCollection', name: 'HouseCollection', component: collection.HouseCollection},
         {path: 'StoryCollection', name: 'StoryCollection', component: collection.StoryCollection},
+        {path: 'datePicker', name: 'datePicker', component: datePicker},
         {path: 'houseBook', component: houseBook,
           children: [
             {path: '', redirect: 'firstBook'},

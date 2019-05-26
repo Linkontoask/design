@@ -3,12 +3,14 @@
     <transition name="show">
       <div class="search-top-box" v-if="isStart" :class="{focusHeight: focus}">
         <div class="search-top" :class="{focusTop: focus}">
-          <input style="background-color: white" type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名" placeholder="输入城市、房源名">
+          <input style="background-color: white" type="text" @focus="handleFocus" aria-placeholder="输入城市、房源名"
+                 placeholder="输入城市、房源名">
           <div class="btn-search" @touchend="handleSearchGo">搜索</div>
         </div>
       </div>
     </transition>
-    <div class="content" :style="{paddingBottom: bottom}" @touchstart="handleStart" @touchend="handleEnd" @touchmove="handleMove" ref="content">
+    <div class="content" :style="{paddingBottom: bottom}" @touchstart="handleStart" @touchend="handleEnd"
+         @touchmove="handleMove" ref="content">
       <div class="homeStay-banner">
         <swiper :options="swiperOptionBanner" class="swiper">
           <swiper-slide v-for="(item, index) in slides" :key="index">
@@ -24,17 +26,17 @@
             <li>
               <img src="../assets/city-fill.png" alt="city" class="t">
               <input type="text" @focus="getInputFocusScrollY" @blur="handleSearchBlur" v-model="searchStr">
-              <div @touchend="searchStr = '重庆'">
+              <div v-hammer:tap="() => { searchStr = '重庆'}">
                 <span>我的附近</span>
                 <img src="../assets/locat.png" alt="locat" class="s">
               </div>
             </li>
-            <li>
+            <li v-hammer:tap="handleDate">
               <img src="../assets/calender.png" alt="city" class="t">
               <strong class="day">{{ date.getDate() }}</strong>
               <span>{{ searchString }}</span>
               <div>
-                <span>共一晚</span>
+                <span>共{{ day }}晚</span>
               </div>
             </li>
           </ul>
@@ -68,6 +70,9 @@
         <!--<div class="line-primary">更多故事</div>-->
       </div>
     </div>
+    <Dialog :vis="visDialog" @close="dialogClose">
+      <datePicker :showAmount="5" @complete="dateComplete"></datePicker>
+    </Dialog>
     <div class="bg-logo" v-show="!isStart" :style="{opacity}">
       <img src="../assets/logo.png" alt="not find img">
     </div>
@@ -81,31 +86,36 @@
   import BScroll from 'better-scroll'
   import axios from "../utils/axios";
   import browser from '../utils/browser'
+  import Dialog from '../components/dialog'
+  import datePicker from '../components/base/datePicker'
+
   let y = 0;
-  const Day =  ['一','二','三','四','五','六','日'];
+  const Day = ['一', '二', '三', '四', '五', '六', '日'],
+    date = new Date();
   export default {
     name: 'homeStayContent',
     components: {
       House,
       Food,
-      Story
+      Story,
+      Dialog,
+      datePicker
     },
     computed: {
-      searchString() {
-        const date = this.date;
-        return `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay() === 0 ? 6 : date.getDay() - 1] } - ${ date.getMonth() + 1 }.${ date.getDate()+1 } 周${ Day[date.getDay()] }`
-      }
     },
     data() {
       return {
-        bottom: '64px',
+        visDialog: false,
+        bottom: '84px',
         searchStr: '北京',
         opacity: 0.1,
         focus: false,
         dir: 'down',
         Day: Day,
+        day: '一',
         isStart: false,
-        date: new Date(),
+        date: date,
+        searchString: `${ date.getMonth() + 1 }.${ date.getDate() } 周${ Day[date.getDay() === 0 ? 6 : date.getDay() - 1] } - ${ date.getMonth() + 1 }.${ date.getDate() + 1 } 周${ Day[date.getDay()] }`,
         swiperOptionBanner: {
           loop: true,
           autoplay: {
@@ -137,6 +147,19 @@
       }
     },
     methods: {
+      dateComplete(start, end, format, day) {
+        this.dialogClose();
+        this.day = Number(day.match(/\d+/)[0]);
+        this.searchString = format.start + ' - ' + format.end;
+      },
+      dialogClose() {
+        this.scroll.enable();
+        this.visDialog = false;
+      },
+      handleDate() {
+        this.scroll.disable();
+        this.visDialog = true
+      },
       handleSearchBlur() {
         this.setWindowScrollY(0, true);
       },
@@ -209,7 +232,6 @@
         this.scroll = new BScroll(this.$refs.homeStay, {
           scrollX: false,
           scrollY: true,
-          momentum: true,
           bounce: true,
           probeType: 3
         });
@@ -241,43 +263,53 @@
 
 <style lang="less" scoped>
   @import "../style/global";
+
   .show-enter-active, .show-leave-active {
     transition: opacity .3s, width .3s;
   }
+
   .hide-enter-active {
     max-height: 0;
     padding: 0 !important;
     opacity: 0
   }
+
   .hide-leave-active {
     max-height: 134px;
     opacity: 1;
   }
+
   .hide-leave-to {
     max-height: 0;
     opacity: 0;
   }
+
   .hide-enter-to {
     max-height: 134px;
     padding: 24px 40px !important;
     opacity: 1;
   }
+
   div.show-enter-active {
     width: 0;
     opacity: 0
   }
+
   div.show-leave-active {
     width: 100%;
     opacity: 1;
   }
+
   div.show-leave-to {
     width: 0;
     opacity: 0;
   }
+
   div.show-enter-to {
     width: 100%;
     opacity: 1;
   }
+
   .homeStay-content {
     height: 100vh;
     .bg-logo {
