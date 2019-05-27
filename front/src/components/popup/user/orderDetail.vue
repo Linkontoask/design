@@ -119,7 +119,7 @@
       async getData() {
         const data = await axios.get.call(this, '/hotel/get_order_form/', this.$route.query);
         this.order = data.data[0];
-        console.log(this.order)
+        // console.log(this.order)
       }
     },
     mounted() {

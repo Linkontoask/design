@@ -150,7 +150,7 @@
         const data = await axios.get.call(this, '/hotel/get_order_form/', {});
         this.orderList = data.data;
         this.allOrder = data.data; // 用于筛选
-        console.log(data)
+        // console.log(data)
       }
     },
     async activated() {

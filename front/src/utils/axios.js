@@ -36,7 +36,7 @@ export default {
       for (let [key, value] of Object.entries(data)) {
         dataLast[key] = JSON.stringify(value)
       }
-      console.log(dataLast)
+      // console.log(dataLast)
       let res = await axios.post(url, qs.stringify(dataLast), {headers: config});
       res = res.data;
       return new Promise((resolve, reject) => {
@@ -51,7 +51,7 @@ export default {
         }
       })
     } catch (err) {
-      console.log(err)
+      // console.log(err)
     }
   },
 

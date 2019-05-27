@@ -65,7 +65,7 @@
       }
     },
     activated() {
-      console.log('msg', 'keep-alive');
+      // console.log('msg', 'keep-alive');
     },
     mounted() {
       this.$nextTick(() => {

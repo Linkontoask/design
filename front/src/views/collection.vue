@@ -102,7 +102,7 @@
             hotel: item
           })
         });
-        console.log(city)
+        // console.log(city)
         let hash = {};
         city.some((item, index) => {
           if (index === 0) {
@@ -125,11 +125,11 @@
             }
           }
         });
-        console.log('hash', hash)
+        // console.log('hash', hash)
         this.citys = citys;
         this.food = food;
         this.story = story;
-        console.log(citys)
+        // console.log(citys)
       }
     },
     mounted() {
@@ -137,7 +137,7 @@
     },
     activated() {
       this.getData();
-      console.log('collection', 'keep-alive');
+      // console.log('collection', 'keep-alive');
     }
   }
 </script>

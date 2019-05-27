@@ -114,7 +114,7 @@
         if (this.cu) {
           this.data[this.cu.n] = index
         } else {
-          console.log(this.oi)
+          // console.log(this.oi)
           this.data[this.oi] = index;
         }
       },

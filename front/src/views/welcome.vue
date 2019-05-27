@@ -31,7 +31,7 @@
             },
             touchEnd: () => {
               const swiper = this.$refs.swiper.swiper;
-              console.log(swiper.swipeDirection, swiper.activeIndex)
+              // console.log(swiper.swipeDirection, swiper.activeIndex)
               if (swiper.activeIndex === 2 && swiper.swipeDirection === 'next') {
                 this.next()
               }

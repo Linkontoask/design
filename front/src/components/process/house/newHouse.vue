@@ -66,7 +66,7 @@
             btn.addEventListener('animationend', handleAnimationEnd)
           }
         })
-        console.log(ok, this.data)
+        // console.log(ok, this.data)
         if (!ok) return;
         this.save();
         this.$router.push({
