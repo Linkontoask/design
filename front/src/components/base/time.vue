@@ -1,5 +1,5 @@
 <template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
-  <div class="time" v-hammer:tap="event => handleDate(event)">
+  <div class="time" @click="handleDate">
     <div class="info">
       <span>入住时间</span>
       <span>离开时间</span>
@@ -35,16 +35,16 @@
       return {
         visDialog: false,
         isX: false,
-        day: 1
+        day: 1,
       }
     },
     watch: {
     },
     methods: {
       handleDate(el) {
-        console.log(el.srcEvent.path.some(item => item.id === 'dialog'));
+        // console.log(el.composedPath()) // el.path兼容性解决方案
         !this.$route.path.includes('/userOrderDetail') &&
-        !el.srcEvent.path.some(item => item.id === 'dialog') && (this.visDialog = true)
+        !el.composedPath().some(item => item.id === 'dialog') && (this.visDialog = true)
       },
       dateComplete(start, end, format, current) {
         this.dialogClose();
@@ -65,6 +65,8 @@
   .time {
     margin-top: 36px;
     padding: 0 24px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
     > div {
       display: flex;
       align-items: center;
@@ -98,7 +100,7 @@
       span {
         font-size: 18px;
         color: #25A3A8;
-        width: 4.9rem;
+        width: 5rem;
         flex-shrink: 0;
         text-align: center;
       }
