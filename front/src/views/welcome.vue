@@ -2,8 +2,10 @@
   <div class="welcome">
     <swiper :options="swiperOptionBanner" class="swiper" ref="swiper">
       <swiper-slide v-for="(item, index) in slides" :key="index">
-        <img :src="require('../static/img/' + item.src)" alt="not find img">
-        <img class="title" :src="require('../static/img/' + item.name)" alt="not find img" @click="next(index)">
+        <div class="swiper-box">
+          <img :src="require('../static/img/' + item.src)" alt="not find img">
+          <img class="title" :src="require('../static/img/' + item.name)" alt="not find img" @click="next(index)">
+        </div>
       </swiper-slide>
     </swiper>
     <div class="slider-bottom">
@@ -99,6 +101,11 @@
     width: 100%;
     height: 100%;
     overflow: auto;
+    .swiper-box {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
     .swiper-wrapper {
       position: absolute;
       left: 0;
@@ -122,7 +129,6 @@
       }
       img:first-child {
         width: 100%;
-        margin-top: 86px;
       }
     }
   }

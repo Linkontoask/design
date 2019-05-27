@@ -1,5 +1,5 @@
-<template>
-  <div class="time" @click="handleDate">
+<template xmlns:v-hammer="http://www.w3.org/1999/xhtml">
+  <div class="time" v-hammer:tap="event => handleDate(event)">
     <div class="info">
       <span>入住时间</span>
       <span>离开时间</span>
@@ -42,9 +42,9 @@
     },
     methods: {
       handleDate(el) {
-        console.log(el.path.some(item => item.id === 'dialog'))
+        console.log(el.srcEvent.path.some(item => item.id === 'dialog'));
         !this.$route.path.includes('/userOrderDetail') &&
-        !el.path.some(item => item.id === 'dialog') && (this.visDialog = true)
+        !el.srcEvent.path.some(item => item.id === 'dialog') && (this.visDialog = true)
       },
       dateComplete(start, end, format, current) {
         this.dialogClose();

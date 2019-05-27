@@ -19,7 +19,7 @@
 },{
   "src": "avatar-4.png",
   "name": "逸宿好友3",
-  "lastMsg": "估计看监控，我们的使用量已经够多了",
+  "lastMsg": "从前有个可爱的小姑娘，谁见了都喜欢，但最喜欢她的是她的奶奶，简直是她要什么就给她什么。 一次，奶奶送给小姑娘一顶用丝绒做的小红帽，戴在她的头上正好合适。 从此，姑娘再也不愿意戴任何别的帽子，于是大家便叫她小红帽。",
   "unread": 28,
   "uuid": "xa2d54w3132d343"
 },{
@@ -34,4 +34,40 @@
   "lastMsg": "您好，这边有您想要的房间哦，要不要考虑一下",
   "unread": 1,
   "uuid": "xa2d54w31233"
+},{
+  "src": "avatar-7.png",
+  "name": "逸宿好友8",
+  "lastMsg": "Build 是官方提供",
+  "unread": 0,
+  "uuid": "xa23233"
+},{
+  "src": "avatar-8.png",
+  "name": "逸宿好友10",
+  "lastMsg": "edge浏览器用户信息弹窗无法收回",
+  "unread": 7,
+  "uuid": "xa2d541212333"
+},{
+  "src": "avatar-4.png",
+  "name": "逸宿好友7",
+  "lastMsg": "win7 ie11注册界面加载不出来",
+  "unread": 6,
+  "uuid": "xa2d54w31231212gr333"
+},{
+  "src": "avatar-2.png",
+  "name": "逸宿好友12",
+  "lastMsg": "注册界面已经把分享按钮拿掉了，不应该提示分享相关信息",
+  "unread": 4,
+  "uuid": "xa2d54w31231212333"
+},{
+  "src": "avatar-7.png",
+  "name": "逸宿好友11",
+  "lastMsg": "先勾选，再去掉勾选 同意用户协议，注册按钮任可用",
+  "unread": 0,
+  "uuid": "xa2d54w3qe1212333"
+},{
+  "src": "avatar-3.png",
+  "name": "逸宿好友13",
+  "lastMsg": "申请试用企业认证内容被遮挡",
+  "unread": 10,
+  "uuid": "xa2d54gfeww31212333"
 }]

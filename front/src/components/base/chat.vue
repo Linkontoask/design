@@ -223,7 +223,7 @@
           padding: 10px;
           background-color: white;
           border: 1px solid #E3E9E6;
-          font-size: 14px;
+          font-size: 16px;
           word-break: break-all;
           direction: ltr;
         }

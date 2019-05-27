@@ -1,13 +1,15 @@
 <template>
   <div class="msg">
     <h1>信息</h1>
-    <div class="msg-content">
-      <msgBase v-for="(item, index) in infos" :key="item.uuid"
-               @tap="value => tap(value, index)"
-               @left="value => onSwipe(value, index)"
-               @delete="handleDelete"
-               :left="haveLeft[index]"
-               :data="item"></msgBase>
+    <div class="msg-content" ref="msgContent">
+      <ul>
+        <msgBase v-for="(item, index) in infos" :key="item.uuid"
+                 @tap="value => tap(value, index)"
+                 @left="value => onSwipe(value, index)"
+                 @delete="handleDelete"
+                 :left="haveLeft[index]"
+                 :data="item"></msgBase>
+      </ul>
       <div v-if="!infos.length" class="none-list">您还没有聊天记录，或者已经被删除了。<strong>注：手动删除不能恢复</strong></div>
     </div>
     <Chat :showChat="showChat" :name="name" @close="close"></Chat>
@@ -15,6 +17,7 @@
 </template>
 
 <script>
+  import BScroll from 'better-scroll'
   import msgBase from 'components/base/msgBase'
   import Chat from '../components/base/chat'
   import list from '../static/chatList'
@@ -65,7 +68,12 @@
       console.log('msg', 'keep-alive');
     },
     mounted() {
-
+      this.$nextTick(() => {
+        this.scroll = new BScroll(this.$refs.msgContent, {
+          scrollX: false,
+          scrollY: true,
+        });
+      })
     }
   }
 </script>
@@ -82,7 +90,8 @@
     margin-top: 66px - @topIndicator;
   }
   .msg-content {
-    max-height: calc(100% - 42px);
+    max-height: calc(100vh - 9.5rem);
+    overflow: hidden;
     .none-list {
       color: #C5D1CD;
       margin-top: 310px;
