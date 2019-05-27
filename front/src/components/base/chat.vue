@@ -157,6 +157,7 @@
   top: 0;
   left: 0;
   transition: left .3s;
+  z-index: 2001;
   .input {
     position: fixed;
     bottom: 0;

@@ -44,16 +44,21 @@
         node.addEventListener('animationend', handleAnimationEnd)
       },
       loopElm(el, out) {
-        el.childNodes.forEach(item => {
-          if (out && item.dataset.out) {
-            this.animation(item, item.dataset.out)
-          } else if (item.dataset && item.dataset.in) {
-            this.animation(item, item.dataset.in)
-          }
-          /*if (item.childNodes.length !== 0) {
-            this.loopElm(item)
-          }*/
-        })
+        try {
+          el.childNodes.forEach(item => {
+            if (out && item.dataset.out) {
+              this.animation(item, item.dataset.out)
+            } else if (item.dataset && item.dataset.in) {
+              this.animation(item, item.dataset.in)
+            }
+            /*if (item.childNodes.length !== 0) {
+              this.loopElm(item)
+            }*/
+          })
+        } catch (e) {
+
+        }
+
       },
       handleBeforeEnter(el) {
         this.loopElm(el, false)

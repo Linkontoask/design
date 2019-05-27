@@ -56,6 +56,7 @@
     <confirm :vis.sync="confirmShow" @status="value => confirmShow = value">
       <span>{{ content }}</span>
     </confirm>
+    <Chat :showChat="showChat" name="客服" @close="showChat = false"></Chat>
   </div>
 </template>
 
@@ -63,6 +64,7 @@
   import axios from '../../../utils/axios'
   import confirm from '../../base/confirm'
   import Storage from '../../../utils/localStorage'
+  import Chat from '../../base/chat'
   export default {
     name: 'orderList',
     data() {
@@ -70,12 +72,14 @@
         orderList: [],
         allOrder: [],
         confirmShow: false,
+        showChat: false,
         content: '',
         status: '全部订单'
       }
     },
     components: {
-      confirm
+      confirm,
+      Chat
     },
     methods: {
       handleClick() {
@@ -95,9 +99,7 @@
         })
       },
       handleChat() {
-        this.$router.push({
-          name: 'chat'
-        })
+        this.showChat = true;
       },
       async handlePay(item) {
         const data = await axios.post.call(this, '/hotel/pay_order/', {

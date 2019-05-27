@@ -42,6 +42,7 @@
     <confirm :vis="confirmShow" @status="value => confirmShow = value">
       <span>{{ content }}</span>
     </confirm>
+    <Chat :showChat="showChat" name="客服" @close="showChat = false"></Chat>
   </div>
 </template>
 
@@ -50,16 +51,19 @@
   import Storage from '../../../utils/localStorage'
   import Time from '../../base/time'
   import confirm from '../../base/confirm'
+  import Chat from '../../base/chat'
   const date = new Date();
   export default {
     name: 'orderDetail',
     components: {
       Time,
-      confirm
+      confirm,
+      Chat
     },
     data() {
       return {
         p: 1,
+        showChat: false,
         top: ['提交订单', '房东确认', '房客入住', '房客离开'],
         order: {
           order_info: {},
@@ -99,9 +103,7 @@
         })
       },
       handleChat() {
-        this.$router.push({
-          name: 'chat'
-        })
+        this.showChat = true;
       },
       handleAgain() {
         Storage.set('now_checked_house', this.order.hotel_info[0]);
