@@ -67,7 +67,7 @@
     },
     mounted() {
       document.querySelector('#loadingStart').style.display = 'none'; // 关闭加载动画
-      this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)))
+      this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)));
     },
     computed: {
       ...mapState({
