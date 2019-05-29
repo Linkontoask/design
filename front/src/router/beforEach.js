@@ -6,7 +6,7 @@ navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mo
 
 router.beforeEach((to, from, next) => {
   if (navigator.vibrate) {
-    navigator.vibrate(1000);
+    // navigator.vibrate(1000);
   }
   if (!cookie.get('first') || !Storage.get('first')) {
     // console.log(to.name)

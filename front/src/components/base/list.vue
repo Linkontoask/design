@@ -37,7 +37,7 @@
     },
     methods: {
       handleSave() {
-        this.$emit('change', this.data[this.scroll.getSelectedIndex()]);
+        this.$emit('change', this.data ? this.data[this.scroll.getSelectedIndex()] : null);
       }
     },
     mounted() {

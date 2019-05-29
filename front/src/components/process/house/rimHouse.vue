@@ -74,6 +74,10 @@
         this.showList = true;
       },
       handleChange(obj) {
+        if (!obj) {
+          this.showList = false;
+          return
+        }
         if (this.index === 0) {
           if (!this.dataView.food.includes(obj.name)) {
             this.dataView.food = ((this.dataView.food !== '' ? this.dataView.food + ',' : '') + obj.name);

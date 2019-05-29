@@ -316,7 +316,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      z-index: -1;
+      z-index: 0;
       img {
         display: block;
         width: 64px;
@@ -325,6 +325,8 @@
     }
     .content {
       padding-bottom: 96px;
+      position: relative;
+      z-index: 2;
     }
     .homeStay-banner {
       position: relative;
