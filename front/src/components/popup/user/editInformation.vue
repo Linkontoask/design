@@ -41,10 +41,10 @@
             signature: this.user.signature
           }) || {};
           if (data.r === 0 ) {
-            this.$msg({type: 'success', message: '信息已更新哦，快去我的界面看看吧'})
+            //this.$msg({type: 'success', message: '信息已更新哦，快去我的界面看看吧'})
             this.$parent.handleTap()
           }
-          data.r === 1 && this.$msg({type: 'error', message: '操作失败，请刷新重试'})
+          // data.r === 1 && this.$msg({type: 'error', message: '操作失败，请刷新重试'})
         }
       },
       async getDate() {

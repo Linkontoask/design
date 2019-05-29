@@ -33,6 +33,13 @@ module.exports = {
           '^/media': '/media'
         }
       },
+      '/openapi': {
+        target: 'http://openapi.tuling123.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/openapi': '/openapi'
+        }
+      },
     },
     host: "0.0.0.0"
   },

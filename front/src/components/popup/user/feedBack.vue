@@ -19,10 +19,10 @@
     methods: {
       handleSend() {
         if (!this.value) {
-          this.$msg({
+          /*this.$msg({
             type: 'error',
             message: '请输入需要反馈的信息后再点击发送'
-          })
+          })*/
         } else {
           this.$router.back()
         }

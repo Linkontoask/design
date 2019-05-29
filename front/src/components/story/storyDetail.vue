@@ -88,9 +88,9 @@
           belong_id: this.story.story_id,
         });
         if (data.r === 0) {
-          this.$msg({type: 'success', message: status ? '收藏成功' : '取消收藏成功'})
+          //this.$msg({type: 'success', message: status ? '收藏成功' : '取消收藏成功'})
         } else {
-          this.$msg({type: 'success', message: data.e})
+          //this.$msg({type: 'success', message: data.e})
         }
       },
       // 点赞动画
@@ -160,6 +160,12 @@
             el16span.style.color = '#fff';
           },
           onCheck() {
+            navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+            try {
+              navigator.vibrate(50);
+            } catch (e) {
+
+            }
             vm.handleCollection(true);
           }
         });

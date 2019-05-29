@@ -39,7 +39,7 @@
             belong_id: item,
           })
         })
-        this.$msg({type: 'success', message: '操作成功'});
+        //this.$msg({type: 'success', message: '操作成功'});
         this.$emit('status');
       }
     }

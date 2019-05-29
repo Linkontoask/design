@@ -42,7 +42,7 @@
         if (!this.$refs.user.error && !this.$refs.password.error) {
           const data = await axios.get.call(this, '/hotel/login_in', this.data);
           if (!data.r) {
-            this.$msg({type: 'success', message: data.e, duration: 2000,});
+            //this.$msg({type: 'success', message: data.e, duration: 2000,});
             cookie.set('hotel_', this.data.username);
             const beforeUrl = cookie.get('before_url_');
             if (beforeUrl) {
@@ -53,7 +53,7 @@
               this.$router.push('homeStay')
             }
           } else {
-            this.$msg({type: 'error', message: data.e, duration: 4000,});
+            //this.$msg({type: 'error', message: data.e, duration: 4000,});
           }
         }
       },

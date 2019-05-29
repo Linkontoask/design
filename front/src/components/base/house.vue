@@ -36,12 +36,6 @@
     },
     methods: {
       handleView(elm, obj, index) {
-        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-        try {
-          navigator.vibrate(1000);
-        } catch (e) {
-
-        }
         Storage.set('now_checked_house', this.data[index]);
         const box = document.createElement('div');
         const node = document.createElement('div');

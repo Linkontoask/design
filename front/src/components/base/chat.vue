@@ -20,7 +20,7 @@
         </div>
         <div class="input-style">
           <form @submit.prevent="formSubmit" action="javascript:return true">
-            <input name="done" v-model="txt" @focus="getInputFocusScrollY" @keyup.enter="handleSend" @blur="setWindowScrollY">
+            <input name="done" ref="text" v-model="txt" @focus="getInputFocusScrollY" @keyup.enter="handleSend" @blur="setWindowScrollY">
           </form>
         </div>
         <div class="input-send">
@@ -35,6 +35,7 @@
   import axios from '../../utils/axios'
   import Storage from '../../utils/localStorage'
   import BScroll from 'better-scroll'
+  const audio = new Audio(require('../../static/information.mp3')) // 'http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201706/8855.wav'
   export default {
     name: "chat",
     data() {
@@ -72,23 +73,42 @@
       handleSwiper() {
         this.$emit('close')
       },
-      handleSend() {
+      scrollBottom() {
+        this.$nextTick(() => {
+          const _this = this;
+          let y = this.$refs.content.clientHeight - this.scroll.wrapperHeight;
+          if (y <= 0) {
+            return false;
+          }
+          this.scroll && this.scroll.refresh();
+          _this.scroll.scrollBy(0, -90, 200);
+        });
+      },
+      async handleSend() {
+        this.$refs.text.focus();
         if (this.txt !== '') {
           this.chatRecord.push({
             own: true,
             content: this.txt,
             avatar: this.user.avatar
           })
-          this.$nextTick(() => {
-            const _this = this;
-            let y = this.$refs.content.clientHeight - this.scroll.wrapperHeight;
-            if (y <= 0) {
-              return false;
-            }
-            this.scroll && this.scroll.refresh();
-            _this.scroll.scrollBy(0, -90, 200);
-          })
-          this.txt = ''
+          const t = this.txt;
+          this.txt = '';
+          this.scrollBottom();
+          const data = await axios.get.call(this, `https://www.tuling123.com/openapi/api?key=318fde34988444fb9eb8f17379b155d9&info=${t}&userid=175036`)
+          this.chatRecord.push({
+            own: false,
+            content: data.text,
+            avatar: 'avatar-1.png'
+          });
+          navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+          try {
+            navigator.vibrate(10);
+          } catch (e) {
+
+          }
+          audio.play();
+          this.scrollBottom();
         }
       },
       handleClose() {

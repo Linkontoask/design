@@ -42,10 +42,10 @@
         if (!this.$refs.user.error && !this.$refs.password.error) {
           const data = await axios.get.call(this, '/hotel/register', this.data);
           if (!data.r) {
-            this.$msg({type: 'success', message: data.e, duration: 2000,});
+            //this.$msg({type: 'success', message: data.e, duration: 2000,});
             this.$router.push('login')
           } else {
-            this.$msg({type: 'error', message: data.e, duration: 4000,});
+            //this.$msg({type: 'error', message: data.e, duration: 4000,});
           }
         }
       },

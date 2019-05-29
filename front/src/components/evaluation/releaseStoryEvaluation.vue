@@ -27,10 +27,10 @@
         }
         const data = await axios.postFile.call(this, '/hotel/user_appraise/', formData)
         if (data.r === 0) {
-          this.$msg({type: 'success', message: '评价成功'});
+          //this.$msg({type: 'success', message: '评价成功'});
           this.$parent.handleTap()
         } else {
-          this.$msg({type: 'error', message: data.e});
+          //this.$msg({type: 'error', message: data.e});
         }
       }
     }

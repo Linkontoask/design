@@ -84,10 +84,10 @@
           const data = await axios.postFile.call(this, '/hotel/around_region/', this.formDate);
           this.show = false;
           if (data.r === 0) {
-            this.$msg({
+            /*this.$msg({
               type: 'success',
               message: '美食发布成功'
-            });
+            });*/
             this.$router.push({
               path: '/release'
             })
@@ -100,10 +100,10 @@
 
       },
       handleSuccess() {
-        this.$msg({
+        /*this.$msg({
           type: 'success',
           message: '美食发布成功，可以在房源发布的过程中选择您发布的美食了'
-        })
+        })*/
         this.$router.push({
           path: '/release'
         })

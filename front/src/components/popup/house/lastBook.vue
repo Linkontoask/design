@@ -70,10 +70,10 @@
             }
           })
         } else {
-          this.$msg({
+          /*this.$msg({
             type: 'error',
             message: data.e
-          })
+          })*/
         }
 
       },

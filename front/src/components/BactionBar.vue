@@ -25,6 +25,12 @@
     },
     methods: {
       handleJump(item) {
+        navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+        try {
+          navigator.vibrate(10);
+        } catch (e) {
+
+        }
         this.$router.push({
           path: item.index
         })
