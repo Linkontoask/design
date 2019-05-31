@@ -35,7 +35,6 @@
   import axios from '../../utils/axios'
   import Storage from '../../utils/localStorage'
   import BScroll from 'better-scroll'
-  const audio = new Audio(require('../../static/information.mp3')) // 'http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201706/8855.wav'
   export default {
     name: "chat",
     data() {
@@ -95,7 +94,8 @@
           const t = this.txt;
           this.txt = '';
           this.scrollBottom();
-          const data = await axios.get.call(this, `https://www.tuling123.com/openapi/api?key=318fde34988444fb9eb8f17379b155d9&info=${t}&userid=175036`)
+          const audio = new Audio(require('../../static/information.mp3')) // 'http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201706/8855.wav'
+          const data = await axios.get.call(this, `https://www.tuling123.com/openapi/api?key=318fde34988444fb9eb8f17379b155d9&info=${t}&userid=175036`);
           this.chatRecord.push({
             own: false,
             content: data.text,
