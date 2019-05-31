@@ -47,7 +47,7 @@
     methods: {
       next(index = 2) {
         if (index !== 2) return false;
-        cookie.set('first', true, 0);
+        // cookie.set('first', true, 0);
         Storage.set('first', true);
         this.$router.push({
           name: 'homeStay'
