@@ -2,7 +2,7 @@
 	<transition name="collection">
 		<div class="story-collection">
 			<div class="more">
-        <div @click="isShow = true">
+        <div @click="handleDelete">
           <span></span>
           <span></span>
           <span></span>
@@ -18,24 +18,16 @@
 <script>
 	import Story from '../../base/story'
   import Storage from '../../../utils/localStorage'
-  import DeleteCollection from '../../base/deleteCollection'
+  import mixin from '../../../mixin/collection'
 	export default {
 		name: 'houseCollection',
 		components: {
       Story,
-      DeleteCollection
 		},
+    mixins: [mixin],
 		data() {
 			return {
 				story: [],
-        isShow: false,
-        belong_id: []
-			}
-		},
-		methods: {
-      handleOk() {
-        this.isShow = false;
-        this.$parent.handleTap()
 			}
 		},
 		beforeMount() {

@@ -17,28 +17,17 @@
 
 <script>
 	import houseListBase from '../../base/houseListBase'
-	import Storage from '../../../utils/localStorage'
-	import DeleteCollection from '../../base/deleteCollection'
+  import Storage from '../../../utils/localStorage'
+  import mixin from '../../../mixin/collection'
 	export default {
 		name: 'houseCollection',
 		components: {
       houseListBase,
-      DeleteCollection
 		},
+    mixins: [mixin],
 		data() {
 			return {
 				house: {},
-				isShow: false,
-        belong_id: []
-			}
-		},
-		methods: {
-      handleOk() {
-        this.isShow = false;
-				this.$parent.handleTap()
-			},
-      handleDelete() {
-				this.isShow = true
 			}
 		},
 		beforeMount() {
