@@ -1,0 +1,63 @@
+{
+  "r": 0,
+  "e": "ok",
+  "data": [
+    {
+      "order_id": 31,
+      "create": "Link",
+      "hotel_id": 17,
+      "order_status": 1,
+      "belong_class": "OrderForm",
+      "order_info": {
+        "tenant": [
+          {
+            "name": "Link",
+            "id": "430723xxxxxxxx0124",
+            "is": true
+          }
+        ],
+        "time": [
+          "05\u670829\u65e5",
+          "05\u670831\u65e5"
+        ],
+        "price": "246"
+      },
+      "hotel_info": [
+        {
+          "user_id": 17,
+          "hotel_id": 17,
+          "name": "\u5357\u4eac\u5510\u5c71\u6731\u9690\u6e29\u6c11\u5bbf | \u5357\u4eac\u9ad8\u94c1\u5357\u7ad9",
+          "position": "\u5357\u4eac-\u6c5f\u5b81\u533a\u6c64\u5c97\u8def,70\u53f7",
+          "hose_type": "\u6574\u4e2a\u623f\u6e90",
+          "room_type": "\u516c\u5bd3",
+          "host_signer": {},
+          "host_desc": "\u65e9\u9910\u4e30\u5bcc\uff0c\u623f\u95f4\u597d",
+          "rim": [
+            "11:00",
+            "22:00"
+          ],
+          "facility": [
+            0,
+            2,
+            3,
+            4,
+            6
+          ],
+          "price": 246.0,
+          "tag": "\u53ef\u5b58\u884c\u674e|\u6709\u6d17\u8863\u673a",
+          "obj_class": "HotelRoom",
+          "is_collect": false,
+          "imgs": [
+            "510256017814401080d9ecc58a.jpg",
+            "15069665418001200e021333b.jpg",
+            "1408918936180012001a6723e5.jpg",
+            "140882158618001200581dbdde.jpg",
+            "1305123781800120077fc8d27.jpg",
+            "20363665180012005346204a.jpg"
+          ],
+          "total_score": 4
+        }
+      ]
+    }
+  ]
+}

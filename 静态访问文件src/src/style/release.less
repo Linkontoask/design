@@ -1,0 +1,130 @@
+@keyframes normalBottom {
+  100% {
+    top: 0;
+  }
+}
+
+.popBase {
+  position: absolute;
+  top: 100%;
+  animation: normalBottom .3s cubic-bezier(0.55, 0.09, 0.68, 0.53);
+  animation-fill-mode: forwards;
+  .releaseFood, .releaseStory, .styleHouse, .facilityHouse, .priceHouse {
+    padding-bottom: 96px;
+  }
+  h1 {
+    font-size: 20px;
+    padding: 0 24px;
+    color: #2E312F;
+  }
+  > div {
+    position: relative;
+  }
+  .control-next {
+    position: fixed;
+    bottom: 34px;
+    right: 36px;
+    width: 112px;
+  }
+  .release-radio {
+    padding: 0 36px;
+    margin-top: 36px;
+    min-height: 42px;
+    + .release-radio {
+      margin-top: 24px;
+    }
+    h4 {
+      color: #2E312F;
+    }
+    .margin4 {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #5F6564;
+    }
+    .margin8 {
+      margin-top: 8px;
+    }
+  }
+  @media screen and (max-width: 320px) {
+    .release-radio {
+      padding: 0 12px;
+    }
+    h1 {
+      padding: 0 12px;
+    }
+    div.new-box, div.img-box-release {
+      padding: 0 12px;
+    }
+  }
+  .new-box {
+    margin-top: 36px;
+    padding: 0 24px;
+  }
+  .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > div {
+      display: flex;
+      align-items: center;
+    }
+    img {
+      width: 16px;
+    }
+    span {
+      color: #25A3A8;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+  }
+  .titleInput {
+    .food-img {
+      margin-top: 24px;
+      margin-bottom: 24px;
+      margin-left: -20px;
+      img {
+        padding: 10px;
+        border: 1px dashed #E4ECE8;
+        border-radius: 4px;
+        margin-left: 20px;
+        max-height: 120px;
+      }
+    }
+    .simulation-input {
+      margin-top: 24px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #EBF5F1;
+      i {
+        font-style: normal;
+        font-size: 14px;
+        color: #C5D1CD;
+      }
+      p {
+        font-weight: 600;
+      }
+      .active-input {
+        color: #8ac7b7;
+        font-size: 12px;
+      }
+    }
+    & + .titleInput {
+      margin-top: 36px;
+    }
+    p {
+      color: #2E312F;
+    }
+    strong {
+      display: block;
+      color: #C5D1CD;
+      font-size: 12px;
+      margin-top: 12px;
+      font-weight: normal;
+    }
+    .input {
+      margin-top: 24px;
+    }
+  }
+  .box {
+    margin-top: 24px;
+  }
+}

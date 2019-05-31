@@ -1,0 +1,82 @@
+{
+  "r": 0,
+  "e": "ok",
+  "data": [
+    {
+      "user_id": 16,
+      "hotel_id": null,
+      "story_id": 30,
+      "name": "\u6211\u4e0e\u4ee3\u7801\u7684\u6545\u4e8b",
+      "content": "ByteArrayOutputStream baos = new ByteArrayOutputStream();\r\n image.compress(Bitmap.CompressFormat. JPEG, 100, baos);\r\n if( baos.toByteArray().length / 1024>512) {//\u5224\u65ad\u5982\u679c\u56fe\u7247\u5927\u4e8e1M,\u8fdb\u884c\u538b\u7f29\u907f\u514d\u5728\u751f\u6210\u56fe\u7247\uff08BitmapFactory.decodeStream\uff09\u65f6\u6ea2\u51fa\r\n baos.reset(); //\u91cd\u7f6ebaos\u5373\u6e05\u7a7abaos\r\n image.compress(Bitmap.CompressFormat. JPEG, 50, baos);//\u8fd9\u91cc\u538b\u7f2950%\uff0c\u628a\u538b\u7f29\u540e\u7684\u6570\u636e\u5b58\u653e\u5230 baos\u4e2d\r\n }\r\n ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());\r\n BitmapFactory.Options newOpts = new BitmapFactory.Options();\r\n //\u5f00\u59cb\u8bfb\u5165\u56fe\u7247\uff0c\u6b64\u65f6\u628aoptions.inJustDecodeBounds \u8bbe\u56detrue\u4e86\r\n newOpts. inJustDecodeBounds = true ;\r\n Bitmap bitmap = BitmapFactory. decodeStream(isBm, null, newOpts);\r\n newOpts. inJustDecodeBounds = false ;\r\n",
+      "create_time": "2019-05-24",
+      "is_collect": true,
+      "obj_class": "StoryBoard",
+      "appraise": {
+        "user_list": [
+          {
+            "user_name": "Link",
+            "user_info": {
+              "user_name": "Link",
+              "show_name": "",
+              "property": 1105.0,
+              "score": 4104,
+              "register_time": "2019-05-24",
+              "avatar": "avatar-6.png",
+              "signature": ""
+            },
+            "appraise": "\u4ee3\u7801\u9519\u8bef",
+            "about_time": "2019-05-25",
+            "img": []
+          }
+        ],
+        "total_appraise": {
+          "score_info": "0,0,0,0",
+          "total_score": 0
+        },
+        "appraise_num": 2
+      },
+      "user_info": {
+        "user_name": "Link",
+        "show_name": "",
+        "property": 1105.0,
+        "score": 4104,
+        "register_time": "2019-05-24",
+        "avatar": "avatar-6.png",
+        "signature": ""
+      },
+      "imgs": [
+        "594B572B-D40E-417E-B9EC-A29F5668F07C.jpeg"
+      ]
+    },
+    {
+      "user_id": 16,
+      "hotel_id": null,
+      "story_id": 33,
+      "name": "\u9e21\u86cb",
+      "content": "\u6545\u4e8b\u5185\u5bb9",
+      "create_time": "2019-05-29",
+      "is_collect": true,
+      "obj_class": "StoryBoard",
+      "appraise": {
+        "user_list": [],
+        "total_appraise": {
+          "score_info": "0,0,0,0",
+          "total_score": 0
+        },
+        "appraise_num": 0
+      },
+      "user_info": {
+        "user_name": "Link",
+        "show_name": "",
+        "property": 1105.0,
+        "score": 4104,
+        "register_time": "2019-05-24",
+        "avatar": "avatar-6.png",
+        "signature": ""
+      },
+      "imgs": [
+        "FC0673CA-9F19-4405-91CC-E6B23B4439D8.jpeg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "r": 0,
+  "e": "ok",
+  "data": [
+    {
+      "user_id": 16,
+      "hotel_id": 14,
+      "name": "\u91cd\u5e86\u4e00\u68f5\u6811 \u89e3\u653e\u7891 \u4e24\u8def\u53e3 ",
+      "position": "\u91cd\u5e86\u5e02-\u5357\u5cb8\u533a\u5d07\u6587\u8def\u53e32\u53f7,\u91cd\u5e86\u90ae\u7535\u5927\u5b66",
+      "hose_type": "\u5408\u4f4f\u623f\u95f4",
+      "room_type": "\u7cbe\u54c1\u9152\u5e97",
+      "host_signer": {},
+      "host_desc": "\u6545\u4e8b\uff1a\u6587\u5b66\u4f53\u88c1\u7684\u4e00\u79cd\uff0c\u4fa7\u91cd\u4e8e\u4e8b\u4ef6\u8fc7\u7a0b\u7684\u63cf\u8ff0\u3002\u5f3a\u8c03\u60c5\u8282\u7684\u751f\u52a8\u6027\u548c\u8fde\u8d2f\u6027\uff0c\u8f83\u9002\u4e8e\u53e3\u5934\u8bb2\u8ff0\u3002\u5df2\u7ecf\u53d1\u751f\u4e8b\u3002\u6216\u8005\u60f3\u8c61\u6545\u4e8b\u3002\u6545\u4e8b\u901a\u8fc7\u5bf9\u8fc7\u53bb\u7684\u4e8b\u7684\u8bb0\u5fc6\u548c\u8bb2\u8ff0\uff0c\u63cf\u8ff0\u67d0\u4e2a\u8303\u56f4\u793e\u4f1a\u7684\u6587\u5316\u5f62\u6001\uff0c\u4e5f\u6709\u8bf4\u6cd5\u8ba4\u4e3a\uff0c\u6545\u4e8b\u5e76\u4e0d\u662f\u4e00\u79cd\u6587\u4f53\uff0c\u5b83\u662f\u901a\u8fc7\u53d9\u8ff0\u7684\u65b9\u5f0f\u8bb2\u4e00\u4e2a\u5e26\u6709\u5bd3\u610f\u7684\u4e8b\u4ef6",
+      "rim": [
+        "11:00",
+        "15:00"
+      ],
+      "facility": [
+        0,
+        3,
+        6
+      ],
+      "price": 214.0,
+      "tag": "\u53ef\u4ee5\u505a\u996d|\u514d\u8d39\u505c\u8f66",
+      "obj_class": "HotelRoom",
+      "is_collect": true,
+      "imgs": [
+        "66729691-3E11-4E43-AF12-B532E19FC818.jpeg",
+        "89DDA660-0153-40EC-9A5C-C7E9B709942E.jpeg",
+        "CFA03F32-11BE-4E20-8D50-6BA73CEF88C8.jpeg",
+        "A78FB246-3C0A-4248-BC21-47250BB180DD.jpeg",
+        "EE9A2AA1-B1EA-4DD8-A71C-40B148FF1202.jpeg"
+      ],
+      "total_score": 5
+    },
+    {
+      "user_id": 16,
+      "hotel_id": 15,
+      "name": "\u5317\u6d77\u5e7f\u897f\u5317\u6d77\u94f6\u644a\u89c2\u6f6e\u516c\u5bd3",
+      "position": "\u5e7f\u897f-\u661f\u6d77\u533a\u5e7f\u4e1c\u5357\u8def,\u6d77\u57ce\u5927\u53a61-1",
+      "hose_type": "\u6574\u4e2a\u623f\u6e90",
+      "room_type": "\u516c\u5bd3",
+      "host_signer": {},
+      "host_desc": "\u73af\u5883\u597d\uff0c\u4ea4\u901a\u65b9\u4fbf\uff0c\u79bb\u5317\u6d77\u8fd1",
+      "rim": [
+        "12:00",
+        "12:00"
+      ],
+      "facility": [
+        0,
+        4,
+        5
+      ],
+      "price": 427.0,
+      "tag": "\u81ea\u52a9\u5165\u4f4f",
+      "obj_class": "HotelRoom",
+      "is_collect": true,
+      "imgs": [
+        "607FF1E0-6A99-43A9-BDED-7EBBAFB889FF.jpeg",
+        "A17FCF79-8B79-4822-A4A3-DE6BA93DDC22.jpeg",
+        "DA0836F7-6526-4E67-9B98-EE27892A8EA9.jpeg"
+      ],
+      "total_score": 3
+    },
+    {
+      "user_id": 16,
+      "hotel_id": 16,
+      "name": "\u6591\u6593\u5bb6\u516c\u5bd3(\u4e0a\u6d77\u5916\u6ee9\u767d\u5de7\u5e97)",
+      "position": "\u4e0a\u6d77-\u8679\u53e3\u533a\u65b0\u6e2f\u8def,\u6052\u751f\u534a\u5c9b\u56fd\u9645\u4e2d\u5fc3",
+      "hose_type": "\u5408\u4f4f\u623f\u95f4",
+      "room_type": "\u7279\u8272\u623f\u6e90",
+      "host_signer": {},
+      "host_desc": "\u4f4d\u7f6e\u597d\uff0c\n\u670d\u52a1\u5468\u5230",
+      "rim": [
+        "10:00",
+        "14:00"
+      ],
+      "facility": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "price": 578.0,
+      "tag": "\u6709\u7a7a\u8c03|\u53ef\u5b58\u884c\u674e|\u6709\u70d8\u5e72\u673a",
+      "obj_class": "HotelRoom",
+      "is_collect": true,
+      "imgs": [
+        "FAA1DE1B-55B6-4B45-86CC-BFCC862D32E0.jpeg",
+        "3AC31ED6-94BB-4F23-B8CE-F3D1E6867D72.jpeg",
+        "D9BD1B26-86C9-446C-B591-615CD7D8E442.jpeg",
+        "9D9C46C8-8E1C-4273-85A2-C3AAFAD838DB.jpeg",
+        "DC23471A-8582-458A-932A-539F9A6B9E3C.jpeg",
+        "09964F6B-8013-4622-B57F-B1662EFCB43A.jpeg",
+        "BDB9D5E2-9C92-4A00-9EE0-C4C20206D9EA.jpeg"
+      ],
+      "total_score": 5
+    },
+    {
+      "user_id": 16,
+      "hotel_id": 18,
+      "name": "\u6d4b\u8bd5\u623f\u6e902",
+      "position": "\u91cd\u5e86\u5e02-\u5357\u5cb8\u533a\u5d07\u6587\u8def\u53e32\u53f7,\u91cd\u5e86\u90ae\u7535\u5927\u5b66",
+      "hose_type": "\u5408\u4f4f\u623f\u95f4",
+      "room_type": "\u7cbe\u54c1\u9152\u5e97",
+      "host_signer": {},
+      "host_desc": "",
+      "rim": [
+        "03:00",
+        "16:00"
+      ],
+      "facility": [
+        0,
+        2,
+        5,
+        6
+      ],
+      "price": 211.0,
+      "tag": "\u6709\u7a7a\u8c03|\u6027\u4ef7\u6bd4\u9ad8|\u81ea\u52a9\u5165\u4f4f",
+      "obj_class": "HotelRoom",
+      "is_collect": true,
+      "imgs": [
+        "F7FB3EEC-EA64-4031-A686-51F29185217F.jpeg",
+        "DA42BC84-AF8D-4C8F-8F3A-97148B9C4694.jpeg"
+      ],
+      "total_score": 5
+    }
+  ]
+}
