@@ -5,6 +5,7 @@ function resolve(dir) {
 module.exports = {
   publicPath: './',
   outputDir: 'hotel',
+  assetsDir: 'static',
   css: {
     loaderOptions: {
       postcss: {
