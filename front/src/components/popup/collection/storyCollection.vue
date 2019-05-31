@@ -1,10 +1,12 @@
 <template>
 	<transition name="collection">
 		<div class="story-collection">
-			<div class="more" @click="isShow = true">
-				<span></span>
-				<span></span>
-				<span></span>
+			<div class="more">
+        <div @click="isShow = true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 			</div>
 			<h1>收藏的故事</h1>
 			<Story :data="story"></Story>

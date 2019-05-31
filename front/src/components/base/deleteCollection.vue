@@ -1,13 +1,13 @@
 <template>
-  <div class="delete-collection" v-if="vis">
-    <div class="mask" @click.stop="handleCancel"></div>
-    <transition appear name="bottom">
+  <transition apper name="bottom">
+    <div class="delete-collection" v-if="vis">
+      <div class="mask" @click.stop="handleCancel"></div>
       <ul>
         <li @click="handleDelete">删除收藏</li>
         <li @click="handleCancel">取消</li>
       </ul>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -38,7 +38,7 @@
             belong_class: this.belong_class,
             belong_id: item,
           })
-        })
+        });
         //this.$msg({type: 'success', message: '操作成功'});
         this.$emit('status');
       }
@@ -48,22 +48,33 @@
 
 <style scoped lang="less">
   .bottom-enter-active, .bottom-leave-active {
-    transition: opacity .3s, margin .3s;
+    transition: opacity .3s;
+    ul {
+      transition: margin .3s;
+    }
   }
   .bottom-enter-active {
     opacity: 0;
-    margin-bottom: -177px;
+    ul {
+      margin-bottom: -177px;
+    }
   }
   .bottom-leave-active {
-    margin-bottom: 0;
+    ul {
+      margin-bottom: 0;
+    }
     opacity: 1;
   }
   .bottom-leave-to {
-    margin-bottom: -177px;
+    ul {
+      margin-bottom: -177px;
+    }
     opacity: 0;
   }
   .bottom-enter-to {
-    margin-bottom: 0;
+    ul {
+      margin-bottom: 0;
+    }
     opacity: 1;
   }
 .delete-collection {

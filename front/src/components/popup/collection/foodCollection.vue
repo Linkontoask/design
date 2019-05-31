@@ -1,10 +1,12 @@
 <template>
 	<transition name="collection">
 		<div class="food-collection">
-			<div class="more" @click="isShow = true">
-				<span></span>
-				<span></span>
-				<span></span>
+			<div class="more">
+        <div @click="isShow = true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 			</div>
 			<h1>收藏的美食</h1>
 			<Food :data="food"></Food>

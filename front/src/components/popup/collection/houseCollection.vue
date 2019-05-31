@@ -1,10 +1,12 @@
 <template>
 	<transition name="collection">
 		<div class="house-collection">
-			<div class="more" @click="handleDelete">
-				<span></span>
-				<span></span>
-				<span></span>
+			<div class="more">
+        <div @click="handleDelete">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 			</div>
 			<h1>地点-{{ house.city }}</h1>
 			<houseListBase :houseList="house.hotel"></houseListBase>
