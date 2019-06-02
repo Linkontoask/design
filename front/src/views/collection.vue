@@ -216,7 +216,7 @@
     }
     .collection-food, .collection-story {
       margin-top: 48px;
-      padding: 0 36px;
+      padding: 0 24px;
       overflow: hidden;
       img {
         width: 100%;
