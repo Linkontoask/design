@@ -215,6 +215,29 @@
         this.storyViews = story.data;
         this.foodViews = food.data;
         this.house = house.data.slice(0, 6);
+        this.$nextTick(() => {
+          this.scroll = new BScroll(this.$refs.homeStay, {
+            scrollX: false,
+            scrollY: true,
+            bounce: true,
+            probeType: 3
+          });
+          this.scroll.on('scroll', p => {
+            let y = Math.floor(p.y);
+            if (y >= 24) {
+              // 性能优化
+              setTimeout(() => {
+                this.opacity = 1 - ((100 - y) / 100).toFixed(2);
+              }, 0)
+            }
+            if (this.isStart && -p.y < 426 && this.dir === 'up') {
+              this.isStart = false;
+            }
+            if (-p.y > 426) {
+              this.isStart = true;
+            }
+          })
+        })
       }
     },
     async beforeMount() {
@@ -228,29 +251,7 @@
       if (browser.uc) {
         this.bottom = '118px'
       }
-      this.$nextTick(() => {
-        this.scroll = new BScroll(this.$refs.homeStay, {
-          scrollX: false,
-          scrollY: true,
-          bounce: true,
-          probeType: 3
-        });
-        this.scroll.on('scroll', p => {
-          let y = Math.floor(p.y);
-          if (y >= 24) {
-            // 性能优化
-            setTimeout(() => {
-              this.opacity = 1 - ((100 - y) / 100).toFixed(2);
-            }, 0)
-          }
-          if (this.isStart && -p.y < 426 && this.dir === 'up') {
-            this.isStart = false;
-          }
-          if (-p.y > 426) {
-            this.isStart = true;
-          }
-        })
-      })
+
     },
     async activated() {
       this.getData();

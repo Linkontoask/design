@@ -16,7 +16,38 @@
     name: 'action',
     data() {
       return {
-        action: action,
+        action: [
+          {
+            "icon": "find-333.png",
+            "focusIcon": "find-fill.png",
+            "title": this.$t('bar.home'),
+            "index": "/homeStay"
+          },
+          {
+            "icon": "heart-333.png",
+            "focusIcon": "heart-fill.png",
+            "title": this.$t('bar.collection'),
+            "index": "/collection"
+          },
+          {
+            "icon": "release-333.png",
+            "focusIcon": "release-fill.png",
+            "title": this.$t('bar.release'),
+            "index": "/release"
+          },
+          {
+            "icon": "msg-333.png",
+            "focusIcon": "msg-fill.png",
+            "title": this.$t('bar.msg'),
+            "index": "/msg"
+          },
+          {
+            "icon": "user-333.png",
+            "focusIcon": "user-fill.png",
+            "title": this.$t('bar.user'),
+            "index": "/user"
+          }
+        ],
         isQQ: false
       }
     },
