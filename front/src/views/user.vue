@@ -9,15 +9,15 @@
     </div>
     <div class="user-amount">
       <div>
-        <p>红包</p>
+        <p>{{$t('user.redEnvelope')}}</p>
         <h4>3个</h4>
       </div>
       <div>
-        <p>账户余额</p>
+        <p>{{$t('user.balance')}}</p>
         <h4>￥{{ user.property }}</h4>
       </div>
       <div>
-        <p>积分</p>
+        <p>{{$t('user.integral')}}</p>
         <h4>{{ user.score }}分</h4>
       </div>
     </div>
@@ -39,35 +39,6 @@
   import Storage from '../utils/localStorage'
   import Chat from '../components/base/chat'
   import { mapMutations} from 'vuex'
-  const control = [{
-    name: '全部订单',
-    path: 'userOrderList',
-    icon: 'orders.png'
-  },{
-    name: '支付方式',
-    path: 'userPay',
-    icon: 'pay.png'
-  },{
-    name: '发布房源',
-    path: 'popNewHouse',
-    icon: 'release-333.png'
-  },{
-    name: '我的房源',
-    path: 'userInformation',
-    icon: 'house-333.png'
-  },{
-    name: '联系客服',
-    path: 'chat',
-    icon: 'CustomerService.png'
-  },{
-    name: '设置',
-    path: 'userSetting',
-    icon: 'setting.png'
-  },{
-    name: '反馈',
-    path: 'userFeedBack',
-    icon: 'feedback.png'
-  }];
   export default {
     name: "user",
     data() {
@@ -76,7 +47,35 @@
         user: {
           signature: '我的个性签名',
         },
-        control: control
+        control: [{
+          name: this.$t('user.order'),
+          path: 'userOrderList',
+          icon: 'orders.png'
+        },{
+          name: this.$t('user.pay'),
+          path: 'userPay',
+          icon: 'pay.png'
+        },{
+          name: this.$t('user.releaseHouse'),
+          path: 'popNewHouse',
+          icon: 'release-333.png'
+        },{
+          name: this.$t('user.house'),
+          path: 'userInformation',
+          icon: 'house-333.png'
+        },{
+          name: this.$t('user.ccs'),
+          path: 'chat',
+          icon: 'CustomerService.png'
+        },{
+          name: this.$t('base.setting'),
+          path: 'userSetting',
+          icon: 'setting.png'
+        },{
+          name: this.$t('user.fadeBack'),
+          path: 'userFeedBack',
+          icon: 'feedback.png'
+        }]
       }
     },
     components: {

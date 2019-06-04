@@ -24,6 +24,7 @@
 
 <script>
   import Action from './components/BactionBar'
+  import Storage from './utils/localStorage'
   import {mapState, mapMutations} from 'vuex'
   const path = ['/login', '/signup', '/pop', '/PopSearch', '/PopHouse', '/success', '/chat', 'welcome', '/DatePicker'];
   export default {
@@ -68,6 +69,12 @@
     mounted() {
       document.querySelector('#loadingStart').style.display = 'none'; // 关闭加载动画
       this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)));
+    },
+    beforeMount() {
+      const size = Storage.get('fontSize');
+      if (size) {
+        document.documentElement.style.fontSize = size
+      }
     },
     computed: {
       ...mapState({
