@@ -4,8 +4,10 @@
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in house.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
+          <iframe v-if="imgIndex === 0" style="position: absolute;width: 100%;height: 280px;left: 0;top: 0;" src="https://linkontoask.github.io/link/360/vr.justeasy.cn/view/7463950ef4.html" frameborder="0"></iframe>
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
+        <div v-show="current === 0" class="swiper-button-next" slot="button-next"></div>
       </swiper>
       <button ref="heartBox" class="icobutton--heart"><span :style="{color: house.is_collect ? '#FF6767' : '#fff'}"
                                                             ref="heart" class="heart fa fa-heart"></span></button>
@@ -101,10 +103,19 @@
         hotel_Appraise: {},
         isShowMap: false,
         around_list: [],
+        current: 0,
         swiperOption: {
           slidesPerView: 'auto',
           pagination: {
             el: '.swiper-paginations'
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+          },
+          on: {
+            slideChange: () => {
+              this.current = this.$refs.city.swiper.activeIndex
+            },
           },
           lazyLoadingInPrevNextAmount: 2
         },
@@ -257,6 +268,9 @@
           background-repeat: no-repeat;
           background-position: center;
           background-size: cover;
+        }
+        .swiper-button-next, .swiper-button-prev {
+          z-index: 9999;
         }
       }
 
