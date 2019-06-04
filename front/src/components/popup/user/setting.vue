@@ -57,12 +57,6 @@
     },
     methods: {
 
-      onSpeak (voice) {
-        this.speechInstance = new SpeechSynthesisUtterance('设置成功');
-        this.speechInstance.voiceURI = voice;
-        speechSynthesis.speak(this.speechInstance);
-      },
-
       handleViewList(index) {
         this.check = index;
         if (index === 0) {
@@ -97,9 +91,11 @@
         if (value.s) {
           this.isReading = value.s === '1';
           Storage.set('reading', value.s); // 1 = 开 / 2 = 关
+          const char = '屏幕朗读已' + (this.isReading ? '打开' : '关闭');
+          this.speak('', char);
         }
         if (value.lang) {
-          this.onSpeak(value.voiceURI)
+          this.speak(value.voiceURI, '设置'+value.name+'成功');
         }
       },
       async handleOut() {

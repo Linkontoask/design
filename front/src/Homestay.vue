@@ -30,7 +30,7 @@
   export default {
     data() {
       return {
-
+        voiceData: []
       }
     },
     components: {
@@ -69,6 +69,15 @@
     mounted() {
       document.querySelector('#loadingStart').style.display = 'none'; // 关闭加载动画
       this.IS_SHOW_NATION(!path.some(i => this.$route.path.includes(i)));
+      // 获取语音包
+      let timer = setInterval(() => {
+        if(!this.voiceData.length) {
+          //获取语言包
+          this.voiceData = speechSynthesis.getVoices();
+        } else {
+          clearInterval(timer);
+        }
+      }, 500);
     },
     beforeMount() {
       const size = Storage.get('fontSize');

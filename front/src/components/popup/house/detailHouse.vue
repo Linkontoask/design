@@ -4,10 +4,9 @@
       <swiper :options="swiperOption" ref="city" class="swiper-content">
         <swiper-slide v-for="(img, imgIndex) in house.imgs" :key="imgIndex">
           <div class="img-content" :style="{backgroundImage: `url(${img})`}"></div>
-          <iframe v-if="imgIndex === 0" style="position: absolute;width: 100%;height: 280px;left: 0;top: 0;" src="https://linkontoask.github.io/link/360/vr.justeasy.cn/view/7463950ef4.html" frameborder="0"></iframe>
+          <div class="btn-optiacv" v-if="imgIndex === 0" @click="show360 = true">全景浏览</div>
         </swiper-slide>
         <div class="swiper-paginations" slot="pagination"></div>
-        <div v-show="current === 0" class="swiper-button-next" slot="button-next"></div>
       </swiper>
       <button ref="heartBox" class="icobutton--heart"><span :style="{color: house.is_collect ? '#FF6767' : '#fff'}"
                                                             ref="heart" class="heart fa fa-heart"></span></button>
@@ -72,6 +71,12 @@
       </div>
       <div class="btn-go" @touchend="handleBook">预定</div>
     </div>
+    <div v-if="show360" style="position:fixed;width: 100%;height: 100%;left: 0;top: 0;z-index: 9;background-color: #333">
+      <p style="position:absolute;top: 24px;right: 24px;z-index: 9999" @click="show360 = false">关闭</p>
+      <iframe style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;" src="https://linkontoask.github.io/link/360/vr.justeasy.cn/view/7463950ef4.html" frameborder="0">
+        IOS不支持
+      </iframe>
+    </div>
   </div>
 </template>
 
@@ -82,6 +87,7 @@
   import House from '../../base/house'
   import evaluationBase from '../../base/evaluationBase'
   import MapGd from '../../base/map'
+  import Storage from '../../../utils/localStorage'
   import {mapMutations} from 'vuex'
   import mixin from '../../../mixin/detail'
 
@@ -103,7 +109,7 @@
         hotel_Appraise: {},
         isShowMap: false,
         around_list: [],
-        current: 0,
+        show360: false,
         swiperOption: {
           slidesPerView: 'auto',
           pagination: {
@@ -111,11 +117,6 @@
           },
           navigation: {
             nextEl: '.swiper-button-next',
-          },
-          on: {
-            slideChange: () => {
-              this.current = this.$refs.city.swiper.activeIndex
-            },
           },
           lazyLoadingInPrevNextAmount: 2
         },
@@ -203,11 +204,18 @@
       },
       async getData() {
         const data = await axios.get.call(this, '/hotel/get_one_hotel/', {hotel_id: this.$route.query.id});
-        this.house = data.data.hotel_dict[0];
+        // this.house = data.data.hotel_dict[0];
+        this.house = Storage.get('now_checked_house');
         this.around_list = data.data.around_list;
         this.hotel_user = data.data.hotel_user;
         this.similar_hotel = data.data.similar_hotel;
         this.hotel_Appraise = data.data.hotel_Appraise;
+        this.onSpeak(); // 阅读
+      },
+      onSpeak() {
+        const reading = Storage.get('reading') === '1';
+        if (!reading) return;
+        this.speak('', `您正在浏览${this.house.name}，在${this.house.position}，价格为${this.house.price}一晚`);
       },
       scroll() {
         const top = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -271,6 +279,20 @@
         }
         .swiper-button-next, .swiper-button-prev {
           z-index: 9999;
+        }
+        .btn-optiacv {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 102px;
+          height: 102px;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          border-radius: 50%;
+          background-color: #3339;
         }
       }
 

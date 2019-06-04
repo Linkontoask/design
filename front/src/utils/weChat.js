@@ -18,4 +18,9 @@ exports.install = (Vue, option) => {
       window.scrollTo({top: scrollY, left: 0, behavior: "smooth"});
     }
   };
+  Vue.prototype.speak = (voice, char) => {
+    this.speechInstance = new SpeechSynthesisUtterance(char);
+    this.speechInstance.voiceURI = voice;
+    speechSynthesis.speak(this.speechInstance);
+  }
 };
