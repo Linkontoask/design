@@ -19,6 +19,7 @@ exports.install = (Vue, option) => {
     }
   };
   Vue.prototype.speak = (voice, char) => {
+    speechSynthesis.cancel();
     this.speechInstance = new SpeechSynthesisUtterance(char);
     this.speechInstance.voiceURI = voice;
     speechSynthesis.speak(this.speechInstance);

@@ -79,6 +79,7 @@
         // console.log('handleAfterLeave', el)
       },
       handleTap(ev, query = {}) {
+        speechSynthesis.cancel();
         let url = Storage.get('before_url_house_');
         if (this.$route.query.back) {
           Storage.set('before_url_house_', []);
