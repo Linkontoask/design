@@ -20,16 +20,16 @@
         <div class="detail-house-avatar" v-if="hotel_user.avatar"
              :style="{backgroundImage: `url(${require('../../../assets/'+hotel_user.avatar)})`}"></div>
       </div>
-      <div class="house-offer">
+      <div class="house-offer" aria-content="特别优惠说明，4月17日-5月12日才可以享受此优惠政策">
         特别优惠说明，4月17日 - 5月12日才可以
         享受此优惠政策
       </div>
       <div class="detail-box-t">
         <h3>房源设施 <span class="more" @click="handleMoreActive">更多设施</span></h3>
         <ul class="act">
-          <li v-for="(item, index) in house.facility" :key="index" v-if="index !== 0"><img
-                  :src="require('../../../assets/'+radio[item].img)" alt="">
-            <p>{{radio[item].name}}</p></li>
+          <li v-for="(item, index) in house.facility" :key="index" v-if="index !== 0" :aria-content="radio[item].name">
+            <img :src="require('../../../assets/'+radio[item].img)" alt="" :aria-content="radio[item].name">
+            <p :aria-content="radio[item].name">{{radio[item].name}}</p></li>
         </ul>
       </div>
       <div class="detail-box-t">
@@ -62,12 +62,12 @@
       </div>
     </div>
     <div data-in="fadeInRight" class="control">
-      <div>
-        <p><span class="price">{{ house.price }}</span><span class="line">{{ house.price - Math.floor(Math.random() * 100 + 10) }}</span>
+      <div :aria-content="house.price + '一晚'">
+        <p :aria-content="house.price + '一晚'"><span class="price">{{ house.price }}</span><span class="line">{{ house.price - Math.floor(Math.random() * 100 + 10) }}</span>
           / 一晚</p>
         <p>
           <img v-for="(item, index) in start" :key="index"
-               :src="require('../../../assets/' + (item ? 'start-fill' : 'start') + '.png')" alt="">
+               :src="require('../../../assets/' + (item ? 'start-fill' : 'start') + '.png')" alt="" :aria-content="'房间评级' + house.total_score + '颗星'">
         </p>
       </div>
       <div class="btn-go" @touchend="handleBook">预定</div>
@@ -225,11 +225,18 @@
           window.removeEventListener('scroll', this.scroll)
         }
       },
-
+      sound(e) {
+        const content = e.target.getAttribute('aria-content');
+        if (content) {
+          this.speak('', content)
+        }
+      }
     },
     mounted() {
-      window.addEventListener('scroll', this.scroll)
-      this.heartAnimation()
+      window.addEventListener('scroll', this.scroll);
+      this.heartAnimation();
+      const dc = document.documentElement || document.body;
+      dc.addEventListener('click', this.sound)
     },
     async activated() {
       this.getData();
@@ -359,6 +366,7 @@
       font-size: 14px;
       border-top: 1px solid #E4ECE8;
       border-bottom: 1px solid #E4ECE8;
+      cursor: pointer;
     }
     .detail-box-t {
       margin-top: 8px;

@@ -35,8 +35,8 @@
         ],
         notice: [{name: this.$i18n.t('base.open')},{name: this.$i18n.t('base.close')},],
         reading: [{name: this.$i18n.t('base.open'), s: '1'},{name: this.$i18n.t('base.close'), s: '2'},],
-        language: [{name: this.$i18n.t('lang.zh'), class: 'zh'},
-          {name: this.$i18n.t('lang.en'), class: 'en'},
+        language: [{name: this.$i18n.t('lang.zh'), class: 'zh-CN'},
+          {name: this.$i18n.t('lang.en'), class: 'en-US'},
           {name: this.$i18n.t('lang.fr'), class: 'fr'},
           {name: this.$i18n.t('lang.de'), class: 'de'},
           {name: this.$i18n.t('lang.af'), class: 'af'},],
@@ -80,7 +80,6 @@
           if (lang === value.class) return
           Storage.set('local-language', value.class);
           // this.$i18n.locale = value.class; // 更改语言
-          document.documentElement.setAttribute('lang', value.class);
           document.location.reload();
         }
         if (value.size) {
@@ -123,10 +122,10 @@
       }
       const lang = Storage.get('local-language');
       switch (lang) {
-        case 'zh': this.list[1].result =  this.$i18n.t('lang.zh'); break;
+        case 'zh-CN': this.list[1].result =  this.$i18n.t('lang.zh'); break;
         case 'af': this.list[1].result =  this.$i18n.t('lang.af'); break;
         case 'de': this.list[1].result =  this.$i18n.t('lang.de'); break;
-        case 'en': this.list[1].result =  this.$i18n.t('lang.en'); break;
+        case 'en-US': this.list[1].result =  this.$i18n.t('lang.en'); break;
         case 'fr': this.list[1].result =  this.$i18n.t('lang.fr'); break;
       }
       const size = Storage.get('fontSize');
