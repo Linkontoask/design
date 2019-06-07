@@ -83,7 +83,11 @@
       },
       handleViewOrder() {
         Storage.remove('before_url_house_');
-        this.$router.push({name: 'userOrderDetail', query: {bgColor: '#fff', order_id: this.$route.query.uuid}})
+        this.$router.push({name: 'userOrderDetail',
+          query: {
+            bgColor: '#fff',
+            order_id: this.$route.query.uuid
+        }})
       },
       scroll(e) {
         if(!ticking) {
