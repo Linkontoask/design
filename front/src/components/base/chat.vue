@@ -95,7 +95,7 @@
           this.txt = '';
           this.scrollBottom();
           const audio = new Audio(require('../../static/information.mp3')) // 'http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201706/8855.wav'
-          const data = await axios.get.call(this, `http://api.qingyunke.com/api.php?key=free&appid=0&msg=${t}`);
+          const data = await axios.get.call(this, `/hotel/chat/?msg=${t}`);
           this.chatRecord.push({
             own: false,
             content: data.content,
