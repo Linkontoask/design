@@ -108,7 +108,7 @@
       width: 94%;
       padding: 12px 0;
       text-align: center;
-      background-color: #f1f1f1bd;
+      background-color: #f1f1f1eb;
       border-radius: 12px;
       font-size: 18px;
       font-weight: bold;
