@@ -1,4 +1,5 @@
 import json
+import requests
 from django.http import HttpResponse
 from link.RegisterAndLogin import Register, LoginAbout
 from django.contrib.auth.models import User
@@ -385,3 +386,14 @@ def del_collect_obj_view(request):
     belong_id = web_data.get('belong_id')
     del_collect_obj(user.id, belong_class, belong_id)
     return HttpResponse(json.dumps({'r': 0, 'e': 'ok'}))
+
+
+# -----------------------chat--------------
+
+def get_value_from_foreign(request):
+    msg = request.GET.get('msg','')
+    url = 'http://api.qingyunke.com/api.php?key=free&appid=0&msg={}'.format(msg)
+    re = requests.get(url)
+    return HttpResponse(json.dumps(re.json()))
+
+
