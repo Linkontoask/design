@@ -66,7 +66,8 @@
           this.$router.push({
             path: '/success',
             query: {
-              uuid: data.order_id
+              uuid: data.order_id,
+              bgColor: '#fff'
             }
           })
         } else {

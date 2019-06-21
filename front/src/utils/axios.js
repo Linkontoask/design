@@ -12,7 +12,7 @@ export default {
         this.$router.push({name: 'login'});
       }
       return new Promise((resolve, reject) => {
-        if (res.r === 0 || res.code === 100000) {
+        if (res.r === 0 || res.result === 0) {
           resolve(res)
         } else {
           this.$msg({

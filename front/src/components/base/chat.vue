@@ -95,10 +95,10 @@
           this.txt = '';
           this.scrollBottom();
           const audio = new Audio(require('../../static/information.mp3')) // 'http://gddx.sc.chinaz.com/Files/DownLoad/sound1/201706/8855.wav'
-          const data = await axios.get.call(this, `https://www.tuling123.com/openapi/api?key=318fde34988444fb9eb8f17379b155d9&info=${t}&userid=175036`);
+          const data = await axios.get.call(this, `/hotel/chat/?msg=${t}`);
           this.chatRecord.push({
             own: false,
-            content: data.text,
+            content: data.content,
             avatar: 'avatar-1.png'
           });
           navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;

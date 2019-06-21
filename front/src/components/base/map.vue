@@ -1,6 +1,8 @@
 <template>
   <div class="MapGd">
-    <div class="container" id="container" :style="{height: height}"></div>
+    <!--<a href="https://uri.amap.com/marker?position=116.473195,39.993253">-->
+      <div class="container" id="container" :style="{height: height}"></div>
+    <!--</a>-->
   </div>
 </template>
 
