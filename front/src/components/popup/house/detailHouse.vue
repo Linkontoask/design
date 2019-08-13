@@ -211,6 +211,7 @@
         this.hotel_user = data.data.hotel_user;
         this.similar_hotel = data.data.similar_hotel;
         this.hotel_Appraise = data.data.hotel_Appraise;
+        Storage.set('now_check_hotel_user', this.hotel_user);
         this.onSpeak();
       },
       onSpeak() {

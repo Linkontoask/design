@@ -113,8 +113,9 @@
           function transitionendEnd() {
             vm.dropOut = false;
             node.removeEventListener('transitionend', transitionendEnd);
+            console.log(Storage.get('popHouse_before') || '/homeStay');
             vm.$router.push({
-              path: Storage.get('popHouse_before') || '',
+              path: Storage.get('popHouse_before') || '/homeStay',
               query: {
                 direction: 'pop-bottom'
               }

@@ -80,9 +80,9 @@
 
 ## 作品待修改
 
-+ QQ发现页底部兼容
-+ 日期选择控件
-+ 加载矢量动画
+~~QQ发现页底部兼容~~  
+~~日期选择控件~~  
+~~加载矢量动画(IOS不兼容)~~
 
 [material design 中文](https://www.mdui.org/design/)
 [问卷调查数据](https://wj.qq.com/stat/overview.html?sid=3556743)
